@@ -6,9 +6,8 @@ public interface algorithm {
 
     /**
      *
-     * @param an array list of tasks which has been made from the dot file
-     * @return an array list of tasks which now contains start time and processor
+     * @return an array list of processors containing the Tasks assigned to it.
      */
-    public ArrayList<Tasks> execute(ArrayList<Tasks> theTask );
+    public ArrayList<Processor> execute();
 
 }

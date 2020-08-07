@@ -27,4 +27,8 @@ public class Tasks {
     public Processor get_processor() {
         return _processor;
     }
+
+    public void setProcessor(Processor processor) {
+        this._processor = processor;
+    }
 }
