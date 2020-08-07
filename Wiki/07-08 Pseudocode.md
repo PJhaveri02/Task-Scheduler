@@ -1,5 +1,5 @@
 Progress on the 7th of August
-Attendence: Kenny, Wong, Josh
+Attendance: Kenny, Wong, Josh
 
 - Started making interfaces for classes we expect to us.
 
@@ -10,3 +10,7 @@ Attendence: Kenny, Wong, Josh
 - Created a processor class. This is so we can easily allocate tasks in the processor.
 
 - Added pseudocode to BadAlgorithm method 
+
+TODO
+
+- Complete pseudocode of BadAlgorithm
