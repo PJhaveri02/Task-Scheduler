@@ -6,12 +6,22 @@ public class BadAlgorithm implements algorithm {
 
     private ArrayList<Processor> _processors;
     private ArrayList<Tasks> _tasks;
-    private ArrayList<Tasks> _avali;
+    private ArrayList<Tasks> _avalible;
+
+    /**
+     * Constuctor to pass in the Processors made and tasks from the DOT file.
+     * @param processors
+     * @param tasks
+     */
     public BadAlgorithm(ArrayList<Processor> processors, ArrayList<Tasks> tasks){
         _tasks = tasks;
         _processors = processors;
     }
 
+    /**
+     * execute method places all the tasks onto one processor in a valid format
+     * @return ArrayList<Processor>
+     */
     @Override
     public ArrayList<Processor> execute() {
 

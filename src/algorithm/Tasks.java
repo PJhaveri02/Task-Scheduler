@@ -10,6 +10,12 @@ public class Tasks {
     private Processor _processor;
     private Map<Tasks,Integer> _dependentsAndWeight;
 
+    /**
+     * Constructor of the Task. Map is used to connect the cost of jumping to another processor
+     * @param weight
+     * @param start
+     * @param dependentsToWeights
+     */
     public Tasks(int weight, int start, Map<Tasks,Integer> dependentsToWeights){
         _weight = weight;
         _start = start;
@@ -32,5 +38,8 @@ public class Tasks {
         this._processor = processor;
     }
 
-    public ArrayList<boolean>CheckDependencies()
+    public ArrayList<Boolean>CheckDependencies(){
+        //incomplete
+        return null;
+    }
 }
