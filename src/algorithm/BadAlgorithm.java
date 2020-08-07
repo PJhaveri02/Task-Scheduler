@@ -6,7 +6,7 @@ public class BadAlgorithm implements algorithm {
 
     private ArrayList<Processor> _processors;
     private ArrayList<Tasks> _tasks;
-    private ArrayList<Tasks> _avli;
+    private ArrayList<Tasks> _avali;
     public BadAlgorithm(ArrayList<Processor> processors, ArrayList<Tasks> tasks){
         _tasks = tasks;
         _processors = processors;
@@ -14,10 +14,20 @@ public class BadAlgorithm implements algorithm {
 
     @Override
     public ArrayList<Processor> execute() {
-        While(!_tasks.isEmpty()){
-            if
-            _processors.get(0).add(task,,,,);
-        }
+
+    // time int
+
+        // check if tasks is not empty
+        // move tasks which can be executed to avli
+            // while avli is not empty
+            // add tasks to processor, increment local time variable
+
+
+
+//        While(!_tasks.isEmpty()){
+//            if
+//            _processors.get(0).add(task,,,,);
+//        }
 
         return _processors;
     }
