@@ -31,4 +31,6 @@ public class Tasks {
     public void setProcessor(Processor processor) {
         this._processor = processor;
     }
+
+    public ArrayList<boolean>CheckDependencies()
 }
