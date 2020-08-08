@@ -1,6 +1,9 @@
 package read_inputs;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class TerminalReader {
 
@@ -11,6 +14,7 @@ public class TerminalReader {
     private int numberOfProcessors = 1;
     private boolean visualiseSearch = false;
     private int numberOfCores = 0;
+    private File input;
 
     public TerminalReader(String[] args) {
         this.args = args;
@@ -35,6 +39,9 @@ public class TerminalReader {
         } else {
             throw new IncorrectInputException("Invalid INPUT .dot file");
         }
+
+        input = inputFile; // Set field to validated input file
+
 
         // Validate Number of Processors
         try {
@@ -72,6 +79,21 @@ public class TerminalReader {
                     throw new IncorrectInputException("Invalid optional argument " + args[i]);
             }
         }
+    }
+
+    //read the .dot file and print it
+    public void readInput() {
+        try {
+            BufferedReader in = new BufferedReader(new FileReader(input));
+            String st;
+
+            while((st = in.readLine()) != null) {
+                System.out.println(st);
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
     }
 
     public String getOutputDotFile() {

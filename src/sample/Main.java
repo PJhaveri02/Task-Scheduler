@@ -23,6 +23,7 @@ public class Main extends Application {
         TerminalReader terminalReader = new TerminalReader(args);
         try {
             terminalReader.validateInputs();
+            terminalReader.readInput();
         } catch (IncorrectInputException e) {
             System.out.println(e.getMessage());
             System.exit(1);
