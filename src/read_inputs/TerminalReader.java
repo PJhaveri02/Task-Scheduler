@@ -1,9 +1,6 @@
 package read_inputs;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class TerminalReader {
 
@@ -93,6 +90,31 @@ public class TerminalReader {
         } catch (IOException e){
             e.printStackTrace();
         }
+
+    }
+
+    //writes an output file
+    //for now, just writes a dot file with a single node
+    public void writeOutput() {
+        File output = new File(outputDotFile);
+        try {
+            if (output.createNewFile()) {
+                System.out.println("File created");
+            } else {
+                System.out.println("File already exists");
+            }
+
+            BufferedWriter bw = new BufferedWriter(new FileWriter(output));
+            bw.write("digraph \"outputGraph\" {");
+            bw.write("\n\ta\t[weight = 4]");
+            bw.write("\n}");
+            bw.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
 
     }
 

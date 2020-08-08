@@ -24,6 +24,7 @@ public class Main extends Application {
         try {
             terminalReader.validateInputs();
             terminalReader.readInput();
+            terminalReader.writeOutput();
         } catch (IncorrectInputException e) {
             System.out.println(e.getMessage());
             System.exit(1);
