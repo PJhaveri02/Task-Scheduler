@@ -82,11 +82,13 @@ public class TerminalReader {
 
     //read the .dot file and print it
     public Model readInput() {
-        Model model = new Model();
         try {
             BufferedReader in = new BufferedReader(new FileReader(input));
-            String st;
+            String st = in.readLine();
+            //gives the model the name
+            Model model = new Model(st.split("\"")[1]);
             while((st = in.readLine()) != null) {
+                //adds each line to the model as either a node or a dependency
                 if(!(st.contains("}")|st.contains("{"))){
                     if(st.contains("->")){
                         model.addDependency(st);
@@ -96,13 +98,13 @@ public class TerminalReader {
                 }
                 System.out.println(st);
             }
-
+            model.print();
+            return model;
         } catch (IOException e) {
             e.printStackTrace();
-            model.setErr(e);
         }
-        model.print();
-        return model;
+
+        return null;
     }
 
     //writes an output file
