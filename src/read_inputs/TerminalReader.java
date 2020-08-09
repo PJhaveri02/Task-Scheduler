@@ -1,5 +1,7 @@
 package read_inputs;
 
+import algorithm.Model;
+
 import java.io.*;
 
 public class TerminalReader {
@@ -79,18 +81,28 @@ public class TerminalReader {
     }
 
     //read the .dot file and print it
-    public void readInput() {
+    public Model readInput() {
+        Model model = new Model();
         try {
             BufferedReader in = new BufferedReader(new FileReader(input));
             String st;
-
             while((st = in.readLine()) != null) {
+                if(!(st.contains("}")|st.contains("{"))){
+                    if(st.contains("->")){
+                        model.addDependency(st);
+                    }else{
+                        model.addNode(st);
+                    }
+                }
                 System.out.println(st);
             }
-        } catch (IOException e){
-            e.printStackTrace();
-        }
 
+        } catch (IOException e) {
+            e.printStackTrace();
+            model.setErr(e);
+        }
+        model.print();
+        return model;
     }
 
     //writes an output file

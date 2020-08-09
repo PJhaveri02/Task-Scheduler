@@ -11,9 +11,9 @@ public class Processor {
     private int _time;
 
     //list of tasks which will be executed
-    private ArrayList<Tasks> tasks;
+    private ArrayList<Node> tasks;
 
-    public ArrayList<Tasks> getTasks() {
+    public ArrayList<Node> getTasks() {
         return tasks;
     }
 }

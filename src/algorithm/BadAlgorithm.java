@@ -5,15 +5,15 @@ import java.util.ArrayList;
 public class BadAlgorithm implements algorithm {
 
     private ArrayList<Processor> _processors;
-    private ArrayList<Tasks> _tasks;
-    private ArrayList<Tasks> _avalible;
+    private ArrayList<Node> _tasks;
+    private ArrayList<Node> _avalible;
 
     /**
      * Constuctor to pass in the Processors made and tasks from the DOT file.
      * @param processors
      * @param tasks
      */
-    public BadAlgorithm(ArrayList<Processor> processors, ArrayList<Tasks> tasks){
+    public BadAlgorithm(ArrayList<Processor> processors, ArrayList<Node> tasks){
         _tasks = tasks;
         _processors = processors;
     }

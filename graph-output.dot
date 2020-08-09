@@ -1,0 +1,3 @@
+digraph "outputGraph" {
+	a	[weight = 4]
+}
