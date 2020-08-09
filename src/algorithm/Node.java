@@ -2,10 +2,15 @@ package algorithm;
 
 import java.util.*;
 
+/**
+ * class represents a task in the schedule i.e. a node in the digraph
+ * can be renamed
+ * contains edge information of edges where it is the dependent
+ */
 public class Node {
 
     private int _weight;
-    private int _start;
+    //private int _start;
     private Processor _processor;
     private int _id;
     private String _name;
@@ -33,10 +38,6 @@ public class Node {
 
     public int get_weight() {
         return _weight;
-    }
-
-    public int get_start() {
-        return _start;
     }
 
     public Processor get_processor() {

@@ -6,12 +6,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Model<map> {
+/**
+ * Class represents programs internal model of a .dot file in terms of nodes and dependencies(as edges)
+ *
+ */
+public class Model{
     private int _nodeCount;
     private Exception _broken;
     private List<Node> _nodes;
     private Map<String, Node> _names;
     private String _name;
+
 
     public Model(String name){
         _name = name;
