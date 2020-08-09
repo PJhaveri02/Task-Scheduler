@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import read_inputs.IncorrectInputException;
+import read_inputs.TerminalReader;
 
 public class Main extends Application {
 
@@ -18,6 +20,16 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
+        TerminalReader terminalReader = new TerminalReader(args);
+        try {
+            terminalReader.validateInputs();
+            terminalReader.readInput();
+            terminalReader.writeOutput();
+        } catch (IncorrectInputException e) {
+            System.out.println(e.getMessage());
+            System.exit(1);
+        }
+
         launch(args);
     }
 }
