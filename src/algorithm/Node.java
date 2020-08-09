@@ -62,6 +62,20 @@ public class Node {
         return true;
     }
 
+    //removes dependency if applicable
+    //returns whether task has no dependencies
+    //should probably return an int in the future
+    public boolean rmDependency(Node task){
+        if(!_dependentsAndWeight.containsKey(task)){
+            return false;
+        }
+        _dependentsAndWeight.remove(task);
+        if(hasDependency()){
+            return false;
+        }
+        return true;
+    }
+
     public void addDependency(Node requiredNode, int weight) {
         _dependentsAndWeight.put(requiredNode, weight);
     }

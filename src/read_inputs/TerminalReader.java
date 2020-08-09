@@ -1,6 +1,8 @@
 package read_inputs;
 
+import algorithm.BadAlgorithm;
 import algorithm.Model;
+import algorithm.algorithm;
 
 import java.io.*;
 
@@ -99,6 +101,8 @@ public class TerminalReader {
                 System.out.println(st);
             }
             model.print();
+            algorithm godterribadAlgorithm = new BadAlgorithm(1, model);
+            godterribadAlgorithm.execute();
             return model;
         } catch (IOException e) {
             e.printStackTrace();

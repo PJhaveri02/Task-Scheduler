@@ -11,17 +11,29 @@ import java.util.Map;
  *
  */
 public class Model{
+    enum Style{
+        FAST,
+        SLOW,
+        STEP
+    }
     private int _nodeCount;
-    private Exception _broken;
+
+    //one of these gotta go --------------------------------------!!!!!!
     private List<Node> _nodes;
     private Map<String, Node> _names;
+
+
+    private List<Node> _available;
     private String _name;
+    private Style _style;
 
 
     public Model(String name){
         _name = name;
         _nodes = new ArrayList<Node>();
+        _available = new ArrayList<Node>();
         _names = new HashMap<String, Node>();
+        _style = Style.FAST;
     }
 
 
@@ -75,7 +87,61 @@ public class Model{
         }
     }
 
-    public void setErr(IOException e) {
-        _broken = e;
+    //one of names or nodes needs to go
+    public void makeAvailable(Node task){
+        _names.remove(task.getName(), task);
+        _nodes.remove(task);
+        _available.add(task);
+    }
+
+    //checks nodes for dependencies and moves them to available list if none are found
+    //needs rename, should only be called once
+    public void iterateAvailable(){
+        List<Node> nodes = new ArrayList<Node>();
+        for(Node task : _nodes){
+            if (!task.hasDependency()){
+               nodes.add(task);
+            }
+        }
+        for(Node node : nodes) {
+            makeAvailable(node);
+        }
+    }
+
+    //checks nodes for dependencies on a task and removes them
+    //iterate available built in
+    public void done(Node finishedtask){
+        for(Node task : _names.values()){
+            if (task.rmDependency(finishedtask)){
+                makeAvailable(task);
+            }
+        }
+    }
+
+    public boolean hasAvailableTask(){
+        return !_available.isEmpty();
+    }
+
+    //selects a random available task and starts it
+    public Node start(){
+        Node task = _available.get(0);
+        _available.remove(task);
+        return task;
+    }
+
+    private void visualise(){
+    switch(_style){
+        case FAST:
+
+            break;
+        case SLOW:
+
+            break;
+        case STEP:
+
+            break;
+    }
+
     }
 }
+
