@@ -66,11 +66,13 @@ public class Node {
     }
 
     //returns number of dependencies
+    //feels kind of bad compared to hasDependency
     public int numDependecies() {
         return _dependentsAndWeight.size();
     }
 
     //returns node description in .dot format
+    // needs to return start and processor number
     @Override
     public String toString(){
         return _name + "   [Weight = " + _weight + "];";
