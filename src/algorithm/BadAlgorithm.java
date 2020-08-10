@@ -5,7 +5,7 @@ import java.util.List;
 
 
 /**
- * note: BadAlgorithm.execute() is destructive to the model
+ * note: BadAlgorithm.execute(l
  */
 public class BadAlgorithm implements algorithm {
 
@@ -15,9 +15,8 @@ public class BadAlgorithm implements algorithm {
 
     /**
      * Constuctor to pass in the Model generated from the DOT file as well as number of processors
-     *
-     *
      */
+    //algorithm will have an parameter of Model
     public BadAlgorithm(int numProcessors, Model model){
         _model = model;
         _processors = new ArrayList<Processor>();

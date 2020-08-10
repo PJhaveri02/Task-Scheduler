@@ -20,7 +20,7 @@ public class Model{
 
     //one of these gotta go --------------------------------------!!!!!!
     private List<Node> _nodes;
-    private Map<String, Node> _names;
+//    private Map<String, Node> _names;
 
 
     private List<Node> _available;
@@ -32,7 +32,7 @@ public class Model{
         _name = name;
         _nodes = new ArrayList<Node>();
         _available = new ArrayList<Node>();
-        _names = new HashMap<String, Node>();
+//        _names = new HashMap<String, Node>();
         _style = Style.FAST;
     }
 
@@ -44,7 +44,8 @@ public class Model{
         int weight = Integer.parseInt(parts[2].replaceAll("\\D+",""));
         Node node = new Node(weight, _nodeCount , name);
         _nodes.add(node);
-        _names.put(name,node);
+//        _names.put(name,node);
+        //node count currently serves as ID, may not need
         _nodeCount++;
     }
 
@@ -58,12 +59,14 @@ public class Model{
         String requiredNode = nodes[0];
         //formats weight
         int weight = Integer.parseInt(parts[2].replaceAll("\\D+",""));
-        _names.get(dependentNode).addDependency(_names.get(requiredNode),weight);
+//        _names.get(dependentNode).addDependency(_names.get(requiredNode),weight);
     }
 
     //returns a list of strings containing a description of the model in .dot format
+    // should probably be made to return data from reading processor
     public List<String> asText(){
         //SOMEONE AGREE OR DISAGREE THAT TABS SHOULD BE ADDED HERE AND DISCUSS
+        //indenting is added here as it feels more appropriate compared to inside the nodes/dependices toStrings()
         List<String> text = new ArrayList<String>();
         text.add("digraph \"" + _name + "\" {");
         for(Node node: _nodes){
@@ -79,6 +82,9 @@ public class Model{
         return text;
     }
 
+    // add processor generator
+
+
     //prints description in .dot format to console
     public void print(){
         List<String> lines = asText();
@@ -89,7 +95,7 @@ public class Model{
 
     //one of names or nodes needs to go
     public void makeAvailable(Node task){
-        _names.remove(task.getName(), task);
+//        _names.remove(task.getName(), task);
         _nodes.remove(task);
         _available.add(task);
     }
