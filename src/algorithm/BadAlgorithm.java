@@ -11,7 +11,6 @@ public class BadAlgorithm implements algorithm {
 
     /**
      * Constructor to pass in the Processors made and tasks from the DOT file.
-     *
      * @param processors
      * @param tasks
      */
@@ -53,6 +52,12 @@ public class BadAlgorithm implements algorithm {
         return _processors;
     }
 
+    /**
+     * Method finds the root node of the graph. This is done by finding the node with no dependencies.
+     * Note: This is assuming the graph only has one root node!
+     * @param tasksList a complete list of nodes in the graph
+     * @return
+     */
     private Node findRootNode(List<Node> tasksList) {
         for (Node node : tasksList) {
             if (!node.hasDependency()) {
@@ -63,9 +68,10 @@ public class BadAlgorithm implements algorithm {
     }
 
     /**
-     *
-     * @param tasksList
-     * @return
+     * Method checks if the node's dependencies have been added to a processor.
+     * All nodes with no dependencies gets returned.
+     * @param tasksList a list of nodes that has not been assigned to a processor yet.
+     * @return A list of nodes that can be assigned (all dependencies executed).
      */
     private List<Node> checkAvailability(List<Node> tasksList) {
         List<Node> availableTasks = new ArrayList<Node>();

@@ -26,6 +26,7 @@ public class Processor {
 
     /**
      * Adds the task to the processor and increment the internal timer of latest task as well.
+     * Delegates the processor to the node as well.
      * @param node an available node ready to be executed
      */
     public void scheduleTask(Node node) {
