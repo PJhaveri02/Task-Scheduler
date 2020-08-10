@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Model<map> {
+public class Model {
     private int _nodeCount;
     private Exception _broken;
     private List<Node> _nodes;
@@ -72,5 +72,13 @@ public class Model<map> {
 
     public void setErr(IOException e) {
         _broken = e;
+    }
+
+    /**
+     * Getter method to return a list of all nodes
+     * @return a List of nodes
+     */
+    public List<Node> getNodes() {
+        return _nodes;
     }
 }

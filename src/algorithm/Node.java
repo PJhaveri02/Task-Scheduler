@@ -88,5 +88,11 @@ public class Node {
          return strings;
     }
 
-
+    /**
+     * Obtain an arraylist of all the dependent nodes of the current node.
+     * @return an arraylist of nodes
+     */
+    public ArrayList<Node> getDependencies() {
+        return new ArrayList<Node>(_dependentsAndWeight.keySet());
+    }
 }

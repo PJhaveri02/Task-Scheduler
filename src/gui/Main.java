@@ -1,5 +1,10 @@
 package gui;
 
+import algorithm.Model;
+import algorithm.algorithm;
+import algorithm.BadAlgorithm;
+import algorithm.Processor;
+import algorithm.Node;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +16,7 @@ import read_inputs.IncorrectInputException;
 import read_inputs.TerminalReader;
 
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class Main extends Application implements Initializable {
 
@@ -27,14 +32,20 @@ public class Main extends Application implements Initializable {
         TerminalReader terminalReader = new TerminalReader(args);
         try {
             terminalReader.validateInputs();
-            terminalReader.readInput();
+            Model model = terminalReader.readInput();
+            List<Processor> processorList = Arrays.asList(new Processor(1), new Processor(2));
+            List<Node> nodesList = model.getNodes();
+            algorithm algorithm = new BadAlgorithm(processorList,nodesList);
+            List<Processor> scheduledProcessors = algorithm.execute();
             terminalReader.writeOutput();
+
         } catch (IncorrectInputException e) {
             System.out.println(e.getMessage());
             System.exit(1);
         }
 
-        launch(args);
+     /* Uncomment to launch application
+     launch(args);*/
     }
 
     /**
