@@ -12,7 +12,7 @@ public class TerminalReader {
     private String outputDotFile;
     private int numberOfProcessors = 1;
     private boolean visualiseSearch = false;
-    private int numberOfCores = 0;
+    private int numberOfCores = 1;
     private File input;
 
     public TerminalReader(String[] args) {
