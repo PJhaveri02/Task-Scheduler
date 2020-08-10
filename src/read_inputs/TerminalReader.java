@@ -23,7 +23,7 @@ public class TerminalReader {
 
         // Check number of Inputs
         if (args.length < 2) {
-            throw new IncorrectInputException("Not enough inputs! Please provide the input file name an number of processors.");
+            throw new IncorrectInputException("Not enough inputs! Please provide the input file name and number of processors.");
         } else if (args.length > 7) {
             throw new IncorrectInputException("Too many arguments! Please provide less than 7 arguments.");
         }
