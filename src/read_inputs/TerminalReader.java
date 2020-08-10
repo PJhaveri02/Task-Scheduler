@@ -19,6 +19,11 @@ public class TerminalReader {
         this.args = args;
     }
 
+    /**
+     * This function validates that the parameters provided by the user in terminal are valid.
+     * If not, an IncorrectInputException is thrown
+     * @throws IncorrectInputException
+     */
     public void validateInputs() throws IncorrectInputException {
 
         // Check number of Inputs
