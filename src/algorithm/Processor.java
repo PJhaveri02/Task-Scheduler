@@ -20,6 +20,10 @@ public class Processor {
         _tasks = new ArrayList<Node>();
     }
 
+    public String toString(){
+        return Integer.toString(_id);
+    }
+
     public List<Node> getTasks() {
         return _tasks;
     }
@@ -34,4 +38,6 @@ public class Processor {
         _time += node.get_weight();
         node.setProcessor(this);
     }
+
+    public int getTime(){ return _time; }
 }

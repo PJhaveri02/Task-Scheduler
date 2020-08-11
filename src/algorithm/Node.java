@@ -35,12 +35,15 @@ public class Node {
         return _weight;
     }
 
-    public int get_start() {
+    public int getStart() {
         return _start;
     }
 
-    public Processor get_processor() {
-        return _processor;
+    public void setStart(int time) { _start = time; }
+
+    //changed from return type processor to string
+    public String get_processor() {
+        return _processor.toString();
     }
 
     public void setProcessor(Processor processor) {
@@ -75,7 +78,9 @@ public class Node {
     // needs to return start and processor number
     @Override
     public String toString(){
-        return _name + "   [Weight = " + _weight + "];";
+//        return _name + "   [Weight = " + _weight + ", Start= " + _start +", Processor="+ this.get_processor()+"];";
+        return _name + "   [Weight = " + _weight + ", Start= " + _start +", Processor="+_processor.toString()+"];";
+
     }
 
     /**

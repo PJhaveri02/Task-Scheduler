@@ -1,8 +1,11 @@
 package read_inputs;
 
 import algorithm.Model;
+import algorithm.Processor;
+import algorithm.Node;
 
 import java.io.*;
+import java.util.List;
 
 public class TerminalReader {
 
@@ -103,7 +106,7 @@ public class TerminalReader {
                 }
                 System.out.println(st);
             }
-            model.print();
+//            model.print();
             return model;
         } catch (IOException e) {
             e.printStackTrace();
@@ -114,7 +117,7 @@ public class TerminalReader {
 
     //writes an output file
     //for now, just writes a dot file with a single node
-    public void writeOutput() {
+    public void writeOutput(List<Processor> sortedProcessors) {
         File output = new File(outputDotFile);
         try {
             if (output.createNewFile()) {
@@ -125,7 +128,18 @@ public class TerminalReader {
 
             BufferedWriter bw = new BufferedWriter(new FileWriter(output));
             bw.write("digraph \"outputGraph\" {");
-            bw.write("\n\ta\t[weight = 4]");
+            for (Processor stuff : sortedProcessors){
+                for (Node tasks : stuff.getTasks()){
+                    bw.write("\n\t\t"+tasks.toString());
+                    for (String dependent: tasks.dependenciesToString()){
+                        bw.write("\n\t\t"+dependent);
+                    }
+//                    bw.write("\n\t\t"+tasks.)
+                }
+
+            }
+
+//            bw.write("\n\ta\t[weight = 4]");
             bw.write("\n}");
             bw.close();
 

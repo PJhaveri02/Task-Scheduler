@@ -39,6 +39,7 @@ public class BadAlgorithm implements algorithm {
             if (!_available.isEmpty()) {
                 // Place all the tasks in the processor
                 for (Node node : _available) {
+                    node.setStart(processor.getTime());
                     processor.scheduleTask(node);
                 }
                 _available.clear();

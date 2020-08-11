@@ -33,11 +33,12 @@ public class Main extends Application implements Initializable {
         try {
             terminalReader.validateInputs();
             Model model = terminalReader.readInput();
+            // need to change method of generating processor
             List<Processor> processorList = Arrays.asList(new Processor(1), new Processor(2));
             List<Node> nodesList = model.getNodes();
             algorithm algorithm = new BadAlgorithm(processorList,nodesList);
             List<Processor> scheduledProcessors = algorithm.execute();
-            terminalReader.writeOutput();
+            terminalReader.writeOutput(scheduledProcessors);
 
         } catch (IncorrectInputException e) {
             System.out.println(e.getMessage());
