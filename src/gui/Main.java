@@ -45,8 +45,7 @@ public class Main extends Application implements Initializable {
             System.exit(1);
         }
 
-     /* Uncomment to launch application
-     launch(args);*/
+     launch(args);
     }
 
     /**
