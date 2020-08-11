@@ -50,8 +50,14 @@ public class TerminalReader {
         // Validate Number of Processors
         try {
             numberOfProcessors = Integer.parseInt(args[1]);
+
+            // If the number of processors is negative then throw an exception
+            if (numberOfProcessors < 1) {
+                throw new IncorrectInputException("Number of processors provided (" + args[1] + ") is not a valid positive integer");
+            }
+
         } catch (Exception e) {
-            throw new IncorrectInputException("Number of processors provided (" + args[1] + ") is not a valid integer");
+            throw new IncorrectInputException("Number of processors provided (" + args[1] + ") is not a valid positive integer");
         }
 
         // Validate Optional parameters
@@ -61,8 +67,14 @@ public class TerminalReader {
                 case "-p":
                     try {
                         numberOfCores = Integer.parseInt(args[i + 1]);
+
+                        // If the number of cores is negative then throw an exception
+                        if (numberOfCores < 1) {
+                            throw new IncorrectInputException("Number of cores provided (" + args[i + 1] + ") is not a valid positive integer");
+                        }
+
                         i++;
-                    } catch (Exception e) {
+                    } catch (NumberFormatException e) {
                         throw new IncorrectInputException("-p must be followed by an integer.");
                     }
                     break;
