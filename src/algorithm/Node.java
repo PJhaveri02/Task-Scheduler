@@ -89,7 +89,7 @@ public class Node {
      */
     public List<String> dependenciesToString(){
         ArrayList<String> strings = new ArrayList<String>();
-         _dependentsAndWeight.forEach((k,v) -> strings.add(k.getName() + " -> " + _name + "   [weight = " + v + "];"));
+         _dependentsAndWeight.forEach((k,v) -> strings.add(k.getName() + " -> " + _name + "   [Weight = " + v + "];"));
          return strings;
     }
 
