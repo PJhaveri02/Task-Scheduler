@@ -5,6 +5,7 @@ import algorithm.Processor;
 import algorithm.Node;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TerminalReader {
@@ -98,6 +99,15 @@ public class TerminalReader {
                     throw new IncorrectInputException("Invalid optional argument " + args[i]);
             }
         }
+    }
+
+    //creates a list of processors according to the number of the number of processors specified by the user
+    public List<Processor> createProcessors() {
+        List<Processor> processorList = new ArrayList<>();
+            for (int i = 1; i <= numberOfProcessors; i++){
+                processorList.add(new Processor(i));
+            }
+        return processorList;
     }
 
     //read the .dot file and print it
