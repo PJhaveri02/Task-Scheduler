@@ -1,12 +1,12 @@
 package algorithm;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface algorithm {
 
     /**
-     * @return an array list of processors containing the Tasks assigned to it.
+     * @return an list of processors containing the Tasks assigned to it.
      */
-    public ArrayList<Processor> execute();
+    public List<Processor> execute();
 
 }

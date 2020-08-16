@@ -1,5 +1,10 @@
 package gui;
 
+import algorithm.Model;
+import algorithm.algorithm;
+import algorithm.BadAlgorithm;
+import algorithm.Processor;
+import algorithm.Node;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,30 +16,35 @@ import read_inputs.IncorrectInputException;
 import read_inputs.TerminalReader;
 
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class Main extends Application implements Initializable {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
-        primaryStage.show();
+//        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+//        primaryStage.setTitle("Hello World");
+//        primaryStage.setScene(new Scene(root, 300, 275));
+//        primaryStage.show();
     }
 
     public static void main(String[] args) {
         TerminalReader terminalReader = new TerminalReader(args);
         try {
             terminalReader.validateInputs();
-            terminalReader.readInput();
-            terminalReader.writeOutput();
+            Model model = terminalReader.readInput();
+            List<Processor> processorList = terminalReader.createProcessors();
+            List<Node> nodesList = model.getNodes();
+            algorithm algorithm = new BadAlgorithm(processorList,nodesList);
+            List<Processor> scheduledProcessors = algorithm.execute();
+            terminalReader.writeOutput(scheduledProcessors);
+
         } catch (IncorrectInputException e) {
             System.out.println(e.getMessage());
             System.exit(1);
         }
 
-        launch(args);
+     launch(args);
     }
 
     /**

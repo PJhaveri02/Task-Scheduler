@@ -10,7 +10,8 @@ import java.util.*;
 public class Node {
 
     private int _weight;
-    //private int _start;
+    //uncommented again as some method used it
+    private int _start;
     private Processor _processor;
     private int _id;
     private String _name;
@@ -40,8 +41,20 @@ public class Node {
         return _weight;
     }
 
-    public Processor get_processor() {
-        return _processor;
+    //might be the other check
+//    public Processor get_processor() {
+//        return _processor;
+//    }
+    //start field appears to be removed
+    public int getStart() {
+        return _start;
+    }
+
+    public void setStart(int time) { _start = time; }
+
+    //changed from return type processor to string
+    public String get_processor() {
+        return _processor.toString();
     }
 
     public void setProcessor(Processor processor) {
@@ -76,7 +89,9 @@ public class Node {
     // needs to return start and processor number
     @Override
     public String toString(){
-        return _name + "   [Weight = " + _weight + "];";
+//        return _name + "   [Weight = " + _weight + ", Start= " + _start +", Processor="+ this.get_processor()+"];";
+        return _name + "   [Weight = " + _weight + ", Start= " + _start +", Processor="+_processor.toString()+"];";
+
     }
 
     /**
@@ -85,9 +100,15 @@ public class Node {
      */
     public List<String> dependenciesToString(){
         ArrayList<String> strings = new ArrayList<String>();
-         _dependentsAndWeight.forEach((k,v) -> strings.add(k.getName() + " -> " + _name + "   [weight = " + v + "];"));
+         _dependentsAndWeight.forEach((k,v) -> strings.add(k.getName() + " -> " + _name + "   [Weight = " + v + "];"));
          return strings;
     }
 
-
+    /**
+     * Obtain an arraylist of all the dependent nodes of the current node.
+     * @return an arraylist of nodes
+     */
+    public ArrayList<Node> getDependencies() {
+        return new ArrayList<Node>(_dependentsAndWeight.keySet());
+    }
 }

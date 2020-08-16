@@ -6,11 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Class represents programs internal model of a .dot file in terms of nodes and dependencies(as edges)
- *
- */
-public class Model{
+public class Model {
     private int _nodeCount;
     private Exception _broken;
     private List<Node> _nodes;
@@ -77,5 +73,13 @@ public class Model{
 
     public void setErr(IOException e) {
         _broken = e;
+    }
+
+    /**
+     * Getter method to return a list of all nodes
+     * @return a List of nodes
+     */
+    public List<Node> getNodes() {
+        return _nodes;
     }
 }

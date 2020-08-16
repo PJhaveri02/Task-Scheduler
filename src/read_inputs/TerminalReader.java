@@ -1,8 +1,12 @@
 package read_inputs;
 
 import algorithm.Model;
+import algorithm.Processor;
+import algorithm.Node;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TerminalReader {
 
@@ -12,18 +16,23 @@ public class TerminalReader {
     private String outputDotFile;
     private int numberOfProcessors = 1;
     private boolean visualiseSearch = false;
-    private int numberOfCores = 0;
+    private int numberOfCores = 1;
     private File input;
 
     public TerminalReader(String[] args) {
         this.args = args;
     }
 
+    /**
+     * This function validates that the parameters provided by the user in terminal are valid.
+     * If not, an IncorrectInputException is thrown
+     * @throws IncorrectInputException
+     */
     public void validateInputs() throws IncorrectInputException {
 
         // Check number of Inputs
         if (args.length < 2) {
-            throw new IncorrectInputException("Not enough inputs! Please provide the input file name an number of processors.");
+            throw new IncorrectInputException("Not enough inputs! Please provide the input file name and number of processors.");
         } else if (args.length > 7) {
             throw new IncorrectInputException("Too many arguments! Please provide less than 7 arguments.");
         }
@@ -45,8 +54,14 @@ public class TerminalReader {
         // Validate Number of Processors
         try {
             numberOfProcessors = Integer.parseInt(args[1]);
+
+            // If the number of processors is negative then throw an exception
+            if (numberOfProcessors < 1) {
+                throw new IncorrectInputException("Number of processors provided (" + args[1] + ") is not a valid positive integer");
+            }
+
         } catch (Exception e) {
-            throw new IncorrectInputException("Number of processors provided (" + args[1] + ") is not a valid integer");
+            throw new IncorrectInputException("Number of processors provided (" + args[1] + ") is not a valid positive integer");
         }
 
         // Validate Optional parameters
@@ -56,8 +71,14 @@ public class TerminalReader {
                 case "-p":
                     try {
                         numberOfCores = Integer.parseInt(args[i + 1]);
+
+                        // If the number of cores is negative then throw an exception
+                        if (numberOfCores < 1) {
+                            throw new IncorrectInputException("Number of cores provided (" + args[i + 1] + ") is not a valid positive integer");
+                        }
+
                         i++;
-                    } catch (Exception e) {
+                    } catch (NumberFormatException e) {
                         throw new IncorrectInputException("-p must be followed by an integer.");
                     }
                     break;
@@ -80,6 +101,15 @@ public class TerminalReader {
         }
     }
 
+    //creates a list of processors according to the number of the number of processors specified by the user
+    public List<Processor> createProcessors() {
+        List<Processor> processorList = new ArrayList<>();
+            for (int i = 1; i <= numberOfProcessors; i++){
+                processorList.add(new Processor(i));
+            }
+        return processorList;
+    }
+
     //read the .dot file and print it
     public Model readInput() {
         try {
@@ -98,7 +128,7 @@ public class TerminalReader {
                 }
                 System.out.println(st);
             }
-            model.print();
+//            model.print();
             return model;
         } catch (IOException e) {
             e.printStackTrace();
@@ -109,7 +139,7 @@ public class TerminalReader {
 
     //writes an output file
     //for now, just writes a dot file with a single node
-    public void writeOutput() {
+    public void writeOutput(List<Processor> sortedProcessors) {
         File output = new File(outputDotFile);
         try {
             if (output.createNewFile()) {
@@ -120,7 +150,18 @@ public class TerminalReader {
 
             BufferedWriter bw = new BufferedWriter(new FileWriter(output));
             bw.write("digraph \"outputGraph\" {");
-            bw.write("\n\ta\t[weight = 4]");
+            for (Processor stuff : sortedProcessors){
+                for (Node tasks : stuff.getTasks()){
+                    bw.write("\n\t\t"+tasks.toString());
+                    for (String dependent: tasks.dependenciesToString()){
+                        bw.write("\n\t\t"+dependent);
+                    }
+//                    bw.write("\n\t\t"+tasks.)
+                }
+
+            }
+
+//            bw.write("\n\ta\t[weight = 4]");
             bw.write("\n}");
             bw.close();
 
