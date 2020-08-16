@@ -6,6 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class represents programs internal model of a .dot file in terms of nodes and dependencies(as edges)
+ *
+ */
 public class Model {
     private int _nodeCount;
     private Exception _broken;
