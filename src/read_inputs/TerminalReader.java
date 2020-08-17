@@ -126,7 +126,6 @@ public class TerminalReader {
                         model.addNode(st);
                     }
                 }
-                System.out.println(st);
             }
 //            model.print();
             return model;
