@@ -16,6 +16,8 @@ public class BadAlgorithm implements algorithm {
      */
     public BadAlgorithm(List<Processor> processors, List<Node> tasks) {
         _tasks = tasks;
+
+
         _processors = processors;
         _available = new ArrayList<Node>();
     }
