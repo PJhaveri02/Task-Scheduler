@@ -117,7 +117,7 @@ public class Model{
     //checks nodes for dependencies on a task and removes them
     //iterate available built in
     public void done(Node finishedtask){
-        for(Node task : _names.values()){
+        for(Node task : _nodes){
             if (task.rmDependency(finishedtask)){
                 makeAvailable(task);
             }
