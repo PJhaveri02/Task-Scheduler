@@ -42,6 +42,7 @@ public class Processor {
         return strings;
     }
     public void printToConsole(){
+
         for(String string: toStrings()){
             System.out.println(string);
         }

@@ -55,8 +55,31 @@ public class BadAlgorithm implements algorithm {
             }
         }
         for (Processor processor : _processors) {
+            System.out.print("Processor: ");
+            System.out.println();
             processor.printToConsole();
         }
+        /**
+         * model algrec(model shortmodel, step s, model m){
+         * m.do(s);
+         * if (m.len()<=shortmodel.len()){
+         *   List<Step> steps = m.getavailablesteps();
+         *   if steps.length = 0){
+         *      return m
+         *   }
+         *   for(Step step: steps){
+         *   Model model = algrec(shortmodel,s,m.clone());
+         *   if(model.len()<=len){
+         *   shortmodel = model;
+         *   }
+         *   }
+         * }
+         * return shortmodel();
+         * }
+         *
+         *
+         *
+         **/
     // time int
 
         // check if tasks is not empty
