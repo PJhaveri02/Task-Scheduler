@@ -5,6 +5,6 @@ digraph "outputGraph" {
 		c   [Weight = 3, Start= 5, Processor=1];
 		a -> c   [Weight = 2];
 		d   [Weight = 2, Start= 8, Processor=1];
-		c -> d   [Weight = 1];
 		b -> d   [Weight = 2];
+		c -> d   [Weight = 1];
 }
