@@ -24,21 +24,24 @@ import java.util.*;
 
 public class Main extends Application implements Initializable {
 
+    private static Model model;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
-//        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-//        primaryStage.setTitle("Hello World");
-//        primaryStage.setScene(new Scene(root, 300, 275));
-//        primaryStage.show();
+
+        GraphCreator graph = new GraphCreator(model);
+        graph.start(primaryStage);
     }
 
     public static void main(String[] args) {
+        System.out.println("basic");
         TerminalReader terminalReader = new TerminalReader(args);
         try {
             terminalReader.validateInputs();
-            Model model = terminalReader.readInput();
+            model = terminalReader.readInput();
             List<Processor> processorList = terminalReader.createProcessors();
             List<Node> nodesList = model.getNodes();
+            launch(args);
             algorithm algorithm = new BadAlgorithm(processorList,nodesList);
             List<Processor> scheduledProcessors = algorithm.execute();
             terminalReader.writeOutput(scheduledProcessors);
@@ -46,9 +49,10 @@ public class Main extends Application implements Initializable {
         } catch (IncorrectInputException e) {
             System.out.println(e.getMessage());
             System.exit(1);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-     launch(args);
+//        launch(args);
     }
 
     /**
