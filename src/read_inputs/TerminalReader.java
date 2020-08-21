@@ -151,7 +151,7 @@ public class TerminalReader {
             bw.write("digraph \"outputGraph\" {");
             for (Processor stuff : sortedProcessors){
                 for (Node tasks : stuff.getTasks()){
-                    bw.write("\n\t\t"+tasks.toString());
+                    bw.write("\n\t\t"+tasks.toDescription());
                     for (String dependent: tasks.dependenciesToString()){
                         bw.write("\n\t\t"+dependent);
                     }

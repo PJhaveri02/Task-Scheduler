@@ -33,8 +33,8 @@ public class Node {
         _dependentsAndWeight = new HashMap<Node, Integer>();
     }
 
-
-    public String getName(){
+    @Override
+    public String toString(){
         return _name;
     }
 
@@ -88,11 +88,9 @@ public class Node {
 
     //returns node description in .dot format
     // needs to return start and processor number
-    @Override
-    public String toString(){
+    public String toDescription(){
 //        return _name + "   [Weight = " + _weight + ", Start= " + _start +", Processor="+ this.get_processor()+"];";
         return _name + "   [Weight = " + _weight + ", Start= " + _start +", Processor="+_processor.toString()+"];";
-
     }
 
     /**
@@ -101,7 +99,7 @@ public class Node {
      */
     public List<String> dependenciesToString(){
         ArrayList<String> strings = new ArrayList<String>();
-         _dependentsAndWeight.forEach((k,v) -> strings.add(k.getName() + " -> " + _name + "   [Weight = " + v + "];"));
+         _dependentsAndWeight.forEach((k,v) -> strings.add(k.toString() + " -> " + _name + "   [Weight = " + v + "];"));
          return strings;
     }
 
@@ -115,5 +113,9 @@ public class Node {
 
     public int getLevel(){
         return _level;
+    }
+
+    public void setLevel(int level){
+        _level = level;
     }
 }
