@@ -5,8 +5,6 @@ import algorithm.algorithm;
 import algorithm.BadAlgorithm;
 import algorithm.Processor;
 import algorithm.Node;
-import com.brunomnsilva.smartgraph.graph.GraphEdgeList;
-import com.brunomnsilva.smartgraph.graphview.*;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
