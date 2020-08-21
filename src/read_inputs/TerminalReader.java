@@ -150,10 +150,10 @@ public class TerminalReader {
 
             BufferedWriter bw = new BufferedWriter(new FileWriter(output));
             bw.write("digraph \"outputGraph\" {");
-            for (Processor stuff : sortedProcessors){
-                for (Node tasks : stuff.getTasks()){
-                    bw.write("\n\t\t"+tasks.toString());
-                    for (String dependent: tasks.dependenciesToString()){
+            for (Processor proc : sortedProcessors){
+                for (Node task : proc.getTasks()){
+                    bw.write("\n\t\t"+task.toString());
+                    for (String dependent: task.dependenciesToString()){
                         bw.write("\n\t\t"+dependent);
                     }
 //                    bw.write("\n\t\t"+tasks.)

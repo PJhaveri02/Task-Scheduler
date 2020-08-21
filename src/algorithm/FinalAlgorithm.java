@@ -22,56 +22,45 @@ public class FinalAlgorithm implements algorithm{
         _available = new ArrayList<Node>();
     }
 
-    /**
-     * This function iterates through each task/node to calculate the bottom level
-     * for each task/node
-     */
-    public void nodeBottomLevel() {
-        for (Node task : _tasks) {
-            // calculating the bottom level of this task
-            // if the task has no children the the bottom level is just the weight of the node
-            if (task.getChildren().size() > 0) {
-                int bottomLevel = calculateBottomLevel(task);
-            } else {
-                task.setBottomLevel(task.get_weight());
-            }
-        }
-    }
 
-    /**
-     * Calculating the bottom level for a specific node/task using recussion
-     * @param task
-     * @return
-     */
-    public int calculateBottomLevel(Node task) {
-        if (task.getChildren().size() > 0) {
-            int maxChildLevel = 0;
-            for (Node childNode : task.getChildren()) {
-                maxChildLevel = Math.max(calculateBottomLevel(childNode), maxChildLevel);
-            }
-            task.setBottomLevel(task.get_weight() + maxChildLevel);
-        } else {
-            task.setBottomLevel(task.get_weight());
-        }
-        return task.getBottomLevel();
-    }
 
     @Override
     public List<Processor> execute() {
+
+        /*
+        the algorithm still produces a schedule that has all the tasks on one processor,
+        because it starts on the same processor for every recursive call.
+        we probably need the greedy algorithm here before the recursive one.
+         */
+        recursiveAlg();
+
+        return null;
+    }
+
+    private void recursiveAlg() {
+        //check the base case (if there are no more tasks to schedule)
+        if (false) { return; }
+        //check the partial schedule against the current best
+        if (false) { return; }
+
         //get list of available tasks
         _available = checkAvailability(_tasks);
-        //inset method to sort available tasks into highest bottom level order
 
-        //loop through the processors and recursively find the best schedule
-        for (Processor p : _processors){
-            //check if there are multiple empty processors
-            //schedule the node into the processor
-            //calculate the weight of the partial schedule
-            //compare with weight of current best
-            //if (partial schedule is bad) {continue}
-            //recursive
+        //sort available tasks into order of highest bottom level, can use Node.getBottomLevel()
+
+        //the code below assumes that sorting the available tasks returns a list
+        //loop through available tasks
+        for (Node task : _available) {
+            //loop through processors and schedule
+            for (Processor p : _processors) {
+                //check if there are multiple empty processors and continue if required
+                //schedule the task onto the processor
+                //recursive call
+                //remove the task from the processor
+            }
+
         }
-        return null;
+
     }
 
     private Schedule recursion(Schedule s, List<Node> available, List<Node> unscheduled) {
@@ -147,6 +136,40 @@ public class FinalAlgorithm implements algorithm{
             }
         }
         return availableTasks;
+    }
+
+    /**
+     * This function iterates through each task/node to calculate the bottom level
+     * for each task/node
+     */
+    public void nodeBottomLevel() {
+        for (Node task : _tasks) {
+            // calculating the bottom level of this task
+            // if the task has no children the the bottom level is just the weight of the node
+            if (task.getChildren().size() > 0) {
+                int bottomLevel = calculateBottomLevel(task);
+            } else {
+                task.setBottomLevel(task.get_weight());
+            }
+        }
+    }
+
+    /**
+     * Calculating the bottom level for a specific node/task using recussion
+     * @param task
+     * @return
+     */
+    public int calculateBottomLevel(Node task) {
+        if (task.getChildren().size() > 0) {
+            int maxChildLevel = 0;
+            for (Node childNode : task.getChildren()) {
+                maxChildLevel = Math.max(calculateBottomLevel(childNode), maxChildLevel);
+            }
+            task.setBottomLevel(task.get_weight() + maxChildLevel);
+        } else {
+            task.setBottomLevel(task.get_weight());
+        }
+        return task.getBottomLevel();
     }
 
     }

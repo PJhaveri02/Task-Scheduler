@@ -3,7 +3,7 @@ package algorithm;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Processor {
+public class Processor implements Cloneable{
 
     //processor 'core' numbers
     private int _id;
@@ -44,4 +44,29 @@ public class Processor {
      * @return
      */
     public int getTime(){ return _time; }
+
+    /**
+     * makes a deep copy of a Processor object
+     * @return deep copy of Processor
+     * @throws CloneNotSupportedException
+     */
+    public Object clone() throws CloneNotSupportedException{
+        //create a shallow copy
+        Processor p = (Processor)super.clone();
+
+        //make a deep copy by creating new list of tasks from the old list
+        List<Node> cloneTasks = new ArrayList<Node>();
+        //make copy of each task, add it to the new list
+        for (Node task : this._tasks){
+            //this method only sets weight, ID, and name fields for the Node object.
+            //it does NOT (yet) set the other fields in 'Node', such as _bottomWeight, _start, or _processor.
+            //need _start, _processor, _dependenciesAndWeight, etc for writing the cloned Processors in the output file
+            Node cloneTask = new Node(task.get_weight(), task.getId(), task.getName());
+            cloneTasks.add(cloneTask);
+        }
+
+        //set the cloned task list in the cloned Processor
+        p._tasks = cloneTasks;
+        return p;
+    }
 }
