@@ -51,7 +51,7 @@ public class SadAlgorithm implements algorithm {
      * @param node
      * @return
      */
-    public PartialSchedule createPartialSchedule(Schedule currentSchedule, Processor processor, Node node) {
+    public Schedule createPartialSchedule(Schedule currentSchedule, Processor processor, Node node) {
         Map<Processor, List<String>> currentPToN = currentSchedule.getProcessorToScheduledNodes();
         List<String> scheduleNodeInProc = currentPToN.get(processor);
         int lengthOfSchNode = scheduleNodeInProc.size();
@@ -63,7 +63,7 @@ public class SadAlgorithm implements algorithm {
         newPToN.put(processor, schPToN);
         List<Node> newScheduledNodes = new ArrayList<Node>(currentSchedule.getAllScheduledNodes());
 
-        return new PartialSchedule(newPToN, newScheduledNodes);
+        return new Schedule(newPToN, newScheduledNodes);
     }
 
     public List<Node> getAvailableNodes(List<Node> currentScheduledNodes, List<Node> unscheduledNodes) {

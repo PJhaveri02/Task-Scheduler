@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Abstract class to represent a schedule. Schedule has processors which nodes are placed.
  */
-public abstract class Schedule {
+public class Schedule {
 
     // Field for comparing the best schedule
     public static Schedule _optimumSchedule;
