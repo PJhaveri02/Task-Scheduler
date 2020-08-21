@@ -12,6 +12,7 @@ public class Node {
     private int _weight;
     //uncommented again as some method used it
     private int _start;
+    private int _level;
     private Processor _processor;
     private int _id;
     private String _name;
@@ -110,5 +111,9 @@ public class Node {
      */
     public ArrayList<Node> getDependencies() {
         return new ArrayList<Node>(_dependentsAndWeight.keySet());
+    }
+
+    public int getLevel(){
+        return _level;
     }
 }

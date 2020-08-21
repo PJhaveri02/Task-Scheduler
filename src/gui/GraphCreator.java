@@ -7,6 +7,7 @@ import com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
 import com.brunomnsilva.smartgraph.graphview.SmartCircularSortedPlacementStrategy;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
 import com.brunomnsilva.smartgraph.graphview.SmartPlacementStrategy;
+import com.brunomnsilva.smartgraph.graphview.SmartRandomPlacementStrategy;
 import javafx.application.Application;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -43,18 +44,20 @@ public class GraphCreator extends Application implements Initializable {
             }
 
 
-            SmartPlacementStrategy strategy = new SmartCircularSortedPlacementStrategy();
+//            SmartPlacementStrategy strategy = new SmartCircularSortedPlacementStrategy();
+            SmartPlacementStrategy strategy = new SmartRandomPlacementStrategy();
             //create own own strategy
 //        SmartPlacementStrategy strategy = new SmartPlacementStrategy();
             SmartGraphPanel<String, String> graphView = new SmartGraphPanel<>(g, strategy);
             Scene scene = new Scene(graphView, 1024, 768);
 
             Stage stage = new Stage(StageStyle.DECORATED);
-            stage.setTitle("JavaFXGraph Visualization");
+            stage.setTitle("Initial Graph");
             stage.setScene(scene);
             stage.show();
 
             graphView.init();
+            graphView.setAutomaticLayout(true);
 
     }
 
