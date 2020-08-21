@@ -1,6 +1,7 @@
 package algorithm;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class BadAlgorithm implements algorithm {
@@ -63,9 +64,11 @@ public class BadAlgorithm implements algorithm {
     public List<Processor> execute() {
 
         this.nodeBottomLevel();
+        Collections.sort(_tasks);
         for (Node task : _tasks) {
             System.out.println(task.getName() + ": " + task.getBottomLevel());
         }
+
 
 
         Processor processor = _processors.get(0);

@@ -7,7 +7,7 @@ import java.util.*;
  * can be renamed
  * contains edge information of edges where it is the dependent
  */
-public class Node {
+public class Node implements Comparable<Node>{
 
     private int _weight;
     private int _bottomWeight;
@@ -140,5 +140,14 @@ public class Node {
      */
     public int getBottomLevel() {
         return _bottomWeight;
+    }
+
+    /**
+     * A compare to method that sorts the Nodes/Tasks based on their bottom level
+     * @param n A Node
+     * @return
+     */
+    public int compareTo(Node n) {
+        return n._bottomWeight - this._bottomWeight;
     }
 }
