@@ -58,7 +58,8 @@ public class SadAlgorithm implements algorithm {
         List<String> schPToN = new ArrayList<String>(scheduleNodeInProc);
         schPToN.add(nodeName);
 
-        Map<Processor, List<String>> newPToN = new HashMap<Processor, List<String>>(schPToN);
+        Map<Processor, List<String>> newPToN = new HashMap<Processor, List<String>>(currentPToN);
+        newPToN.put(processor, schPToN);
         List<Node> newScheduledNodes = new ArrayList<Node>(currentSchedule.getAllScheduledNodes());
 
         return new PartialSchedule(newPToN, newScheduledNodes);
