@@ -36,6 +36,7 @@ public class Main extends Application implements Initializable {
         try {
             terminalReader.validateInputs();
             model = terminalReader.readInput();
+            model.addLevels();
             List<Processor> processorList = terminalReader.createProcessors();
             List<Node> nodesList = model.getNodes();
             launch(args);

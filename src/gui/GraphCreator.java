@@ -4,7 +4,6 @@ import algorithm.Model;
 import algorithm.Node;
 import com.brunomnsilva.smartgraph.graph.Digraph;
 import com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
-import com.brunomnsilva.smartgraph.graphview.SmartCircularSortedPlacementStrategy;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
 import com.brunomnsilva.smartgraph.graphview.SmartPlacementStrategy;
 import com.brunomnsilva.smartgraph.graphview.SmartRandomPlacementStrategy;
@@ -35,11 +34,11 @@ public class GraphCreator extends Application implements Initializable {
         Digraph<String, String> g = new DigraphEdgeList<>();
 
             for (Node n :_schedule.getNodes()){
-                g.insertVertex(n.getName());
+                g.insertVertex(n.toString());
             }
             for (Node n :_schedule.getNodes()){
                 for(Node j: n.getDependencies()){
-                    g.insertEdge(j.getName(),n.getName(),j.getName()+"->"+n.getName()+"("+Integer.toString(j.get_weight())+")");
+                    g.insertEdge(j.toString(),n.toString(),j.toString()+"->"+n.toString()+"("+Integer.toString(j.get_weight())+")");
                 }
             }
 
@@ -57,7 +56,7 @@ public class GraphCreator extends Application implements Initializable {
             stage.show();
 
             graphView.init();
-            graphView.setAutomaticLayout(true);
+//            graphView.setAutomaticLayout(true);
 
     }
 
