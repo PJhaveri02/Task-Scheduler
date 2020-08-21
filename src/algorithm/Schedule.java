@@ -11,13 +11,19 @@ public abstract class Schedule {
     // Field for comparing the best schedule
     public static Schedule _optimumSchedule;
 
-    private Map<Processor, String[]> _processorToScheduledNodes;
+    private Map<Processor, List<String>> _processorToScheduledNodes;
+    private List<Node> _allScheduledNodes;
 
-    public Schedule(Map<Processor, String[]> _processorToScheduledNodes) {
+    public Schedule(Map<Processor, List<String>> _processorToScheduledNodes, List<Node> allScheduledNodes) {
         _processorToScheduledNodes = _processorToScheduledNodes;
+        _allScheduledNodes = allScheduledNodes;
     }
 
-    public Map<Processor, String[]> getProcessorToScheduledNodes() {
+    public Map<Processor, List<String>> getProcessorToScheduledNodes() {
         return _processorToScheduledNodes;
+    }
+
+    public List<Node> getAllScheduledNodes() {
+        return _allScheduledNodes;
     }
 }

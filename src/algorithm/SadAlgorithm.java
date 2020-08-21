@@ -1,5 +1,6 @@
 package algorithm;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,18 +51,20 @@ public class SadAlgorithm implements algorithm {
      * @return
      */
     public PartialSchedule createPartialSchedule(Schedule currentSchedule, Processor processor, Node node) {
-        Map<Processor, String[]> currentPToN = currentSchedule.getProcessorToScheduledNodes();
-        String[] scheduleNodeInProc = currentPToN.get(processor);
-        int lengthOfSchNode = scheduleNodeInProc.length;
+        Map<Processor, List<String>> currentPToN = currentSchedule.getProcessorToScheduledNodes();
+        List<String> scheduleNodeInProc = currentPToN.get(processor);
+        int lengthOfSchNode = scheduleNodeInProc.size();
         String nodeName = node.getName();
-        String[] assignedNodes = new String[lengthOfSchNode + 1];
-        System.arraycopy(scheduleNodeInProc, 0, assignedNodes, 0, lengthOfSchNode);
-        assignedNodes[lengthOfSchNode] = nodeName;
+        List<String> schPToN = new ArrayList<String>(scheduleNodeInProc);
+        schPToN.add(nodeName);
 
-        Map<Processor, String[]> newPToN = new HashMap<Processor, String[]>();
-        newPToN.putAll(currentPToN);
+        Map<Processor, List<String>> newPToN = new HashMap<Processor, List<String>>(schPToN);
+        List<Node> newScheduledNodes = new ArrayList<Node>(currentSchedule.getAllScheduledNodes());
 
-        return new PartialSchedule(newPToN);
+        return new PartialSchedule(newPToN, newScheduledNodes);
     }
+
+
+
 
 }
