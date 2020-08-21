@@ -21,12 +21,52 @@ public class BadAlgorithm implements algorithm {
     }
 
     /**
+     * This function iterates through each task/node to calculate the bottom level
+     * for each task/node
+     */
+    public void nodeBottomLevel() {
+        for (Node task : _tasks) {
+            // calculating the bottom level of this task
+
+            if (task.getChildren().size() > 0) {
+                int bottomLevel = calculateBottomLevel(task);
+            } else {
+                task.setBottomLevel(task.get_weight());
+            }
+        }
+    }
+
+    /**
+     * Calculating the bottom level for a specific node/task using recussion
+     * @param task
+     * @return
+     */
+    public int calculateBottomLevel(Node task) {
+        if (task.getChildren().size() > 0) {
+            int maxChildLevel = 0;
+            for (Node childNode : task.getChildren()) {
+                maxChildLevel = Math.max(calculateBottomLevel(childNode), maxChildLevel);
+            }
+            task.setBottomLevel(task.get_weight() + maxChildLevel);
+        } else {
+            task.setBottomLevel(task.get_weight());
+        }
+        return task.getBottomLevel();
+    }
+
+    /**
      * execute method places all the tasks onto one processor in a valid format
      *
      * @return ArrayList<Processor>
      */
     @Override
     public List<Processor> execute() {
+
+        this.nodeBottomLevel();
+        for (Node task : _tasks) {
+            System.out.println(task.getName() + ": " + task.getBottomLevel());
+        }
+
 
         Processor processor = _processors.get(0);
         Node rootNode = findRootNode(_tasks);

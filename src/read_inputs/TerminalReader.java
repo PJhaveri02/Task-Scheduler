@@ -120,8 +120,9 @@ public class TerminalReader {
             while((st = in.readLine()) != null) {
                 //adds each line to the model as either a node or a dependency
                 if(!(st.contains("}")|st.contains("{"))){
-                    if(st.contains("->")){
+                    if(st.contains("->")) {
                         model.addDependency(st);
+                        model.addChildNode(st);
                     }else{
                         model.addNode(st);
                     }

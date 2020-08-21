@@ -22,6 +22,40 @@ public class FinalAlgorithm implements algorithm{
         _available = new ArrayList<Node>();
     }
 
+    /**
+     * This function iterates through each task/node to calculate the bottom level
+     * for each task/node
+     */
+    public void nodeBottomLevel() {
+        for (Node task : _tasks) {
+            // calculating the bottom level of this task
+            // if the task has no children the the bottom level is just the weight of the node
+            if (task.getChildren().size() > 0) {
+                int bottomLevel = calculateBottomLevel(task);
+            } else {
+                task.setBottomLevel(task.get_weight());
+            }
+        }
+    }
+
+    /**
+     * Calculating the bottom level for a specific node/task using recussion
+     * @param task
+     * @return
+     */
+    public int calculateBottomLevel(Node task) {
+        if (task.getChildren().size() > 0) {
+            int maxChildLevel = 0;
+            for (Node childNode : task.getChildren()) {
+                maxChildLevel = Math.max(calculateBottomLevel(childNode), maxChildLevel);
+            }
+            task.setBottomLevel(task.get_weight() + maxChildLevel);
+        } else {
+            task.setBottomLevel(task.get_weight());
+        }
+        return task.getBottomLevel();
+    }
+
     @Override
     public List<Processor> execute() {
         //get list of available tasks
