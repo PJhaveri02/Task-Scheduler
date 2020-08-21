@@ -16,6 +16,7 @@ public class Model {
     private List<Node> _nodes;
     private Map<String, Node> _names;
     private String _name;
+    private List<List<Node>> _levels = new ArrayList<List<Node>>();
 
 
     public Model(String name){
@@ -90,8 +91,6 @@ public class Model {
     public void addLevels(){
         List<Node> _avaliable = new ArrayList<Node>();
         List<Node> _unavaliable = new ArrayList<Node>();
-        //remove later
-//        List<Node> _set = new ArrayList<Node>();
 
         // get root level nodes
         for(Node n: _nodes){
@@ -104,15 +103,20 @@ public class Model {
 
         int level = 0;
         while(!_avaliable.isEmpty() || !_unavaliable.isEmpty() ){
+//            for (Node n : _avaliable){
+//                n.setLevel(level);
+//            }
+            List<Node> newLevel = new ArrayList<Node>();
             for (Node n : _avaliable){
-                n.setLevel(level);
-//                _set.add(n);
+                newLevel.add(n);
             }
+
             _avaliable.clear();
             List<Node> availableNodes = checkAvailability(_unavaliable);
             _avaliable.addAll(availableNodes);
             _unavaliable.removeAll(availableNodes);
             level++;
+            _levels.add(newLevel);
         }
 //        System.out.println("check");
     }
