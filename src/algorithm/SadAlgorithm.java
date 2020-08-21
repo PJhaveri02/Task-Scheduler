@@ -45,6 +45,7 @@ public class SadAlgorithm implements algorithm {
 
     /**
      * Method to crate a new partial schedule with the node assigning to the processor.
+     *
      * @param currentSchedule
      * @param processor
      * @param node
@@ -65,7 +66,20 @@ public class SadAlgorithm implements algorithm {
         return new PartialSchedule(newPToN, newScheduledNodes);
     }
 
-
-
-
+    public List<Node> getAvailableNodes(List<Node> currentScheduledNodes, List<Node> unscheduledNodes) {
+        List<Node> newAvailableNodes = new ArrayList<Node>();
+        for (Node unscheduledNode : unscheduledNodes) {
+            boolean available = true;
+            List<Node> dependentNodes = unscheduledNode.getDependencies();
+            for (Node dependentNode : dependentNodes) {
+                if (!currentScheduledNodes.contains(dependentNode)) {
+                    available = false;
+                }
+            }
+            if (available) {
+                newAvailableNodes.add(unscheduledNode);
+            }
+        }
+        return newAvailableNodes;
+    }
 }
