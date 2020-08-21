@@ -5,6 +5,7 @@ import algorithm.Node;
 import algorithm.Processor;
 import algorithm.algorithm;
 import algorithm.BadAlgorithm;
+import algorithm.FinalAlgorithm;
 import read_inputs.IncorrectInputException;
 import read_inputs.TerminalReader;
 
@@ -18,7 +19,8 @@ public class Main {
             Model model = terminalReader.readInput();
             List<Processor> processorList = terminalReader.createProcessors();
             List<Node> nodesList = model.getNodes();
-            algorithm algorithm = new BadAlgorithm(processorList,nodesList);
+            //algorithm algorithm = new BadAlgorithm(processorList,nodesList);
+            algorithm algorithm = new FinalAlgorithm(processorList,nodesList);
             List<Processor> scheduledProcessors = algorithm.execute();
             terminalReader.writeOutput(scheduledProcessors);
 

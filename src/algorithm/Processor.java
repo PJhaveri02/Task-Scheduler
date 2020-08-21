@@ -8,7 +8,7 @@ public class Processor {
     //processor 'core' numbers
     private int _id;
 
-    // internal timer of 'latest' task
+    // internal timer of ending time of the 'latest' task
     private int _time;
 
     //list of tasks which will be executed
@@ -39,5 +39,9 @@ public class Processor {
         node.setProcessor(this);
     }
 
+    /**
+     * returns the ending time of the last task scheduled under the processor
+     * @return
+     */
     public int getTime(){ return _time; }
 }
