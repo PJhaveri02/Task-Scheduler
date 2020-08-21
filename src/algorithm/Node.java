@@ -10,12 +10,17 @@ import java.util.*;
 public class Node {
 
     private int _weight;
+    private int _bottomWeight;
     //uncommented again as some method used it
     private int _start;
     private Processor _processor;
     private int _id;
     private String _name;
     private Map<Node,Integer> _dependentsAndWeight;
+
+    // children of the current node
+    private Map<Node, Integer> _childrenNodes;
+
     //private Map<Node,Integer> _incompleteDependents;
 
     /**
@@ -30,6 +35,7 @@ public class Node {
         _name = name;
         //using hashmap for now, if we need insertion order iteration, linkedHashMap is the better choice
         _dependentsAndWeight = new HashMap<Node, Integer>();
+        _childrenNodes = new HashMap<Node, Integer>();
     }
 
 
@@ -61,7 +67,7 @@ public class Node {
         this._processor = processor;
     }
 
-    public ArrayList<Boolean>CheckDependencies(){
+    public ArrayList<Boolean>CheckDependencies() {
         //incomplete
         return null;
     }
@@ -78,6 +84,8 @@ public class Node {
     public void addDependency(Node requiredNode, int weight) {
         _dependentsAndWeight.put(requiredNode, weight);
     }
+
+    public void addChildNodes(Node requiredNode, int weight) { _childrenNodes.put(requiredNode, weight); }
 
     //returns number of dependencies
     //feels kind of bad compared to hasDependency
@@ -110,5 +118,27 @@ public class Node {
      */
     public ArrayList<Node> getDependencies() {
         return new ArrayList<Node>(_dependentsAndWeight.keySet());
+    }
+
+    /**
+     * Obtain arraylist of all the children nodes of the current node.
+     * @return an arraylist of nodes
+     */
+    public ArrayList<Node> getChildren() {return new ArrayList<Node>(_childrenNodes.keySet());}
+
+    /**
+     * Set the bottom weight of this particular node
+     * @param bottomWeight
+     */
+    public void setBottomLevel(int bottomWeight) {
+        _bottomWeight = bottomWeight;
+    }
+
+    /**
+     * Get the bottom weight of this particular node
+     * @return _bottomWeight
+     */
+    public int getBottomLevel() {
+        return _bottomWeight;
     }
 }

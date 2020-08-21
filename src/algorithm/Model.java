@@ -49,6 +49,19 @@ public class Model {
         _names.get(dependentNode).addDependency(_names.get(requiredNode),weight);
     }
 
+    public void addChildNode(String child) {
+        //separates weight from nodes
+        String[] parts = child.split("\t");
+        //separates node names
+        String[] nodes = parts[1].replaceAll(" ","").split("->");
+        String childNode = nodes[1];
+        String parentNode = nodes[0];
+        //formats weight
+        int weight = Integer.parseInt(parts[2].replaceAll("\\D+",""));
+        _names.get(parentNode).addChildNodes(_names.get(childNode), weight);
+
+    }
+
     //returns a list of strings containing a description of the model in .dot format
     public List<String> asText(){
         //SOMEONE AGREE OR DISAGREE THAT TABS SHOULD BE ADDED HERE AND DISCUSS
