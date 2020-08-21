@@ -16,6 +16,7 @@ public class Model {
     private List<Node> _nodes;
     private Map<String, Node> _names;
     private String _name;
+    private List<List<Node>> _levels;
 
 
     public Model(String name){
@@ -24,6 +25,10 @@ public class Model {
         _names = new HashMap<String, Node>();
     }
 
+
+    public List<List<Node>> getLevels(){
+        return _levels;
+    }
 
     //adds a node to the model
     public void addNode(String des) {
