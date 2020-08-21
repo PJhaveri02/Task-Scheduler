@@ -35,10 +35,13 @@ public class GraphCreator extends Application implements Initializable {
 
             for (Node n :_schedule.getNodes()){
                 g.insertVertex(n.getName());
+            }
+            for (Node n :_schedule.getNodes()){
                 for(Node j: n.getDependencies()){
                     g.insertEdge(j.getName(),n.getName(),j.getName()+"->"+n.getName()+"("+Integer.toString(j.get_weight())+")");
                 }
             }
+
 
             SmartPlacementStrategy strategy = new SmartCircularSortedPlacementStrategy();
             //create own own strategy
