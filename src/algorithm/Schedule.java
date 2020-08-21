@@ -11,19 +11,22 @@ public class Schedule {
     // Field for comparing the best schedule
     public static Schedule _optimumSchedule;
 
-    private Map<Processor, List<String>> _processorToScheduledNodes;
+    private Map<Processor, List<Node>> _processorToScheduledNodes;
     private List<Node> _allScheduledNodes;
 
-    public Schedule(Map<Processor, List<String>> _processorToScheduledNodes, List<Node> allScheduledNodes) {
-        _processorToScheduledNodes = _processorToScheduledNodes;
+    public Schedule(Map<Processor, List<Node>> processorToScheduledNodes, List<Node> allScheduledNodes) {
+        _processorToScheduledNodes = processorToScheduledNodes;
         _allScheduledNodes = allScheduledNodes;
     }
 
-    public Map<Processor, List<String>> getProcessorToScheduledNodes() {
+    public Map<Processor, List<Node>> getProcessorToScheduledNodes() {
         return _processorToScheduledNodes;
     }
 
     public List<Node> getAllScheduledNodes() {
         return _allScheduledNodes;
     }
+
+    //method to get weight
+    //need to factor in edge weights if child nodes are scheduled under another processor
 }

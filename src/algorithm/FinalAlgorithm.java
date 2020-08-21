@@ -40,28 +40,33 @@ public class FinalAlgorithm implements algorithm{
         return null;
     }
 
-    /**
-     * Method to crate a new partial schedule with the node assigning to the processor.
-     *
-     * @param currentSchedule
-     * @param processor
-     * @param node
-     * @return
-     */
-    public Schedule createPartialSchedule(Schedule currentSchedule, Processor processor, Node node) {
-        Map<Processor, List<String>> currentPToN = currentSchedule.getProcessorToScheduledNodes();
-        List<String> scheduleNodeInProc = currentPToN.get(processor);
-        int lengthOfSchNode = scheduleNodeInProc.size();
-        String nodeName = node.getName();
-        List<String> schPToN = new ArrayList<String>(scheduleNodeInProc);
-        schPToN.add(nodeName);
+    private Schedule recursion(Schedule s, List<Node> available, List<Node> unscheduled) {
 
-        Map<Processor, List<String>> newPToN = new HashMap<Processor, List<String>>(currentPToN);
-        newPToN.put(processor, schPToN);
-        List<Node> newScheduledNodes = new ArrayList<Node>(currentSchedule.getAllScheduledNodes());
-
-        return new Schedule(newPToN, newScheduledNodes);
+        return null;
     }
+
+//    /**
+//     * Method to crate a new partial schedule with the node assigning to the processor.
+//     *
+//     * @param currentSchedule
+//     * @param processor
+//     * @param node
+//     * @return
+//     */
+//    public Schedule createPartialSchedule(Schedule currentSchedule, Processor processor, Node node) {
+//        Map<Processor, List<String>> currentPToN = currentSchedule.getProcessorToScheduledNodes();
+//        List<String> scheduleNodeInProc = currentPToN.get(processor);
+//        int lengthOfSchNode = scheduleNodeInProc.size();
+//        String nodeName = node.getName();
+//        List<String> schPToN = new ArrayList<String>(scheduleNodeInProc);
+//        schPToN.add(nodeName);
+//
+//        Map<Processor, List<String>> newPToN = new HashMap<Processor, List<String>>(currentPToN);
+//        newPToN.put(processor, schPToN);
+//        List<Node> newScheduledNodes = new ArrayList<Node>(currentSchedule.getAllScheduledNodes());
+//
+//        return new Schedule(newPToN, newScheduledNodes);
+//    }
 
     /**
      *
