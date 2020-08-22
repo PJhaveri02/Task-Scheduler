@@ -14,6 +14,8 @@ public class Schedule {
     private Map<Processor, List<String>> _processorToScheduledNodes;
     private List<Node> _allScheduledNodes;
 
+
+
     public Schedule(Map<Processor, List<String>> _processorToScheduledNodes, List<Node> allScheduledNodes) {
         _processorToScheduledNodes = _processorToScheduledNodes;
         _allScheduledNodes = allScheduledNodes;

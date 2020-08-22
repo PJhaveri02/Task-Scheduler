@@ -2,6 +2,7 @@ package algorithm;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Processor implements Cloneable{
 
@@ -63,10 +64,29 @@ public class Processor implements Cloneable{
             //need _start, _processor, _dependenciesAndWeight, etc for writing the cloned Processors in the output file
             Node cloneTask = new Node(task.get_weight(), task.getId(), task.getName());
             cloneTasks.add(cloneTask);
+
+            // set the tasks starting time and bottom level
+            cloneTask.setStart(task.getStart());
+            cloneTask.setBottomLevel(task.getBottomLevel());
+        }
+
+        // Once the task objects are cloned, set the _dependenciesAndWeight field.
+        // Can only be done once all the tasks are instantiated.
+        for (Node task : _tasks) {
+            // Get the cloned task corresponding to the task
+            Node cloneTask = cloneTasks.get(cloneTasks.indexOf(task));
+
+            Map<Node, Integer> dependentsAndWeight = task.getDependentsAndWeight();
+            for (Node depTask : dependentsAndWeight.keySet()) {
+                Node depClonedTask = cloneTasks.get(cloneTasks.indexOf(depTask));
+                cloneTask.addDependency(depClonedTask, dependentsAndWeight.get(depTask));
+            }
         }
 
         //set the cloned task list in the cloned Processor
         p._tasks = cloneTasks;
         return p;
     }
+
+
 }
