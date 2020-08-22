@@ -10,12 +10,12 @@ import java.util.*;
 public class Node implements Comparable<Node>{
 
     private int _weight;
-    private int _bottomWeight;
-    //uncommented again as some method used it
-    private int _start;
-    private Processor _processor;
     private int _id;
     private String _name;
+
+    private int _bottomWeight;
+    private int _start;
+    private Processor _processor;
     private Map<Node,Integer> _dependentsAndWeight;
 
     // children of the current node
@@ -38,7 +38,6 @@ public class Node implements Comparable<Node>{
         _childrenNodes = new HashMap<Node, Integer>();
     }
 
-
     public String getName(){
         return _name;
     }
@@ -47,10 +46,10 @@ public class Node implements Comparable<Node>{
         return _weight;
     }
 
-    //might be the other check
-//    public Processor get_processor() {
-//        return _processor;
-//    }
+    public int getId() {
+        return _id;
+    }
+
     //start field appears to be removed
     public int getStart() {
         return _start;
