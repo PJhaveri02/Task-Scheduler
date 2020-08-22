@@ -84,4 +84,12 @@ public class Processor implements Cloneable {
         return _time;
     }
 
+    public void setTime(int time){
+        _time = time;
+    }
+
+    public void addTask(Node n){
+        _tasks.add(n);
+    }
+
 }

@@ -157,6 +157,10 @@ public class Node implements Comparable<Node>{
         return n._bottomWeight - this._bottomWeight;
     }
 
+    public int getEdgeWeight(Node n){
+        return _dependentsAndWeight.get(n);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Node) {

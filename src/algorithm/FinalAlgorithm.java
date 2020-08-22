@@ -36,27 +36,66 @@ public class FinalAlgorithm implements algorithm{
         return null;
     }
 
+    /**
+     * find the earliest start time on a given processor for a specific node
+     */
+    private int startTime(Processor p, Node in){
+        int time = p.getTime();
+        List<Node> dependents = in.getDependencies();
+        for (Node n : dependents){
+            if (!n.getProcessor().equals(p)){
+                int minTime = n.getStart()+n.get_weight()+n.getEdgeWeight(n);
+                if (minTime>time){
+                    time = minTime;
+                }
+            }
+        }
+        return time;
+    }
+
+    /**
+     * adds node to processor
+     */
+    private void addProcessorNode(Node n, Processor p,int time){
+        //in case it has no dependencies
+        if (p==null){
+            p = _processors.get(0);
+        }
+        n.setProcessor(p);
+        n.setStart(time);
+        p.setTime(time+n.get_weight());
+        p.addTask(n);
+
+
+    }
+
     private void greedyAlg() {
+        List<Node> taskRemain = _tasks;
         //while tasks list is not empty
-        while (_tasks.size() > 0) {
+        while (taskRemain.size() > 0) {
             //get list of available tasks
-            _available = checkAvailability(_tasks);
+            _available = checkAvailability(taskRemain);
+            // remove _available from taskRemain
+            taskRemain.removeAll(_available);
             //bottom level sort
             Collections.sort(_available);
 
-            //find dependencies
-            //dependency end time + communication time, processor time
-
-            //for all processors
-            //get time
-            //for all other processors
-            //for list of dependencies
-            //if processor contains this dependency
-            //Node.getStart() + Node.getWeight() + communication time
-            //end
-            //end
-            //end
-
+            for (Node n : _available) {
+                //find dependencies
+//                List<Node> dependent = n.getDependencies();
+                //dependency end time + communication time, processor time
+                int time = -1;
+                Processor earliestP = null;
+                for (Processor p : _processors) {
+                    int compare = startTime(p, n);
+                    if (compare<time || time==-1){
+                        earliestP = p;
+                        time = compare;
+                    }
+                }
+                //add node into processor
+                addProcessorNode(n,earliestP, time);
+            }
         }
     }
 
