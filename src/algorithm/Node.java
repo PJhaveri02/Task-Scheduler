@@ -71,6 +71,9 @@ public class Node implements Comparable<Node>{
         return null;
     }
 
+    public Processor getProcessor() {
+        return _processor;
+    }
 
     //maybe redundant
     public boolean hasDependency(){
