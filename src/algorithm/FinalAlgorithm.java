@@ -7,8 +7,8 @@ public class FinalAlgorithm implements algorithm{
     private List<Processor> _processors;
     private List<Node> _tasks;
     private List<Node> _available;
-    private int _weight;
-    private List<String> _currentBestSchedule;
+    private int _bestWeight = 0;
+    private List<String> _bestSchedule;
 
     /**
      * Constructor to pass in the Processors made and tasks from the DOT file.
@@ -75,27 +75,27 @@ public class FinalAlgorithm implements algorithm{
 
     }
 
-    /**
-     *
-     * @param currentScheduledNodes
-     * @param unscheduledNodes
-     * @return
-     */
-    public List<Node> getAvailableNodes(List<Node> currentScheduledNodes, List<Node> unscheduledNodes) {
-        List<Node> newAvailableNodes = new ArrayList<Node>();
-        for (Node unscheduledNode : unscheduledNodes) {
-            boolean available = true;
-            List<Node> dependentNodes = unscheduledNode.getDependencies();
-            for (Node dependentNode : dependentNodes) {
-                if (!currentScheduledNodes.contains(dependentNode)) {
-                    available = false;
+    private void updateBest() {
+
+        _bestSchedule.clear();
+        _bestSchedule.add("digraph \"outputGraph\" {");
+        for (Processor proc : _processors){
+            for (Node task : proc.getTasks()){
+                _bestSchedule.add("\n\t\t"+task.toString());
+                for (String dependent: task.dependenciesToString()){
+                    _bestSchedule.add("\n\t\t"+dependent);
                 }
             }
-            if (available) {
-                newAvailableNodes.add(unscheduledNode);
+        }
+        //loop through processors and store the latest end time as the weight
+        for (Processor proc : _processors) {
+            if (proc.getTime() > _bestWeight){
+                _bestWeight = proc.getTime();
             }
         }
-        return newAvailableNodes;
+
+        //System.out.println(_bestWeight);
+        //System.out.println(_currentBestSchedule);
     }
 
     /**
