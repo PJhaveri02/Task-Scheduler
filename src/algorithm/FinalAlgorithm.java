@@ -38,15 +38,26 @@ public class FinalAlgorithm implements algorithm{
 
     private void greedyAlg() {
         //while tasks list is not empty
-        //get list of available tasks
-        _available = checkAvailability(_tasks);
-        //bottom level sort
-        Collections.sort(_available);
-        //schedule greedily
-        //loop through processors, Processor.getTime(), check dependencies (communication time)
-        //pick earliest end time option, schedule it under that processor
+        while (_tasks.size() > 0) {
+            //get list of available tasks
+            _available = checkAvailability(_tasks);
+            //bottom level sort
+            Collections.sort(_available);
 
-        //store the schedule in string list, store the weight
+            //find dependencies
+            //dependency end time + communication time, processor time
+
+            //for all processors
+            //get time
+            //for all other processors
+            //for list of dependencies
+            //if processor contains this dependency
+            //Node.getStart() + Node.getWeight() + communication time
+            //end
+            //end
+            //end
+
+        }
     }
 
     private void recursiveAlg() {

@@ -36,10 +36,11 @@ public class Processor implements Cloneable {
      *
      * @param node an available node ready to be executed
      */
-    public void scheduleTask(Node node) {
+    public void scheduleTask(Node node, int startTime) {
         _tasks.add(node);
         _time += node.get_weight();
         node.setProcessor(this);
+        //node.setStart(startTime);
     }
 
     /**
