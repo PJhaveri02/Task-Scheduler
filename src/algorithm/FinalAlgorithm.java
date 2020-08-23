@@ -10,6 +10,8 @@ public class FinalAlgorithm implements algorithm{
     private List<Processor> _processors;
     private List<Node> _tasks;
     private List<Node> _available;
+    private int _weight;
+    private List<String> _currentBestSchedule;
 
     /**
      * Constructor to pass in the Processors made and tasks from the DOT file.
@@ -32,13 +34,24 @@ public class FinalAlgorithm implements algorithm{
         because it starts on the same processor for every recursive call.
         we probably need the greedy algorithm here before the recursive one.
          */
+        greedyAlg();
+        //wipe processors, build up task list again
         recursiveAlg();
 
         return null;
     }
 
+    private void greedyAlg() {
+        //while tasks list is not empty
+        //get list of available tasks
+        //bottom level sort
+        //schedule greedily according to earliest ending time
+
+        //store the schedule in string list, store the weight
+    }
+
     private void recursiveAlg() {
-        //check the base case (if there are no more tasks to schedule)
+        //check the base case (if there are no more tasks to schedule). check the schedule against current best
         if (false) { return; }
         //check the partial schedule against the current best
         if (false) { return; }
@@ -56,17 +69,13 @@ public class FinalAlgorithm implements algorithm{
                 //check if there are multiple empty processors and continue if required
                 //schedule the task onto the processor
                 //recursive call
-                //remove the task from the processor
+                //remove the task from the processor, add back to _task, make a methods that does both
             }
 
         }
 
     }
 
-    private Schedule recursion(Schedule s, List<Node> available, List<Node> unscheduled) {
-
-        return null;
-    }
 
 //    /**
 //     * Method to crate a new partial schedule with the node assigning to the processor.
