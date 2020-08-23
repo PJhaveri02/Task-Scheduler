@@ -20,13 +20,14 @@ public class DumbPlacementStrategy implements SmartPlacementStrategy{
     @Override
     public <V, E> void place(double width, double height, Graph<V, E> graph, Collection<? extends SmartGraphVertex<V>> verts) {
 
-        double yIncriment = height/verts.size();
+        double yIncriment = height/m.getLevels().size();
         int i =0;
         for (List<Node> level : m.getLevels()){
+
             int j=0;
             double xIncriment = width/level.size();
             for(Node n : level){
-                SmartGraphVertex vert = verts.stream().filter(node -> n.toString().equals(((DumbSmartGraphVertexNode)node).getName())).findAny().orElse(null);
+                SmartGraphVertex vert = verts.stream().filter(node -> n.toString().equals(node.toString()).findAny().orElse(null));
                 vert.setPosition(xIncriment*j, yIncriment*i);
                 j++;
             }
