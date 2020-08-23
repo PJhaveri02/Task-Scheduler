@@ -43,7 +43,8 @@ public class FinalAlgorithm implements algorithm{
         int time = p.getTime();
         List<Node> dependents = in.getDependencies();
         for (Node n : dependents){
-            if (!n.getProcessor().equals(p)){
+//            if (!n.getProcessor().equals(p)){
+            if (!p.getTasks().contains(n)){
                 int minTime = n.getStart()+n.get_weight()+n.getEdgeWeight(n);
                 if (minTime>time){
                     time = minTime;
@@ -61,7 +62,8 @@ public class FinalAlgorithm implements algorithm{
         if (p==null){
             p = _processors.get(0);
         }
-        n.setProcessor(p);
+        //i hate this setting node in processor lets not
+//        n.setProcessor(p);
         n.setStart(time);
         p.setTime(time+n.get_weight());
         p.addTask(n);
