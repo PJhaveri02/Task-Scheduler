@@ -84,11 +84,11 @@ public class FinalAlgorithm implements algorithm{
                 //find dependencies
 //                List<Node> dependent = n.getDependencies();
                 //dependency end time + communication time, processor time
-                int time = -1;
+                int time = 0;
                 Processor earliestP = null;
                 for (Processor p : _processors) {
                     int compare = startTime(p, n);
-                    if (compare<time || time==-1){
+                    if (compare<=time || time==0){
                         earliestP = p;
                         time = compare;
                     }
