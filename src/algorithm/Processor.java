@@ -84,4 +84,48 @@ public class Processor implements Cloneable {
         return _time;
     }
 
+    /**
+     * makes a deep copy of a Processor object
+     *
+     * @return deep copy of Processor
+     * @throws CloneNotSupportedException
+     */
+    public Object clone() throws CloneNotSupportedException {
+        //create a shallow copy
+        Processor p = (Processor) super.clone();
+
+        //make a deep copy by creating new list of tasks from the old list
+        List<Node> cloneTasks = new ArrayList<Node>();
+        //make copy of each task, add it to the new list
+        for (Node task : this._tasks) {
+            //this method only sets weight, ID, and name fields for the Node object.
+            //it does NOT (yet) set the other fields in 'Node', such as _bottomWeight, _start, or _processor.
+            //need _start, _processor, _dependenciesAndWeight, etc for writing the cloned Processors in the output file
+            Node cloneTask = new Node(task.get_weight(), task.getId(), task.getName());
+            cloneTasks.add(cloneTask);
+
+            // set the tasks starting time and bottom level
+            cloneTask.setStart(task.getStart());
+            cloneTask.setBottomLevel(task.getBottomLevel());
+        }
+
+        // Once the task objects are cloned, set the _dependenciesAndWeight field.
+        // Can only be done once all the tasks are instantiated.
+        //needs review
+//        for (Node task : _tasks) {
+//            // Get the cloned task corresponding to the task
+//            Node cloneTask = cloneTasks.get(_tasks.indexOf(task));
+//
+//            Map<Node, Integer> dependentsAndWeight = task.getDependentsAndWeight();
+//            for (Node depTask : dependentsAndWeight.keySet()) {
+//                Node depClonedTask = cloneTasks.get(cloneTasks.indexOf(depTask));
+//                cloneTask.addDependency(depClonedTask, dependentsAndWeight.get(depTask));
+//            }
+//        }
+
+        //set the cloned task list in the cloned Processor
+        p._tasks = cloneTasks;
+        return p;
+    }
+
 }
