@@ -1,9 +1,6 @@
 package algorithm;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class FinalAlgorithm implements algorithm{
 
@@ -24,8 +21,6 @@ public class FinalAlgorithm implements algorithm{
         _available = new ArrayList<Node>();
     }
 
-
-
     @Override
     public List<Processor> execute() {
 
@@ -44,8 +39,12 @@ public class FinalAlgorithm implements algorithm{
     private void greedyAlg() {
         //while tasks list is not empty
         //get list of available tasks
+        _available = checkAvailability(_tasks);
         //bottom level sort
-        //schedule greedily according to earliest ending time
+        Collections.sort(_available);
+        //schedule greedily
+        //loop through processors, Processor.getTime(), check dependencies (communication time)
+        //pick earliest end time option, schedule it under that processor
 
         //store the schedule in string list, store the weight
     }
@@ -75,30 +74,6 @@ public class FinalAlgorithm implements algorithm{
         }
 
     }
-
-
-//    /**
-//     * Method to crate a new partial schedule with the node assigning to the processor.
-//     *
-//     * @param currentSchedule
-//     * @param processor
-//     * @param node
-//     * @return
-//     */
-//    public Schedule createPartialSchedule(Schedule currentSchedule, Processor processor, Node node) {
-//        Map<Processor, List<String>> currentPToN = currentSchedule.getProcessorToScheduledNodes();
-//        List<String> scheduleNodeInProc = currentPToN.get(processor);
-//        int lengthOfSchNode = scheduleNodeInProc.size();
-//        String nodeName = node.getName();
-//        List<String> schPToN = new ArrayList<String>(scheduleNodeInProc);
-//        schPToN.add(nodeName);
-//
-//        Map<Processor, List<String>> newPToN = new HashMap<Processor, List<String>>(currentPToN);
-//        newPToN.put(processor, schPToN);
-//        List<Node> newScheduledNodes = new ArrayList<Node>(currentSchedule.getAllScheduledNodes());
-//
-//        return new Schedule(newPToN, newScheduledNodes);
-//    }
 
     /**
      *
