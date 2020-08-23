@@ -75,6 +75,9 @@ public class FinalAlgorithm implements algorithm{
 
     }
 
+    /**
+     * write the current state of the processors to the string list and store the weight of the schedule.
+     */
     private void updateBest() {
 
         _bestSchedule.clear();
@@ -87,6 +90,8 @@ public class FinalAlgorithm implements algorithm{
                 }
             }
         }
+        _bestSchedule.add("\n}");
+
         //loop through processors and store the latest end time as the weight
         for (Processor proc : _processors) {
             if (proc.getTime() > _bestWeight){
