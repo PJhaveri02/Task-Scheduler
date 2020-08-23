@@ -10,7 +10,7 @@ import java.util.*;
 public class Node implements Comparable<Node>{
 
     private int _weight;
-    private int _id;
+    private final int _id;
     private String _name;
 
     private int _bottomWeight;
@@ -71,6 +71,9 @@ public class Node implements Comparable<Node>{
         return null;
     }
 
+    public Processor getProcessor() {
+        return _processor;
+    }
 
     //maybe redundant
     public boolean hasDependency(){
@@ -85,6 +88,10 @@ public class Node implements Comparable<Node>{
     }
 
     public void addChildNodes(Node requiredNode, int weight) { _childrenNodes.put(requiredNode, weight); }
+
+    public Map<Node, Integer> getDependentsAndWeight() {
+        return _dependentsAndWeight;
+    }
 
     //returns number of dependencies
     //feels kind of bad compared to hasDependency
@@ -148,5 +155,16 @@ public class Node implements Comparable<Node>{
      */
     public int compareTo(Node n) {
         return n._bottomWeight - this._bottomWeight;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Node) {
+            Node node = (Node) obj;
+            if (this.getId() == node.getId()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

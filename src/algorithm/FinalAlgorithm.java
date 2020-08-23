@@ -160,7 +160,7 @@ public class FinalAlgorithm implements algorithm{
      * @return
      */
     public int calculateBottomLevel(Node task) {
-        if (task.getChildren().size() > 0) {
+        if ((task.getChildren().size()) > 0) {
             int maxChildLevel = 0;
             for (Node childNode : task.getChildren()) {
                 maxChildLevel = Math.max(calculateBottomLevel(childNode), maxChildLevel);
