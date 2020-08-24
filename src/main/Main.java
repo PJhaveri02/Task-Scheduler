@@ -19,7 +19,7 @@ public class Main {
             Model model = terminalReader.readInput();
             List<Processor> processorList = terminalReader.createProcessors();
             List<Node> nodesList = model.getNodes();
-            //algorithm algorithm = new BadAlgorithm(processorList,nodesList);
+//            algorithm algorithm = new BadAlgorithm(processorList,nodesList);
             algorithm algorithm = new FinalAlgorithm(processorList,nodesList);
             List<Processor> scheduledProcessors = algorithm.execute();
             terminalReader.writeOutput(scheduledProcessors);

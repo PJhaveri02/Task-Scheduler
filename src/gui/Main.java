@@ -3,6 +3,7 @@ package gui;
 import algorithm.Model;
 import algorithm.algorithm;
 import algorithm.BadAlgorithm;
+import algorithm.FinalAlgorithm;
 import algorithm.Processor;
 import algorithm.Node;
 import javafx.application.Application;
@@ -31,7 +32,7 @@ public class Main extends Application implements Initializable {
     }
 
     public static void main(String[] args) {
-        System.out.println("basic");
+        System.out.println("gui main");
         TerminalReader terminalReader = new TerminalReader(args);
         try {
             terminalReader.validateInputs();
@@ -40,7 +41,8 @@ public class Main extends Application implements Initializable {
             List<Processor> processorList = terminalReader.createProcessors();
             List<Node> nodesList = model.getNodes();
             launch(args);
-            algorithm algorithm = new BadAlgorithm(processorList,nodesList);
+//            algorithm algorithm = new BadAlgorithm(processorList,nodesList);
+            algorithm algorithm = new FinalAlgorithm(processorList,nodesList);
             List<Processor> scheduledProcessors = algorithm.execute();
             terminalReader.writeOutput(scheduledProcessors);
 

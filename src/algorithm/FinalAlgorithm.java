@@ -45,7 +45,7 @@ public class FinalAlgorithm implements algorithm{
         for (Node n : dependents){
 //            if (!n.getProcessor().equals(p)){
             if (!p.getTasks().contains(n)){
-                int minTime = n.getStart()+n.get_weight()+n.getEdgeWeight(n);
+                int minTime = n.getStart()+n.get_weight()+in.getEdgeWeight(n);
                 if (minTime>time){
                     time = minTime;
                 }
