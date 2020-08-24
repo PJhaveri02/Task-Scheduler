@@ -40,7 +40,7 @@ public class Main extends Application implements Initializable {
             model.addLevels();
             List<Processor> processorList = terminalReader.createProcessors();
             List<Node> nodesList = model.getNodes();
-//            launch(args);
+            launch(args);
 //            algorithm algorithm = new BadAlgorithm(processorList,nodesList);
             algorithm algorithm = new FinalAlgorithm(processorList,nodesList);
             List<Processor> scheduledProcessors = algorithm.execute();
