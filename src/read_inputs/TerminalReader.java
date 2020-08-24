@@ -154,6 +154,7 @@ public class TerminalReader {
                 for (Node task : proc.getTasks()){
                     bw.write("\n\t\t"+task.toString());
                     for (String dependent: task.dependenciesToString()){
+
                         bw.write("\n\t\t"+dependent);
                     }
 //                    bw.write("\n\t\t"+tasks.)

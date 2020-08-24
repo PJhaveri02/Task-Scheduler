@@ -15,6 +15,7 @@ public class Node implements Comparable<Node>{
 
     private int _bottomWeight;
     private int _start;
+    private int _level;
     private Processor _processor;
     private Map<Node,Integer> _dependentsAndWeight;
 
@@ -38,7 +39,8 @@ public class Node implements Comparable<Node>{
         _childrenNodes = new HashMap<Node, Integer>();
     }
 
-    public String getName(){
+    @Override
+    public String toString(){
         return _name;
     }
 
@@ -101,11 +103,9 @@ public class Node implements Comparable<Node>{
 
     //returns node description in .dot format
     // needs to return start and processor number
-    @Override
-    public String toString(){
+    public String toDescription(){
 //        return _name + "   [Weight = " + _weight + ", Start= " + _start +", Processor="+ this.get_processor()+"];";
         return _name + "   [Weight = " + _weight + ", Start= " + _start +", Processor="+_processor.toString()+"];";
-
     }
 
     /**
@@ -114,7 +114,7 @@ public class Node implements Comparable<Node>{
      */
     public List<String> dependenciesToString(){
         ArrayList<String> strings = new ArrayList<String>();
-         _dependentsAndWeight.forEach((k,v) -> strings.add(k.getName() + " -> " + _name + "   [Weight = " + v + "];"));
+         _dependentsAndWeight.forEach((k,v) -> strings.add(k.toString() + " -> " + _name + "   [Weight = " + v + "];"));
          return strings;
     }
 
@@ -170,5 +170,13 @@ public class Node implements Comparable<Node>{
             }
         }
         return false;
+    }
+
+    public int getLevel(){
+        return _level;
+    }
+
+    public void setLevel(int level){
+        _level = level;
     }
 }

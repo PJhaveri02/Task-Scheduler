@@ -66,7 +66,7 @@ public class BadAlgorithm implements algorithm {
         this.nodeBottomLevel();
         Collections.sort(_tasks);
         for (Node task : _tasks) {
-            System.out.println(task.getName() + ": " + task.getBottomLevel());
+            System.out.println(task.toString() + ": " + task.getBottomLevel());
         }
 
 
@@ -74,7 +74,7 @@ public class BadAlgorithm implements algorithm {
         Processor processor = _processors.get(0);
         Node rootNode = findRootNode(_tasks);
 
-        processor.scheduleTask(rootNode);
+        processor.scheduleTask(rootNode, rootNode.getStart());
         _tasks.remove(rootNode);
 
         // check if tasks is not empty
@@ -83,7 +83,7 @@ public class BadAlgorithm implements algorithm {
                 // Place all the tasks in the processor
                 for (Node node : _available) {
                     node.setStart(processor.getTime());
-                    processor.scheduleTask(node);
+                    processor.scheduleTask(node, node.getStart());
                 }
                 _available.clear();
             } else {

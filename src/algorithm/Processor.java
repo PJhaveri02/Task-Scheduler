@@ -101,7 +101,7 @@ public class Processor implements Cloneable {
             //this method only sets weight, ID, and name fields for the Node object.
             //it does NOT (yet) set the other fields in 'Node', such as _bottomWeight, _start, or _processor.
             //need _start, _processor, _dependenciesAndWeight, etc for writing the cloned Processors in the output file
-            Node cloneTask = new Node(task.get_weight(), task.getId(), task.getName());
+            Node cloneTask = new Node(task.get_weight(), task.getId(), task.toString());
             cloneTasks.add(cloneTask);
 
             // set the tasks starting time and bottom level
