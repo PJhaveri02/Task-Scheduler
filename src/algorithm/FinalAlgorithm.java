@@ -2,7 +2,7 @@ package algorithm;
 
 import java.util.*;
 
-public class FinalAlgorithm implements algorithm{
+public class FinalAlgorithm implements algorithm {
 
     private List<Processor> _processors;
     private List<Node> _tasks;
@@ -12,6 +12,7 @@ public class FinalAlgorithm implements algorithm{
 
     /**
      * Constructor to pass in the Processors made and tasks from the DOT file.
+     *
      * @param processors
      * @param tasks
      */
@@ -24,6 +25,8 @@ public class FinalAlgorithm implements algorithm{
     @Override
     public List<Processor> execute() {
 
+        nodeBottomLevel();
+        Collections.sort(_tasks);
         /*
         the algorithm still produces a schedule that has all the tasks on one processor,
         because it starts on the same processor for every recursive call.
@@ -31,86 +34,89 @@ public class FinalAlgorithm implements algorithm{
          */
         greedyAlg();
         //wipe processors, build up task list again
-        recursiveAlg();
+//        recursiveAlg();
 
-        return null;
-    }
-
-    @Override
-    public void addTask(Processor p, Node node) {
-        //TODO
+        return _processors;
     }
 
     /**
      * find the earliest start time on a given processor for a specific node
      */
-    private int startTime(Processor p, Node in){
-        int time = p.getTime();
-        List<Node> dependents = in.getDependencies();
-        for (Node n : dependents){
-//            if (!n.getProcessor().equals(p)){
-            if (!p.getTasks().contains(n)){
-//                int minTime = n.getStart()+n.get_weight()+in.getEdgeWeight(n);
-//                if (minTime>time){
-//                    time = minTime;
-//                }
-            }
+    private int startTime(Processor p, Node node) {
+        int current = p.getTime();
+        for (Node n : node.getDependencies()) {
+            if (!p.getTasks().contains(n)) {
+                for (Processor proc : _processors) {
+                    //minor major jank (should work tho)
+                    int end = proc.getEnd(n) + node.getEdgeWeight(n);
+                    if (end > current) {
+                        current = end;
+                    }
+                }
+            }//else
+
         }
-        return time;
+        return current;
     }
-
-    /**
-     * adds node to processor
-     */
-    private void addProcessorNode(Node n, Processor p,int time){
-        //in case it has no dependencies
-        if (p==null){
-            p = _processors.get(0);
-        }
-        //i hate this setting node in processor lets not
-//        n.setProcessor(p);
-//        n.setStart(time);
-        p.setTime(time+n.get_weight());
-        p.addTask(n);
-
-
-    }
+//
+//    /**
+//     * adds node to processor
+//     */
+//    private void addProcessorNode(Node n, Processor p, int time) {
+//        //in case it has no dependencies
+//        if (p == null) {
+//            p = _processors.get(0);
+//        }
+//        //i hate this setting node in processor lets not
+////        n.setProcessor(p);
+////        n.setStart(time);
+//        p.setTime(time + n.get_weight());
+//        p.addTask(n);
+//
+//
+//    }
 
     private void greedyAlg() {
-        List<Node> taskRemain = _tasks;
+        List<Node> taskRemain = _tasks.subList(0, _tasks.size());
+
         //while tasks list is not empty
         while (taskRemain.size() > 0) {
             //get list of available tasks
             _available = checkAvailability(taskRemain);
-            // remove _available from taskRemain
-            taskRemain.removeAll(_available);
-            //bottom level sort
+
+            //may not need
             Collections.sort(_available);
 
+            // remove _available from taskRemain
+            taskRemain.removeAll(_available);
+
             for (Node n : _available) {
-                //find dependencies
-//                List<Node> dependent = n.getDependencies();
-                //dependency end time + communication time, processor time
                 int time = 0;
                 Processor earliestP = null;
                 for (Processor p : _processors) {
                     int compare = startTime(p, n);
-                    if (compare<=time || time==0){
+
+//                    System.out.println("Compare"+compare);
+                    if (compare <= time || time == 0) {
                         earliestP = p;
                         time = compare;
                     }
                 }
                 //add node into processor
-                addProcessorNode(n,earliestP, time);
+                (earliestP).scheduleTask(n,time);
             }
         }
     }
 
     private void recursiveAlg() {
         //check the base case (if there are no more tasks to schedule). check the schedule against current best
-        if (false) { return; }
+        if (false) {
+            return;
+        }
         //check the partial schedule against the current best
-        if (false) { return; }
+        if (false) {
+            return;
+        }
 
         //get list of available tasks
         _available = checkAvailability(_tasks);
@@ -139,11 +145,11 @@ public class FinalAlgorithm implements algorithm{
 
         _bestSchedule.clear();
         _bestSchedule.add("digraph \"outputGraph\" {");
-        for (Processor proc : _processors){
-            for (Node task : proc.getTasks()){
-                _bestSchedule.add("\n\t\t"+task.toString());
-                for (String dependent: task.dependenciesToString()){
-                    _bestSchedule.add("\n\t\t"+dependent);
+        for (Processor proc : _processors) {
+            for (Node task : proc.getTasks()) {
+                _bestSchedule.add("\n\t\t" + task.toString());
+                for (String dependent : task.dependenciesToString()) {
+                    _bestSchedule.add("\n\t\t" + dependent);
                 }
             }
         }
@@ -151,7 +157,7 @@ public class FinalAlgorithm implements algorithm{
 
         //loop through processors and store the latest end time as the weight
         for (Processor proc : _processors) {
-            if (proc.getTime() > _bestWeight){
+            if (proc.getTime() > _bestWeight) {
                 _bestWeight = proc.getTime();
             }
         }
@@ -163,6 +169,7 @@ public class FinalAlgorithm implements algorithm{
     /**
      * Method checks if the node's dependencies have been added to a processor.
      * All nodes with no dependencies gets returned.
+     *
      * @param tasksList a list of nodes that has not been assigned to a processor yet.
      * @return A list of nodes that can be assigned (all dependencies executed).
      */
@@ -191,7 +198,7 @@ public class FinalAlgorithm implements algorithm{
     public void nodeBottomLevel() {
         for (Node task : _tasks) {
             // calculating the bottom level of this task
-            // if the task has no children the the bottom level is just the weight of the node
+
             if (task.getChildren().size() > 0) {
                 int bottomLevel = calculateBottomLevel(task);
             } else {
@@ -202,11 +209,12 @@ public class FinalAlgorithm implements algorithm{
 
     /**
      * Calculating the bottom level for a specific node/task using recussion
+     *
      * @param task
      * @return
      */
     public int calculateBottomLevel(Node task) {
-        if ((task.getChildren().size()) > 0) {
+        if (task.getChildren().size() > 0) {
             int maxChildLevel = 0;
             for (Node childNode : task.getChildren()) {
                 maxChildLevel = Math.max(calculateBottomLevel(childNode), maxChildLevel);
@@ -218,4 +226,4 @@ public class FinalAlgorithm implements algorithm{
         return task.getBottomLevel();
     }
 
-    }
+}

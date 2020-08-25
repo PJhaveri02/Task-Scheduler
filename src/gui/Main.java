@@ -41,8 +41,8 @@ public class Main extends Application implements Initializable {
             List<Processor> processorList = terminalReader.createProcessors();
             List<Node> nodesList = model.getNodes();
             launch(args);
-            algorithm algorithm = new BadAlgorithm(processorList,nodesList);
-//            algorithm algorithm = new FinalAlgorithm(processorList,nodesList);
+//            algorithm algorithm = new BadAlgorithm(processorList,nodesList);
+            algorithm algorithm = new FinalAlgorithm(processorList,nodesList);
             List<Processor> scheduledProcessors = algorithm.execute();
             terminalReader.writeOutput(scheduledProcessors);
 
