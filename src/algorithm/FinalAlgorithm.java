@@ -35,7 +35,7 @@ public class FinalAlgorithm implements algorithm {
         because it starts on the same processor for every recursive call.
         we probably need the greedy algorithm here before the recursive one.
          */
-         _bestProcess = greedyAlg();
+        _bestProcess = greedyAlg();
         //wipe processors, build up task list again
         //recursiveAlg();
 
@@ -64,40 +64,32 @@ public class FinalAlgorithm implements algorithm {
     private List<Processor> greedyAlg() {
         List<Node> taskRemain = _tasks.subList(0, _tasks.size());
         List<Node> taskDoable = new ArrayList<Node>();
-        List<Processor> procs = new ArrayList<Processor>();
-        for(Processor p :_processors){
-            try{
-                procs.add(p.clone());
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
-        }
+        List<Processor> procs = _processors;
+
         //while tasks list is not empty
-        while (taskRemain.size() > 0) {
+        while (taskDoable.size() > 0 || taskRemain.size()>0) {
             //get list of available tasks
             taskDoable = checkAvailability(taskRemain);
 
             //may not need
             Collections.sort(taskDoable);
 
-            // remove _available from taskRemain
-            taskRemain.removeAll(taskDoable);
-
-            for (Node n : taskDoable) {
-                int time = 0;
-                Processor earliestP = null;
-                for (Processor p : procs) {
-                    int compare = startTime(p, n);
+            int time = 0;
+            Processor earliestP = null;
+            for (Processor p : procs) {
+                int compare = startTime(p, taskDoable.get(0));
 
 //                    System.out.println("Compare"+compare);
-                    if (compare <= time || time == 0) {
-                        earliestP = p;
-                        time = compare;
-                    }
+                if (compare <= time || time == 0) {
+                    earliestP = p;
+                    time = compare;
                 }
-                //add node into processor
-                (earliestP).scheduleTask(n,time);
             }
+            //add node into processor
+            (earliestP).scheduleTask(taskDoable.get(0), time);
+            taskRemain.remove(taskDoable.get(0));
+            taskDoable.remove(0);
+//            }
         }
         return procs;
     }
