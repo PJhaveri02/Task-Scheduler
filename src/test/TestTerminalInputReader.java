@@ -11,14 +11,13 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class TestGoodAlgorithm {
+public class TestTerminalInputReader {
 
     public static final String[] INPUT = {"./dot/graph.dot", "2"};
     Model _model;
 
     @Test
     public void testReadInput(){
-
         try {
             TerminalReader tr = new TerminalReader(INPUT);
             tr.validateInputs();
