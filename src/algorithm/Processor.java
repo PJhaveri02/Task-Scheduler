@@ -85,7 +85,7 @@ public class Processor implements Cloneable {
      * @return deep copy of Processor
      * @throws CloneNotSupportedException
      */
-    public Object clone() throws CloneNotSupportedException {
+    public Processor clone() throws CloneNotSupportedException {
         //create a shallow copy
         Processor p = (Processor) super.clone();
 
