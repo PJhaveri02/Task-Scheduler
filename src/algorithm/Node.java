@@ -14,7 +14,7 @@ public class Node implements Comparable<Node>{
     private String _name;
 
     private int _bottomWeight;
-    private int _start;
+//    private int _start;
     private int _level;
     private Processor _processor;
     private Map<Node,Integer> _dependentsAndWeight;
@@ -53,29 +53,29 @@ public class Node implements Comparable<Node>{
     }
 
     //start field appears to be removed
-    public int getStart() {
-        return _start;
-    }
-
-    public void setStart(int time) { _start = time; }
+//    public int getStart() {
+//        return _start;
+//    }
+//    public void setStart(int time) { _start = time; }
 
     //changed from return type processor to string
-    public String get_processor() {
-        return _processor.toString();
-    }
+//    public String get_processor() {
+//        return _processor.toString();
+//    }
 
-    public void setProcessor(Processor processor) {
-        this._processor = processor;
-    }
+//    public void setProcessor(Processor processor) {
+//        this._processor = processor;
+//    }
 
+    //TODO
     public ArrayList<Boolean>CheckDependencies() {
         //incomplete
         return null;
     }
 
-    public Processor getProcessor() {
-        return _processor;
-    }
+//    public Processor getProcessor() {
+//        return _processor;
+//    }
 
     //maybe redundant
     public boolean hasDependency(){
@@ -102,11 +102,12 @@ public class Node implements Comparable<Node>{
     }
 
     //returns node description in .dot format
+
     // needs to return start and processor number
-    public String toDescription(){
-//        return _name + "   [Weight = " + _weight + ", Start= " + _start +", Processor="+ this.get_processor()+"];";
-        return _name + "   [Weight = " + _weight + ", Start= " + _start +", Processor="+_processor.toString()+"];";
-    }
+//    public String toDescription(){
+////        return _name + "   [Weight = " + _weight + ", Start= " + _start +", Processor="+ this.get_processor()+"];";
+//        return _name + "   [Weight = " + _weight + ", Start= " + _start +", Processor="+_processor.toString()+"];";
+//    }
 
     /**
      *

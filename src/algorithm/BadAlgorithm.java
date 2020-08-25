@@ -55,6 +55,12 @@ public class BadAlgorithm implements algorithm {
         return task.getBottomLevel();
     }
 
+    @Override
+    public void addTask(Processor p, Node node, int startTime) {
+
+    }
+
+
     /**
      * execute method places all the tasks onto one processor in a valid format
      *
@@ -65,25 +71,29 @@ public class BadAlgorithm implements algorithm {
 
         this.nodeBottomLevel();
         Collections.sort(_tasks);
-        for (Node task : _tasks) {
-            System.out.println(task.toString() + ": " + task.getBottomLevel());
-        }
-
-
+        //printing bottom level : success
+//        for (Node task : _tasks) {
+//            System.out.println(task.toString() + ": " + task.getBottomLevel());
+//        }
 
         Processor processor = _processors.get(0);
-        Node rootNode = findRootNode(_tasks);
-
-        processor.scheduleTask(rootNode, rootNode.getStart());
-        _tasks.remove(rootNode);
+//        Node rootNode = findRootNode(_tasks);
+//        processor.scheduleTask(rootNode, rootNode.getStart());
+//        _tasks.remove(rootNode);
 
         // check if tasks is not empty
         while (!_tasks.isEmpty() || !_available.isEmpty()) {
             if (!_available.isEmpty()) {
                 // Place all the tasks in the processor
                 for (Node node : _available) {
-                    node.setStart(processor.getTime());
-                    processor.scheduleTask(node, node.getStart());
+                    // add on processor
+                    addTask(processor,node, processor.getTime());
+                    // add finishing time on processor map
+                    //update processor 'start time'
+
+
+//                    node.setStart(processor.getTime());
+//                    processor.scheduleTask(node, node.getStart());
                 }
                 _available.clear();
             } else {
@@ -95,6 +105,7 @@ public class BadAlgorithm implements algorithm {
         }
         return _processors;
     }
+
 
     /**
      * Method finds the root node of the graph. This is done by finding the node with no dependencies.

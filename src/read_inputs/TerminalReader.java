@@ -111,6 +111,7 @@ public class TerminalReader {
     }
 
     //read the .dot file and print it
+    //TODO need weight criteria
     public Model readInput() {
         try {
             BufferedReader in = new BufferedReader(new FileReader(input));

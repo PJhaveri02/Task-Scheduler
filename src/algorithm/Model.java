@@ -74,7 +74,7 @@ public class Model {
         List<String> text = new ArrayList<String>();
         text.add("digraph \"" + _name + "\" {");
         for(Node node: _nodes){
-            text.add("\t" + node.toDescription());
+            text.add("\t" + node.toString());
             int x = node.numDependecies();
             if(node.hasDependency()){
                 for(String string : node.dependenciesToString()){

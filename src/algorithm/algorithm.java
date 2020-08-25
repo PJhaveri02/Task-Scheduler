@@ -9,4 +9,13 @@ public interface algorithm {
      */
     public List<Processor> execute();
 
+    /**
+     * adds a node into a processor. imports its calculated start time
+     * and updates the processors new start time
+     * @param p
+     * @param node
+     * @param startTime
+     */
+    public void addTask(Processor p,Node node, int startTime);
+
 }
