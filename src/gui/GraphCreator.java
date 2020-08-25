@@ -44,8 +44,8 @@ public class GraphCreator extends Application implements Initializable {
             }
 
 
-            SmartPlacementStrategy strategy = new SmartCircularSortedPlacementStrategy();
-//            SmartPlacementStrategy strategy = new SmartRandomPlacementStrategy();
+//            SmartPlacementStrategy strategy = new SmartCircularSortedPlacementStrategy();
+            SmartPlacementStrategy strategy = new SmartRandomPlacementStrategy();
             //create own own strategy
 //        SmartPlacementStrategy strategy = new SmartPlacementStrategy();
             SmartGraphPanel<String, String> graphView = new SmartGraphPanel<>(g, strategy);

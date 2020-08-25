@@ -5,6 +5,7 @@
 *.class
 *.war
 *.ear
+*.jar
 *.nar
 hs_err_pid*
 

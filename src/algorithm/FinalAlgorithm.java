@@ -7,8 +7,9 @@ public class FinalAlgorithm implements algorithm {
     private List<Processor> _processors;
     private List<Node> _tasks;
     private List<Node> _available;
-    private int _bestWeight = 0;
+    private int _bestTime = 0;
     private List<String> _bestSchedule;
+    private List<Processor> _bestProcess;
 
     /**
      * Constructor to pass in the Processors made and tasks from the DOT file.
@@ -25,18 +26,20 @@ public class FinalAlgorithm implements algorithm {
     @Override
     public List<Processor> execute() {
 
+        //sort via bottom levels
         nodeBottomLevel();
         Collections.sort(_tasks);
+
         /*
         the algorithm still produces a schedule that has all the tasks on one processor,
         because it starts on the same processor for every recursive call.
         we probably need the greedy algorithm here before the recursive one.
          */
-        greedyAlg();
+         _bestProcess = greedyAlg();
         //wipe processors, build up task list again
-//        recursiveAlg();
+        //recursiveAlg();
 
-        return _processors;
+        return _bestProcess;
     }
 
     /**
@@ -53,47 +56,33 @@ public class FinalAlgorithm implements algorithm {
                         current = end;
                     }
                 }
-            }//else
-
+            }
         }
         return current;
     }
-//
-//    /**
-//     * adds node to processor
-//     */
-//    private void addProcessorNode(Node n, Processor p, int time) {
-//        //in case it has no dependencies
-//        if (p == null) {
-//            p = _processors.get(0);
-//        }
-//        //i hate this setting node in processor lets not
-////        n.setProcessor(p);
-////        n.setStart(time);
-//        p.setTime(time + n.get_weight());
-//        p.addTask(n);
-//
-//
-//    }
 
-    private void greedyAlg() {
+    private List<Processor> greedyAlg() {
         List<Node> taskRemain = _tasks.subList(0, _tasks.size());
-
+        List<Node> taskDoable = new ArrayList<Node>();
+        List<Processor> procs = new ArrayList<Processor>();
+        for(Processor p :_processors){
+            procs.add(p.clone());
+        }
         //while tasks list is not empty
         while (taskRemain.size() > 0) {
             //get list of available tasks
-            _available = checkAvailability(taskRemain);
+            taskDoable = checkAvailability(taskRemain);
 
             //may not need
-            Collections.sort(_available);
+            Collections.sort(taskDoable);
 
             // remove _available from taskRemain
-            taskRemain.removeAll(_available);
+            taskRemain.removeAll(taskDoable);
 
-            for (Node n : _available) {
+            for (Node n : taskDoable) {
                 int time = 0;
                 Processor earliestP = null;
-                for (Processor p : _processors) {
+                for (Processor p : procs) {
                     int compare = startTime(p, n);
 
 //                    System.out.println("Compare"+compare);
@@ -106,9 +95,10 @@ public class FinalAlgorithm implements algorithm {
                 (earliestP).scheduleTask(n,time);
             }
         }
+        return procs;
     }
 
-    private void recursiveAlg() {
+    private void recursiveAlg(List<Processor> currentBest, List<Processor> current) {
         //check the base case (if there are no more tasks to schedule). check the schedule against current best
         if (false) {
             return;
