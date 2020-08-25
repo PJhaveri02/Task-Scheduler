@@ -50,8 +50,6 @@ public class Processor implements Cloneable {
 //        System.out.println(endTime);
         _time = endTime;
         _endTime.put(node, endTime);
-//        node.setProcessor(this);
-        //node.setStart(startTime);
     }
 
     public int getEnd(Node n){
@@ -79,39 +77,6 @@ public class Processor implements Cloneable {
     public void addTask(Node n) {
         _tasks.add(n);
     }
-
-
-    //unsure about its purpose
-    /**
-     * Essentially a duplicate of the scheduleTask but takes into consideration of switching processors.
-     * Follows the 'Precedence Constraint'
-     * Adds the task to the processor and increment the internal timer of latest task.
-     * Delegates the processor to the node as well.
-     *
-     * @param toAssignNode an available node ready to be assigned
-     * @param prevNode     the previously assigned node
-     */
-//    public void scheduleTaskOnProcessor(Node toAssignNode, Node prevNode) {
-//
-//        // Set the initial start time to the internal processor time
-//        int startTime = 0;
-//
-//        int startDepTime = prevNode.getStart();
-//        int executionDepTime = prevNode.get_weight();
-//        int communicationTime = toAssignNode.getDependentsAndWeight().get(prevNode);
-//
-//        // Set start time of the tasks. Follows the 'Precedence Constraint' here
-//        if (prevNode.getProcessor().equals(this)) {
-//            startTime = _time;
-//        } else {
-//            startTime = startDepTime + executionDepTime + communicationTime;
-//        }
-//
-//        _tasks.add(toAssignNode);
-//        _time += toAssignNode.get_weight();
-//        toAssignNode.setProcessor(this);
-//        toAssignNode.setStart(startTime);
-//    }
 
 
     /**

@@ -147,8 +147,8 @@ public class FinalAlgorithm implements algorithm {
 
         //loop through processors and store the latest end time as the weight
         for (Processor proc : _processors) {
-            if (proc.getTime() > _bestWeight) {
-                _bestWeight = proc.getTime();
+            if (proc.getTime() > _bestTime) {
+                _bestTime = proc.getTime();
             }
         }
 
