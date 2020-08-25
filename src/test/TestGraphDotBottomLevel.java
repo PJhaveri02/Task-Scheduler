@@ -78,7 +78,6 @@ public class TestGraphDotBottomLevel {
 
         for (int i = 0; i < nodeList.size() - 1; i++) {
             currentNode = nodeList.get(i).getBottomLevel();
-            System.out.println(currentNode);
             nextNode = nodeList.get(i + 1).getBottomLevel();
             if (currentNode < nextNode) {
                 fail("Not sorted according to bottom Level");

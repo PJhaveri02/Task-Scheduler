@@ -177,9 +177,7 @@ public class TerminalReader {
 
     }
 
-    public String getOutputDotFile() {
-        return outputDotFile;
-    }
+    public String getOutputDotFile() { return outputDotFile; }
 
     public int getNumberOfProcessors() {
         return numberOfProcessors;
