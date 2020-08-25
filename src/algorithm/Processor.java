@@ -52,6 +52,13 @@ public class Processor implements Cloneable {
         _endTime.put(node, endTime);
     }
 
+    public void removeTask(Node node){
+        _tasks.remove(node);
+        _time -= node.get_weight();
+        _endTime.remove(node);
+    }
+
+
     public int getEnd(Node n){
         Integer sad = _endTime.get(n);
         if(sad!=null){

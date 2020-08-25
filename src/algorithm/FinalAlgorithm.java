@@ -7,7 +7,7 @@ public class FinalAlgorithm implements algorithm {
     private List<Processor> _processors;
     private List<Node> _tasks;
     private List<Node> _available;
-    private int _bestTime = 0;
+    private int _bestTime = -1;
     private List<String> _bestSchedule;
     private List<Processor> _bestProcess;
 
@@ -37,7 +37,9 @@ public class FinalAlgorithm implements algorithm {
          */
         _bestProcess = greedyAlg();
         //wipe processors, build up task list again
-        //recursiveAlg();
+//        List<Processor> processorCopy = _processors;
+//        List<Node> taskCopy = _tasks;
+//        recursiveAlg(processorCopy,taskCopy);
 
         return _bestProcess;
     }
@@ -94,32 +96,35 @@ public class FinalAlgorithm implements algorithm {
         return procs;
     }
 
-    private void recursiveAlg(List<Processor> currentBest, List<Processor> current) {
-        //check the base case (if there are no more tasks to schedule). check the schedule against current best
-        if (false) {
-            return;
-        }
-        //check the partial schedule against the current best
-        if (false) {
-            return;
-        }
-
-        //get list of available tasks
-        _available = checkAvailability(_tasks);
-
-        //sort available tasks into order of highest bottom level, can use Node.getBottomLevel()
-
-        //the code below assumes that sorting the available tasks returns a list
-        //loop through available tasks
-        for (Node task : _available) {
-            //loop through processors and schedule
-            for (Processor p : _processors) {
-                //check if there are multiple empty processors and continue if required
-                //schedule the task onto the processor
-                //recursive call
-                //remove the task from the processor, add back to _task, make a methods that does both
+    private void recursiveAlg(List<Processor> pr, List<Node> task) {
+        if (task.isEmpty()){
+            //check time
+            int time=0;
+            for (Processor check: pr){
+                if (check.getTime()>time){
+                    time=check.getTime();
+                }
+            }
+            if (time<_bestTime){
+                _bestTime=time;
+                _bestProcess=pr;
             }
 
+        }
+        List<Node> doable = checkAvailability(task);
+        //get available
+        for (Node n: doable){
+            for (Processor p: pr){
+                int time=0;
+                for (Processor pTime: pr){
+                    time = startTime(p, n);
+                }
+                p.scheduleTask(n,time);
+                List<Node> newList = task ;
+                recursiveAlg(pr,newList);
+                p.removeTask(n);
+
+            }
         }
 
     }
