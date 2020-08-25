@@ -112,7 +112,8 @@ public class TerminalReader {
 
     //read the .dot file and print it
     //TODO need weight criteria
-    public Model readInput() {
+    public Model readInput() throws IncorrectInputException {
+        validateInputs();
         try {
             BufferedReader in = new BufferedReader(new FileReader(input));
             String st = in.readLine();

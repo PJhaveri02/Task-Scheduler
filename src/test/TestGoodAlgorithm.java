@@ -9,17 +9,28 @@ import read_inputs.TerminalReader;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class TestGoodAlgorithm {
 
-    public static final String[] INPUT = {"graph.dot", "2"};
+    public static final String[] INPUT = {"./dot/graph.dot", "2"};
     Model _model;
 
     @Test
     public void testReadInput(){
-        TerminalReader tr = new TerminalReader(INPUT);
-        _model = tr.readInput();
-        assertEquals(2, tr.getNumberOfProcessors());
+
+        try {
+            TerminalReader tr = new TerminalReader(INPUT);
+            tr.validateInputs();
+        } catch (Exception e) {
+            fail("Cannot read from file");
+        }
+
+    }
+
+    @Test
+    public void testModelAddNode() {
+
     }
 
 }
