@@ -47,6 +47,7 @@ public class Processor implements Cloneable {
     public void scheduleTask(Node node, int startTime) {
         _tasks.add(node);
         int endTime = startTime + node.get_weight();
+//        System.out.println(endTime);
         _time = endTime;
         _endTime.put(node, endTime);
 //        node.setProcessor(this);
