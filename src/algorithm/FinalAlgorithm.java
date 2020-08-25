@@ -37,9 +37,10 @@ public class FinalAlgorithm implements algorithm {
          */
         _bestProcess = greedyAlg();
         //wipe processors, build up task list again
-//        List<Processor> processorCopy = _processors;
-//        List<Node> taskCopy = _tasks;
-//        recursiveAlg(processorCopy,taskCopy);
+        List<Processor> processorCopy = _processors;
+        List<Node> taskCopy = _tasks;
+        //MY MEME VERSION KEKW
+        recursiveAlg(processorCopy,taskCopy);
 
         return _bestProcess;
     }
