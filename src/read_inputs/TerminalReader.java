@@ -120,7 +120,7 @@ public class TerminalReader {
             Model model = new Model(st.split("\"")[1]);
             while((st = in.readLine()) != null) {
                 //adds each line to the model as either a node or a dependency
-                if(!(st.contains("}")|st.contains("{"))){
+                if(st.contains("Weight") && st.contains("[") && st.contains("]")){
                     if(st.contains("->")) {
                         model.addDependency(st);
                         model.addChildNode(st);
