@@ -12,6 +12,7 @@ public class BadAlgorithm implements algorithm {
 
     /**
      * Constructor to pass in the Processors made and tasks from the DOT file.
+     *
      * @param processors
      * @param tasks
      */
@@ -39,6 +40,7 @@ public class BadAlgorithm implements algorithm {
 
     /**
      * Calculating the bottom level for a specific node/task using recussion
+     *
      * @param task
      * @return
      */
@@ -55,11 +57,21 @@ public class BadAlgorithm implements algorithm {
         return task.getBottomLevel();
     }
 
-    @Override
-    public void addTask(Processor p, Node node, int startTime) {
-
+    public void addTask(Processor p, Node node) {
+        int current = 0;
+        for (Node n : node.getDependencies()) {
+            if (!p.getTasks().contains(n)) {
+                for (Processor killmeplease : _processors) {
+                    //minor major jank (should work tho)
+                    int end = killmeplease.getEnd(n) + node.getEdgeWeight(n);
+                    if (end > current) {
+                        current = end;
+                    }
+                }
+            }
+        }
+        p.scheduleTask(node, current);
     }
-
 
     /**
      * execute method places all the tasks onto one processor in a valid format
@@ -87,7 +99,7 @@ public class BadAlgorithm implements algorithm {
                 // Place all the tasks in the processor
                 for (Node node : _available) {
                     // add on processor
-                    addTask(processor,node, processor.getTime());
+                    addTask(processor, node);
                     // add finishing time on processor map
                     //update processor 'start time'
 
@@ -110,6 +122,7 @@ public class BadAlgorithm implements algorithm {
     /**
      * Method finds the root node of the graph. This is done by finding the node with no dependencies.
      * Note: This is assuming the graph only has one root node!
+     *
      * @param tasksList a complete list of nodes in the graph
      * @return
      */
@@ -125,6 +138,7 @@ public class BadAlgorithm implements algorithm {
     /**
      * Method checks if the node's dependencies have been added to a processor.
      * All nodes with no dependencies gets returned.
+     *
      * @param tasksList a list of nodes that has not been assigned to a processor yet.
      * @return A list of nodes that can be assigned (all dependencies executed).
      */

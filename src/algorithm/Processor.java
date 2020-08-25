@@ -1,6 +1,7 @@
 package algorithm;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ public class Processor implements Cloneable {
     private int _id;
     // internal timer of ending time of the 'latest' task
     private int _time;
-    private Map<Node, Integer> _endTime;
+    private Map<Node, Integer> _endTime = new HashMap<Node, Integer>();
 
     //list of tasks which will be executed
     private List<Node> _tasks;
@@ -19,6 +20,13 @@ public class Processor implements Cloneable {
         _id = coreNumber;
         _time = 0;
         _tasks = new ArrayList<Node>();
+    }
+
+//[Weight = 2, Start= 0, Processor=1];
+    public String writeString(Node task){
+        int weight = task.get_weight();
+        return task.toString() + "\t[Weight=" + weight +", Start="
+                + (_endTime.get(task)-weight) +", Processor=" + _id + "]";
     }
 
     public String toString() {
@@ -38,9 +46,19 @@ public class Processor implements Cloneable {
      */
     public void scheduleTask(Node node, int startTime) {
         _tasks.add(node);
-        _time += node.get_weight();
+        int endTime = startTime + node.get_weight();
+        _time = endTime;
+        _endTime.put(node, endTime);
 //        node.setProcessor(this);
         //node.setStart(startTime);
+    }
+
+    public int getEnd(Node n){
+        Integer sad = _endTime.get(n);
+        if(sad!=null){
+            return sad;
+        }
+        return -1;
     }
 
     public void setTime(int time) {

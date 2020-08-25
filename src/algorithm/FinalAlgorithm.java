@@ -36,6 +36,11 @@ public class FinalAlgorithm implements algorithm{
         return null;
     }
 
+    @Override
+    public void addTask(Processor p, Node node) {
+        //TODO
+    }
+
     /**
      * find the earliest start time on a given processor for a specific node
      */

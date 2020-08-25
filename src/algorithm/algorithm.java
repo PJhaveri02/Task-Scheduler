@@ -14,8 +14,7 @@ public interface algorithm {
      * and updates the processors new start time
      * @param p
      * @param node
-     * @param startTime
      */
-    public void addTask(Processor p,Node node, int startTime);
+    public void addTask(Processor p, Node node);
 
 }

@@ -152,8 +152,9 @@ public class TerminalReader {
             BufferedWriter bw = new BufferedWriter(new FileWriter(output));
             bw.write("digraph \"outputGraph\" {");
             for (Processor proc : sortedProcessors){
+
                 for (Node task : proc.getTasks()){
-                    bw.write("\n\t\t"+task.toString());
+                    bw.write("\n\t\t"+proc.writeString(task));
                     for (String dependent: task.dependenciesToString()){
 
                         bw.write("\n\t\t"+dependent);
