@@ -66,7 +66,7 @@ public class FinalAlgorithm implements algorithm {
         List<Node> taskDoable = new ArrayList<Node>();
         List<Processor> procs = new ArrayList<Processor>();
         for(Processor p :_processors){
-            procs.add(p.clone());
+           // procs.add(p.clone());
         }
         //while tasks list is not empty
         while (taskRemain.size() > 0) {

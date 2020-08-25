@@ -2,6 +2,7 @@ package test;
 
 import algorithm.Model;
 import algorithm.Node;
+import algorithm.Processor;
 import org.junit.Before;
 import org.junit.Test;
 import read_inputs.TerminalReader;
@@ -17,19 +18,50 @@ public class TestTerminalInputReader {
     Model _model;
 
     @Test
-    public void testReadInput(){
+    public void testReadInput() {
         try {
             TerminalReader tr = new TerminalReader(INPUT);
             tr.validateInputs();
         } catch (Exception e) {
             fail("Cannot read from file");
         }
-
     }
 
+    /**
+     * Tests if the number of processors value corresponds to the user's input
+     */
     @Test
-    public void testModelAddNode() {
+    public void testNumProcessors() {
+        try {
+            TerminalReader tr = new TerminalReader(INPUT);
+            tr.validateInputs();
+
+            int num_processors = tr.getNumberOfProcessors();
+            List<Processor> processorList = tr.createProcessors();
+
+            assertEquals(INPUT[1], Integer.toString(num_processors));
+        } catch (Exception e) {
+            fail("Cannot read from file");
+        }
 
     }
+
+    /**
+     * Tests if the number of processes created corresponds to the user's input
+     */
+    @Test
+    public void testCreateProcessors() {
+        try {
+            TerminalReader tr = new TerminalReader(INPUT);
+            tr.validateInputs();
+
+            List<Processor> processorList = tr.createProcessors();
+            assertEquals(INPUT[1], Integer.toString(processorList.size()));
+
+        } catch (Exception e) {
+            fail("Cannot read from file");
+        }
+    }
+
 
 }
