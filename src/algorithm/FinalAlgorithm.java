@@ -7,9 +7,11 @@ public class FinalAlgorithm implements algorithm {
     private List<Processor> _processors;
     private List<Node> _tasks;
     private List<Node> _available;
-    private int _bestTime = -1;
+    private int _bestTime;
     private List<String> _bestSchedule;
     private List<Processor> _bestProcess;
+    private List<List<Processor>> _allProcessCombinations = new ArrayList<List<Processor>>();
+    long counter=0;
 
     /**
      * Constructor to pass in the Processors made and tasks from the DOT file.
@@ -26,6 +28,7 @@ public class FinalAlgorithm implements algorithm {
     @Override
     public List<Processor> execute() {
 
+
         //sort via bottom levels
         nodeBottomLevel();
         Collections.sort(_tasks);
@@ -35,12 +38,13 @@ public class FinalAlgorithm implements algorithm {
         because it starts on the same processor for every recursive call.
         we probably need the greedy algorithm here before the recursive one.
          */
-        _bestProcess = greedyAlg();
+//        _bestProcess = greedyAlg();
+        _bestTime = -1;
         //wipe processors, build up task list again
         List<Processor> processorCopy = _processors;
         List<Node> taskCopy = _tasks;
         //MY MEME VERSION KEKW
-        recursiveAlg(processorCopy,taskCopy);
+        recursiveAlg(processorCopy, taskCopy);
 
         return _bestProcess;
     }
@@ -70,7 +74,7 @@ public class FinalAlgorithm implements algorithm {
         List<Processor> procs = _processors;
 
         //while tasks list is not empty
-        while (taskDoable.size() > 0 || taskRemain.size()>0) {
+        while (taskDoable.size() > 0 || taskRemain.size() > 0) {
             //get list of available tasks
             taskDoable = checkAvailability(taskRemain);
 
@@ -98,33 +102,48 @@ public class FinalAlgorithm implements algorithm {
     }
 
     private void recursiveAlg(List<Processor> pr, List<Node> task) {
-        if (task.isEmpty()){
+        if (task.isEmpty()) {
+            counter++;
+            System.out.println(counter);
             //check time
-            int time=0;
-            for (Processor check: pr){
-                if (check.getTime()>time){
-                    time=check.getTime();
+            int time = 0;
+            for (Processor check : pr) {
+                if (check.getTime() > time) {
+                    time = check.getTime();
                 }
             }
-            if (time<_bestTime){
-                _bestTime=time;
-                _bestProcess=pr;
+            if (time < _bestTime || _bestTime == -1) {
+                _bestTime = time;
+                List<Processor> sadness = new ArrayList<Processor>();
+                for (Processor gah : pr) {
+                    try {
+                        sadness.add(gah.clone());
+                    } catch (CloneNotSupportedException e) {
+                        e.printStackTrace();
+                    }
+                }
+//                _allProcessCombinations.add(sadness);
+                _bestProcess = sadness;
             }
 
-        }
-        List<Node> doable = checkAvailability(task);
-        //get available
-        for (Node n: doable){
-            for (Processor p: pr){
-                int time=0;
-                for (Processor pTime: pr){
-                    time = startTime(p, n);
-                }
-                p.scheduleTask(n,time);
-                List<Node> newList = task ;
-                recursiveAlg(pr,newList);
-                p.removeTask(n);
+        } else {
+            List<Node> doable = checkAvailability(task);
+//            System.out.println(doable.size());
+            //get availablee
+            for (Node n : doable) {
+                for (Processor p : pr) {
+//                    for (Processor pTime : pr) {
+                    int time = startTime(p, n);
+//                    }
+                    p.scheduleTask(n, time);
+                    List<Node> newList = task.subList(0, task.size());
+                    newList.remove(n);
+                    recursiveAlg(pr, newList);
+                    p.removeTask(n);
+                    newList.add(n);
 
+
+                }
             }
         }
 
