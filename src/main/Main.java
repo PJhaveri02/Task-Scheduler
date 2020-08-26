@@ -17,10 +17,10 @@ public class Main {
         try {
             terminalReader.validateInputs();
             Model model = terminalReader.readInput();
-            List<Processor> processorList = terminalReader.createProcessors();
+//            List<Processor> processorList = terminalReader.createProcessors();
             List<Node> nodesList = model.getNodes();
-//            algorithm algorithm = new BadAlgorithm(processorList,nodesList);
-            algorithm algorithm = new FinalAlgorithm(processorList,nodesList);
+//            algorithm algorithm = new BadAlgorithm(terminalReader.getProcNum(),nodesList);
+            algorithm algorithm = new FinalAlgorithm(terminalReader.getProcNum(),nodesList);
             List<Processor> scheduledProcessors = algorithm.execute();
             terminalReader.writeOutput(scheduledProcessors);
 

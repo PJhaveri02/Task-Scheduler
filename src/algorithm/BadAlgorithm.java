@@ -6,7 +6,7 @@ import java.util.List;
 
 public class BadAlgorithm implements algorithm {
 
-    private List<Processor> _processors;
+    private List<Processor> _processors= new ArrayList<Processor>();
     private List<Node> _tasks;
     private List<Node> _available;
 
@@ -16,9 +16,9 @@ public class BadAlgorithm implements algorithm {
      * @param processors
      * @param tasks
      */
-    public BadAlgorithm(List<Processor> processors, List<Node> tasks) {
+    public BadAlgorithm(int processors, List<Node> tasks) {
         _tasks = tasks;
-        _processors = processors;
+        _processors.add( new Processor(0)) ;
         _available = new ArrayList<Node>();
     }
 
