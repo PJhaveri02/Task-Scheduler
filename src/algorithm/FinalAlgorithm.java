@@ -17,11 +17,21 @@ public class FinalAlgorithm implements algorithm {
      */
     public List<Processor> createProcessors() {
         List<Processor> processorList = new ArrayList<>();
-            for (int i = 1; i <= _processorsNum; i++){
-                processorList.add(new Processor(i));
-            }
+//            for (int i = 1; i <= _processorsNum; i++){
+//                processorList.add(new Processor(i));
+//            }
+//        return processorList;
+        addProcessor(processorList);
         return processorList;
     }
+
+    public List<Processor> addProcessor(List<Processor> prList){
+        if (prList.size()<_processorsNum){
+            prList.add(new Processor(prList.size()+1));
+        }
+        return prList;
+    }
+
 
     /**
      * Constructor to pass in the Processors made and tasks from the DOT file.
@@ -49,18 +59,9 @@ public class FinalAlgorithm implements algorithm {
         nodeBottomLevel();
         Collections.sort(_tasks);
 
-
-
-        /*
-        the algorithm still produces a schedule that has all the tasks on one processor,
-        because it starts on the same processor for every recursive call.
-        we probably need the greedy algorithm here before the recursive one.
-         */
-//        _bestProcess =
+        //make greedy as a limiter
         greedyAlg();
-//        _bestTime = getBestTime(_bestProcess);
 
-        //wipe processors, build up task list again
         List<Processor> processorCopy = createProcessors();
         List<Node> taskCopy = createTaskList();
 
@@ -71,6 +72,7 @@ public class FinalAlgorithm implements algorithm {
         if (doable.size()==1){
             processorCopy.get(0).scheduleTask(doable.get(0),0);
             taskCopy.removeAll(doable);
+//            addProcessor(processorCopy);
         }
         System.out.println(taskCopy.size());
         System.out.println(_tasks.size());
@@ -102,6 +104,10 @@ public class FinalAlgorithm implements algorithm {
         List<Node> taskRemain = createTaskList();
         List<Node> taskDoable = new ArrayList<Node>();
         List<Processor> procs = createProcessors();
+        //since this alg is super fast, we can populate processors
+        for (int i=1;i<_processorsNum;i++){
+            addProcessor(procs);
+        }
 
         //while tasks list is not empty
         while (taskDoable.size() > 0 || taskRemain.size() > 0) {
@@ -169,6 +175,9 @@ public class FinalAlgorithm implements algorithm {
         } else if(getBestTime(pr)>_bestTime &&  _bestTime != -1) {
             return;
         }else {
+            if (pr.get(pr.size()-1).getTime()!=0){
+                addProcessor(pr);
+            }
             List<Node> doable = checkAvailability(task);
 
             //get availablee
