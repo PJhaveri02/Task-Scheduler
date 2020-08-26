@@ -4,18 +4,18 @@ digraph "outputGraph" {
 		0 -> 2   [Weight = 9];
 		4	[Weight=176, Start=211, Processor=1]
 		0 -> 4   [Weight = 5];
-		2 -> 4   [Weight = 8];
 		1 -> 4   [Weight = 10];
+		2 -> 4   [Weight = 8];
 		6	[Weight=141, Start=387, Processor=1]
 		0 -> 6   [Weight = 4];
-		3 -> 6   [Weight = 8];
 		4 -> 6   [Weight = 2];
+		3 -> 6   [Weight = 8];
 		7	[Weight=53, Start=528, Processor=1]
 		5 -> 7   [Weight = 4];
-		0 -> 7   [Weight = 9];
 		6 -> 7   [Weight = 8];
-		2 -> 7   [Weight = 3];
+		0 -> 7   [Weight = 9];
 		1 -> 7   [Weight = 6];
+		2 -> 7   [Weight = 3];
 		1	[Weight=88, Start=38, Processor=2]
 		0 -> 1   [Weight = 3];
 		3	[Weight=159, Start=126, Processor=2]

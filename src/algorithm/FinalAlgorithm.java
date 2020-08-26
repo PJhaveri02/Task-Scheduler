@@ -7,7 +7,7 @@ public class FinalAlgorithm implements algorithm {
     private List<Processor> _processors;
     private List<Node> _tasks;
     private List<Node> _available;
-    private int _bestTime;
+    private int _bestTime =-1;
     private List<String> _bestSchedule;
     private List<Processor> _bestProcess;
     private List<List<Processor>> _allProcessCombinations = new ArrayList<List<Processor>>();
@@ -101,6 +101,16 @@ public class FinalAlgorithm implements algorithm {
         return procs;
     }
 
+    private int getBestTime(List<Processor> pr){
+        int curTime = 0;
+        for (Processor check : pr) {
+            if (check.getTime() > curTime) {
+                curTime = check.getTime();
+            }
+        }
+        return curTime;
+    }
+
     private void recursiveAlg(List<Processor> pr, List<Node> task) {
         if (task.isEmpty()) {
             counter++;
@@ -126,7 +136,9 @@ public class FinalAlgorithm implements algorithm {
                 _bestProcess = sadness;
             }
 
-        } else {
+        } else if(getBestTime(pr)>_bestTime &&  _bestTime != -1) {
+            return;
+        }else {
             List<Node> doable = checkAvailability(task);
 //            System.out.println(doable.size());
             //get availablee
