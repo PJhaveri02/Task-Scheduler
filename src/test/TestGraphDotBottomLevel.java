@@ -14,6 +14,20 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+/**
+ * Class tests the bottom level method for the graph.dot file.
+ * The contents are:
+ * digraph "example" {
+ * 	a	[Weight = 2];
+ * 	b	[Weight = 2];
+ * 	a -> b	[Weight = 1];
+ * 	c	[Weight = 3];
+ * 	a -> c	[Weight = 2];
+ * 	d	[Weight = 2];
+ * 	b -> d	[Weight = 2];
+ * 	c -> d	[Weight = 1];
+ * }
+ */
 public class TestGraphDotBottomLevel {
 
     public static final String[] INPUT = {"./dot/graph.dot", "2"};
@@ -21,6 +35,10 @@ public class TestGraphDotBottomLevel {
     List<Processor> processorList;
     List<Node> nodeList;
 
+    /**
+     * Sets up the terminal reader and turns it into a model class.
+     * Method executes before every test case.
+     */
     @Before
     public void setUp() {
 
@@ -35,6 +53,10 @@ public class TestGraphDotBottomLevel {
         }
     }
 
+    /**
+     * Tests the bottom level method for node A.
+     * Passes if the expected is 7.
+     */
     @Test
     public void testBottomLevelNodeA() {
         BadAlgorithm algorithm = new BadAlgorithm(processorList, nodeList);
@@ -42,6 +64,10 @@ public class TestGraphDotBottomLevel {
         assertEquals(7,bottomLevel);
     }
 
+    /**
+     * Tests the bottom level method for node B.
+     * Passes if the expected is 4.
+     */
     @Test
     public void testBottomLevelNodeB() {
         BadAlgorithm algorithm = new BadAlgorithm(processorList, nodeList);
@@ -49,6 +75,10 @@ public class TestGraphDotBottomLevel {
         assertEquals(4,bottomLevel);
     }
 
+    /**
+     * Tests the bottom level method for node C.
+     * Passes if the expected is 5.
+     */
     @Test
     public void testBottomLevelNodeC() {
         BadAlgorithm algorithm = new BadAlgorithm(processorList, nodeList);
@@ -56,6 +86,10 @@ public class TestGraphDotBottomLevel {
         assertEquals(5,bottomLevel);
     }
 
+    /**
+     * Tests the bottom level method for node D.
+     * Passes if the expected is 2.
+     */
     @Test
     public void testBottomLevelNodeD() {
         BadAlgorithm algorithm = new BadAlgorithm(processorList, nodeList);
@@ -63,6 +97,11 @@ public class TestGraphDotBottomLevel {
         assertEquals(2,bottomLevel);
     }
 
+    /**
+     * Tests the method sorts the bottom level accordingly to the bottom level.
+     * Order is: Highest --> lowest.
+     * Passes if the expected is 7.
+     */
     @Test
     public void testSortByBottomLevel(){
         BadAlgorithm algorithm = new BadAlgorithm(processorList, nodeList);
