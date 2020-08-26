@@ -7,6 +7,7 @@ import algorithm.FinalAlgorithm;
 import algorithm.Processor;
 import algorithm.Node;
 import javafx.application.Application;
+import javafx.concurrent.Service;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import read_inputs.IncorrectInputException;
 import read_inputs.TerminalReader;
+import Thread.AlgorithmService;
 
 import java.net.URL;
 import java.util.*;
@@ -40,11 +42,16 @@ public class Main extends Application implements Initializable {
             model.addLevels();
             List<Processor> processorList = terminalReader.createProcessors();
             List<Node> nodesList = model.getNodes();
-            launch(args);
-//            algorithm algorithm = new BadAlgorithm(processorList,nodesList);
             algorithm algorithm = new FinalAlgorithm(processorList,nodesList);
+            Service algorithmService = new AlgorithmService(algorithm);
+            algorithmService.start();
+            System.out.println("Algorithm Ended");
+
+//            algorithm algorithm = new BadAlgorithm(processorList,nodesList);
+
             List<Processor> scheduledProcessors = algorithm.execute();
             terminalReader.writeOutput(scheduledProcessors);
+            launch(args);
 
         } catch (IncorrectInputException e) {
             System.out.println(e.getMessage());
