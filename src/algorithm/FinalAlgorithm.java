@@ -12,15 +12,31 @@ public class FinalAlgorithm implements algorithm {
     long counter=0;
 
     /**
-     * returns a blank list of processors
+     * returns a SINGLE processor
      * @return
      */
     public List<Processor> createProcessors() {
         List<Processor> processorList = new ArrayList<>();
-            for (int i = 1; i <= _processorsNum; i++){
-                processorList.add(new Processor(i));
-            }
+//            for (int i = 1; i <= _processorsNum; i++){
+//                processorList.add(new Processor(i));
+//            }
+//        addProcessors(processorList);
+//        addProcessors(processorList);
+//        addProcessors(processorList);
+        addProcessors(processorList);
         return processorList;
+    }
+
+    /**
+     * adds ONE more processor if allowed
+     * @param p
+     * @return
+     */
+    public  List<Processor> addProcessors(List<Processor> p) {
+        if (p.size()<_processorsNum){
+            p.add(new Processor(p.size()+1));
+        }
+        return p;
     }
 
     /**
@@ -33,6 +49,10 @@ public class FinalAlgorithm implements algorithm {
         _processorsNum = numProc;
     }
 
+    /**
+     * create deep copy of the task
+     * @return
+     */
     public List<Node> createTaskList(){
         List<Node> freshCopy = new ArrayList<Node>();
         for (Node node :_tasks){
@@ -49,22 +69,11 @@ public class FinalAlgorithm implements algorithm {
         nodeBottomLevel();
         Collections.sort(_tasks);
 
-
-
-        /*
-        the algorithm still produces a schedule that has all the tasks on one processor,
-        because it starts on the same processor for every recursive call.
-        we probably need the greedy algorithm here before the recursive one.
-         */
-//        _bestProcess =
         greedyAlg();
-//        _bestTime = getBestTime(_bestProcess);
-
-        //wipe processors, build up task list again
-        List<Processor> processorCopy = createProcessors();
-        List<Node> taskCopy = createTaskList();
 
         //MY MEME VERSION KEKW
+        List<Processor> processorCopy = createProcessors();
+        List<Node> taskCopy = createTaskList();
 
         //check if only 1 root
         List<Node> doable = checkAvailability(taskCopy);
@@ -72,6 +81,11 @@ public class FinalAlgorithm implements algorithm {
             processorCopy.get(0).scheduleTask(doable.get(0),0);
             taskCopy.removeAll(doable);
         }
+
+        addProcessors(processorCopy);
+        addProcessors(processorCopy);
+        addProcessors(processorCopy);
+
         System.out.println(taskCopy.size());
         System.out.println(_tasks.size());
         recursiveAlg(processorCopy, taskCopy);
@@ -98,10 +112,17 @@ public class FinalAlgorithm implements algorithm {
         return current;
     }
 
+    /**
+     * greedy alg for making a decent processor list for bounding
+     */
     private void greedyAlg() {
         List<Node> taskRemain = createTaskList();
         List<Node> taskDoable = new ArrayList<Node>();
         List<Processor> procs = createProcessors();
+        //since greedy is completed rather quickly,
+        addProcessors(procs);
+        addProcessors(procs);
+        addProcessors(procs);
 
         //while tasks list is not empty
         while (taskDoable.size() > 0 || taskRemain.size() > 0) {
@@ -131,6 +152,11 @@ public class FinalAlgorithm implements algorithm {
         _bestTime = getBestTime(procs);
     }
 
+    /**
+     * returns the latest 'start time' of a list of processors
+     * @param pr
+     * @return
+     */
     private int getBestTime(List<Processor> pr){
         int curTime = 0;
         for (Processor check : pr) {
