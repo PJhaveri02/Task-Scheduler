@@ -31,8 +31,9 @@ import static org.junit.Assert.fail;
 public class TestGraphDotBottomLevel {
 
     public static final String[] INPUT = {"./dot/graph.dot", "2"};
+    public final int _numProc = 2;
     Model _model;
-    List<Processor> processorList;
+//    List<Processor> processorList;
     List<Node> nodeList;
 
     /**
@@ -47,7 +48,7 @@ public class TestGraphDotBottomLevel {
             tr.validateInputs();
             _model = tr.readInput();
             nodeList = _model.getNodes();
-            processorList = tr.createProcessors();
+//            processorList = tr.createProcessors();
         } catch (Exception e) {
             fail("Cannot read from file");
         }
@@ -59,7 +60,7 @@ public class TestGraphDotBottomLevel {
      */
     @Test
     public void testBottomLevelNodeA() {
-        BadAlgorithm algorithm = new BadAlgorithm(processorList, nodeList);
+        BadAlgorithm algorithm = new BadAlgorithm(_numProc, nodeList);
         int bottomLevel = algorithm.calculateBottomLevel(nodeList.get(0));
         assertEquals(7,bottomLevel);
     }
@@ -70,7 +71,7 @@ public class TestGraphDotBottomLevel {
      */
     @Test
     public void testBottomLevelNodeB() {
-        BadAlgorithm algorithm = new BadAlgorithm(processorList, nodeList);
+        BadAlgorithm algorithm = new BadAlgorithm(_numProc, nodeList);
         int bottomLevel = algorithm.calculateBottomLevel(nodeList.get(1));
         assertEquals(4,bottomLevel);
     }
@@ -81,7 +82,7 @@ public class TestGraphDotBottomLevel {
      */
     @Test
     public void testBottomLevelNodeC() {
-        BadAlgorithm algorithm = new BadAlgorithm(processorList, nodeList);
+        BadAlgorithm algorithm = new BadAlgorithm(_numProc, nodeList);
         int bottomLevel = algorithm.calculateBottomLevel(nodeList.get(2));
         assertEquals(5,bottomLevel);
     }
@@ -92,7 +93,7 @@ public class TestGraphDotBottomLevel {
      */
     @Test
     public void testBottomLevelNodeD() {
-        BadAlgorithm algorithm = new BadAlgorithm(processorList, nodeList);
+        BadAlgorithm algorithm = new BadAlgorithm(_numProc, nodeList);
         int bottomLevel = algorithm.calculateBottomLevel(nodeList.get(3));
         assertEquals(2,bottomLevel);
     }
@@ -104,7 +105,7 @@ public class TestGraphDotBottomLevel {
      */
     @Test
     public void testSortByBottomLevel(){
-        BadAlgorithm algorithm = new BadAlgorithm(processorList, nodeList);
+        BadAlgorithm algorithm = new BadAlgorithm(_numProc, nodeList);
 
         for (Node n : nodeList) {
             algorithm.calculateBottomLevel(n);
