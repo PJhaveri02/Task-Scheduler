@@ -38,6 +38,7 @@ public class TestNode {
         if (dependency.size() != 3) {
             fail("Incorrect Dependencies in Node");
         }
+
     }
 
     /**
@@ -51,6 +52,18 @@ public class TestNode {
         List<Node> childrenNodes = _testNode.getChildren();
         if (childrenNodes.size() != 3) {
             fail("Incorrect Children in Node");
+        }
+    }
+
+    /**
+     * Test whether the override equals function for the Node class works correctly
+     */
+    @Test
+    public void testNodeEquality() {
+        Node nodeOne = new Node(5, 6, "Node");
+        Node sameNode = new Node(5, 6, "Node");
+        if (!nodeOne.equals(sameNode)) {
+            fail("Nodes should be equal!");
         }
     }
 }
