@@ -7,11 +7,11 @@ public class FinalAlgorithm implements algorithm {
     private List<Processor> _processors;
     private List<Node> _tasks;
     private List<Node> _available;
-    private int _bestTime;
+    private int _bestTime =-1;
     private List<String> _bestSchedule;
     private List<Processor> _bestProcess;
     private List<List<Processor>> _allProcessCombinations = new ArrayList<List<Processor>>();
-    long counter=0;
+    long counter = 0;
 
     /**
      * Constructor to pass in the Processors made and tasks from the DOT file.
@@ -28,24 +28,46 @@ public class FinalAlgorithm implements algorithm {
     @Override
     public List<Processor> execute() {
 
-
-        //sort via bottom levels
         nodeBottomLevel();
         Collections.sort(_tasks);
+
+        //wipe processors, build up task list again
+        List<Processor> processorCopy = new ArrayList<Processor>();
+        List<Processor> processorCopyG = new ArrayList<Processor>();
+        for (Processor copy : _processors){
+            try {
+                processorCopy.add(copy.clone());
+                processorCopyG.add(copy.clone());
+            }catch(Exception e){
+                System.out.println("kms");
+            }
+        }
+        List<Node> taskCopy = _tasks.subList(0,_tasks.size());
+        List<Node> taskCopyG = new ArrayList<Node>();//_tasks.subList(0,_tasks.size());
+        for (Node task : _tasks){
+            taskCopyG.add(task);
+        }
+
+        //sort via bottom levels
+
 
         /*
         the algorithm still produces a schedule that has all the tasks on one processor,
         because it starts on the same processor for every recursive call.
         we probably need the greedy algorithm here before the recursive one.
          */
-//        _bestProcess = greedyAlg();
-        _bestTime = -1;
-        //wipe processors, build up task list again
-        List<Processor> processorCopy = _processors;
-        List<Node> taskCopy = _tasks;
-        //MY MEME VERSION KEKW
-        recursiveAlg(processorCopy, taskCopy);
+//        _bestProcess =
+        greedyAlg(processorCopyG, taskCopyG);
+//        _bestTime = getBestTime(_bestProcess);
+        System.out.println(_bestTime);
 
+//        while (_bestTime ==-1){
+//            //kekw
+//            int i =0;
+//        }
+        //MY MEME VERSION KEKW
+//        recursiveAlg(processorCopy, taskCopy);
+//        System.out.println(_bestTime);
         return _bestProcess;
     }
 
@@ -68,15 +90,12 @@ public class FinalAlgorithm implements algorithm {
         return current;
     }
 
-    private List<Processor> greedyAlg() {
-        List<Node> taskRemain = _tasks.subList(0, _tasks.size());
+    private void greedyAlg(List<Processor> procs, List<Node> taskRemain) {
         List<Node> taskDoable = new ArrayList<Node>();
-        List<Processor> procs = _processors;
 
+        taskDoable = checkAvailability(taskRemain);
         //while tasks list is not empty
-        while (taskDoable.size() > 0 || taskRemain.size() > 0) {
-            //get list of available tasks
-            taskDoable = checkAvailability(taskRemain);
+        while (taskDoable.size() > 0){// || taskRemain.size() > 0) {
 
             //may not need
             Collections.sort(taskDoable);
@@ -97,23 +116,47 @@ public class FinalAlgorithm implements algorithm {
             taskRemain.remove(taskDoable.get(0));
             taskDoable.remove(0);
 //            }
+//        get list of available tasks
+        taskDoable = checkAvailability(taskRemain);
         }
-        return procs;
+        //set time
+
+        _bestProcess= procs;
+        _bestTime=getBestTime(procs);
+    }
+
+    private int getBestTime(List<Processor> pr){
+        int curTime = 0;
+        for (Processor check : pr) {
+            if (check.getTime() > curTime) {
+                curTime = check.getTime();
+            }
+        }
+        return curTime;
     }
 
     private void recursiveAlg(List<Processor> pr, List<Node> task) {
+        //check time
+//        int curTime = 0;
+//        for (Processor check : pr) {
+//            if (check.getTime() > curTime) {
+//                curTime = check.getTime();
+//            }
+//        }
+        int curTime = getBestTime(pr);
+
         if (task.isEmpty()) {
             counter++;
             System.out.println(counter);
             //check time
-            int time = 0;
-            for (Processor check : pr) {
-                if (check.getTime() > time) {
-                    time = check.getTime();
-                }
-            }
-            if (time < _bestTime || _bestTime == -1) {
-                _bestTime = time;
+//            int time = 0;
+//            for (Processor check : pr) {
+//                if (check.getTime() > time) {
+//                    time = check.getTime();
+//                }
+//            }
+            if (curTime < _bestTime || _bestTime == -1) {
+                _bestTime = curTime;
                 List<Processor> sadness = new ArrayList<Processor>();
                 for (Processor gah : pr) {
                     try {
@@ -126,7 +169,7 @@ public class FinalAlgorithm implements algorithm {
                 _bestProcess = sadness;
             }
 
-        } else {
+        } else if (curTime<_bestTime || _bestTime == -1){
             List<Node> doable = checkAvailability(task);
 //            System.out.println(doable.size());
             //get availablee
@@ -191,7 +234,7 @@ public class FinalAlgorithm implements algorithm {
             List<Node> dependentNodes = node.getDependencies();
             boolean dependenciesComplete = true;
             for (Node dependentNode : dependentNodes) {
-                if (_tasks.contains(dependentNode)) {
+                if (tasksList.contains(dependentNode)) {
                     dependenciesComplete = false;
                 }
             }

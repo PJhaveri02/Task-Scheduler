@@ -1,22 +1,22 @@
 digraph "outputGraph" {
-		3	[Weight=7, Start=32, Processor=3]
-		0 -> 3   [Weight = 22];
-		0	[Weight=10, Start=0, Processor=4]
-		2	[Weight=6, Start=10, Processor=4]
+		0	[Weight=10, Start=0, Processor=1]
+		2	[Weight=6, Start=10, Processor=1]
 		0 -> 2   [Weight = 51];
-		8	[Weight=7, Start=16, Processor=4]
+		8	[Weight=7, Start=16, Processor=1]
 		2 -> 8   [Weight = 59];
-		6	[Weight=2, Start=23, Processor=4]
+		6	[Weight=2, Start=23, Processor=1]
 		2 -> 6   [Weight = 59];
-		7	[Weight=2, Start=25, Processor=4]
+		7	[Weight=2, Start=25, Processor=1]
 		2 -> 7   [Weight = 15];
-		5	[Weight=9, Start=27, Processor=4]
+		5	[Weight=9, Start=27, Processor=1]
 		8 -> 5   [Weight = 59];
 		7 -> 5   [Weight = 59];
 		6 -> 5   [Weight = 22];
-		4	[Weight=5, Start=36, Processor=4]
+		3	[Weight=7, Start=36, Processor=1]
+		0 -> 3   [Weight = 22];
+		4	[Weight=5, Start=43, Processor=1]
 		0 -> 4   [Weight = 44];
-		1	[Weight=7, Start=98, Processor=4]
+		1	[Weight=7, Start=48, Processor=1]
 		4 -> 1   [Weight = 66];
 		5 -> 1   [Weight = 37];
 		3 -> 1   [Weight = 59];
