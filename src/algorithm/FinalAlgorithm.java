@@ -44,6 +44,14 @@ public class FinalAlgorithm implements algorithm {
         List<Processor> processorCopy = _processors;
         List<Node> taskCopy = _tasks;
         //MY MEME VERSION KEKW
+
+        //check if only 1 root
+        List<Node> doable = checkAvailability(taskCopy);
+        if (doable.size()==1){
+            processorCopy.get(0).scheduleTask(doable.get(0),0);
+            taskCopy.removeAll(doable);
+        }
+
         recursiveAlg(processorCopy, taskCopy);
 
         return _bestProcess;
@@ -140,6 +148,10 @@ public class FinalAlgorithm implements algorithm {
             return;
         }else {
             List<Node> doable = checkAvailability(task);
+
+//            if (doable.size()==1){
+//                //check time
+//            }
 //            System.out.println(doable.size());
             //get availablee
             for (Node n : doable) {
