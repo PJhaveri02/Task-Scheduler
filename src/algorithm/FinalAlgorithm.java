@@ -4,40 +4,77 @@ import java.util.*;
 
 public class FinalAlgorithm implements algorithm {
 
-    private List<Processor> _processors;
+    private int _processorsNum;
     private List<Node> _tasks;
-    private List<Node> _available;
-    private int _bestTime = 0;
-    private List<String> _bestSchedule;
+    private int _bestTime =-1;
     private List<Processor> _bestProcess;
+    private List<List<Processor>> _allProcessCombinations = new ArrayList<List<Processor>>();
+    long counter=0;
+
+    /**
+     * returns a blank list of processors
+     * @return
+     */
+    public List<Processor> createProcessors() {
+        List<Processor> processorList = new ArrayList<>();
+            for (int i = 1; i <= _processorsNum; i++){
+                processorList.add(new Processor(i));
+            }
+        return processorList;
+    }
 
     /**
      * Constructor to pass in the Processors made and tasks from the DOT file.
      *
-     * @param processors
      * @param tasks
      */
-    public FinalAlgorithm(List<Processor> processors, List<Node> tasks) {
+    public FinalAlgorithm(int numProc, List<Node> tasks) {
         _tasks = tasks;
-        _processors = processors;
-        _available = new ArrayList<Node>();
+        _processorsNum = numProc;
+    }
+
+    public List<Node> createTaskList(){
+        List<Node> freshCopy = new ArrayList<Node>();
+        for (Node node :_tasks){
+            freshCopy.add(node);
+        }
+        return freshCopy;
     }
 
     @Override
     public List<Processor> execute() {
 
+
         //sort via bottom levels
         nodeBottomLevel();
         Collections.sort(_tasks);
+
+
 
         /*
         the algorithm still produces a schedule that has all the tasks on one processor,
         because it starts on the same processor for every recursive call.
         we probably need the greedy algorithm here before the recursive one.
          */
-         _bestProcess = greedyAlg();
+//        _bestProcess =
+        greedyAlg();
+//        _bestTime = getBestTime(_bestProcess);
+
         //wipe processors, build up task list again
-        //recursiveAlg();
+        List<Processor> processorCopy = createProcessors();
+        List<Node> taskCopy = createTaskList();
+
+        //MY MEME VERSION KEKW
+
+        //check if only 1 root
+        List<Node> doable = checkAvailability(taskCopy);
+        if (doable.size()==1){
+            processorCopy.get(0).scheduleTask(doable.get(0),0);
+            taskCopy.removeAll(doable);
+        }
+        System.out.println(taskCopy.size());
+        System.out.println(_tasks.size());
+        recursiveAlg(processorCopy, taskCopy);
 
         return _bestProcess;
     }
@@ -45,11 +82,11 @@ public class FinalAlgorithm implements algorithm {
     /**
      * find the earliest start time on a given processor for a specific node
      */
-    private int startTime(Processor p, Node node) {
+    private int startTime(Processor p, Node node, List<Processor> processors) {
         int current = p.getTime();
         for (Node n : node.getDependencies()) {
             if (!p.getTasks().contains(n)) {
-                for (Processor proc : _processors) {
+                for (Processor proc : processors) {
                     //minor major jank (should work tho)
                     int end = proc.getEnd(n) + node.getEdgeWeight(n);
                     if (end > current) {
@@ -61,104 +98,99 @@ public class FinalAlgorithm implements algorithm {
         return current;
     }
 
-    private List<Processor> greedyAlg() {
-        List<Node> taskRemain = _tasks.subList(0, _tasks.size());
+    private void greedyAlg() {
+        List<Node> taskRemain = createTaskList();
         List<Node> taskDoable = new ArrayList<Node>();
-        List<Processor> procs = new ArrayList<Processor>();
-        for(Processor p :_processors){
-            try{
-                procs.add(p.clone());
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
-        }
+        List<Processor> procs = createProcessors();
+
         //while tasks list is not empty
-        while (taskRemain.size() > 0) {
+        while (taskDoable.size() > 0 || taskRemain.size() > 0) {
             //get list of available tasks
             taskDoable = checkAvailability(taskRemain);
 
             //may not need
             Collections.sort(taskDoable);
 
-            // remove _available from taskRemain
-            taskRemain.removeAll(taskDoable);
+            int time = 0;
+            Processor earliestP = null;
+            for (Processor p : procs) {
+                int compare = startTime(p, taskDoable.get(0), procs);
 
-            for (Node n : taskDoable) {
-                int time = 0;
-                Processor earliestP = null;
-                for (Processor p : procs) {
-                    int compare = startTime(p, n);
+                if (compare <= time || time == 0) {
+                    earliestP = p;
+                    time = compare;
+                }
+            }
+            //add node into processor
+            (earliestP).scheduleTask(taskDoable.get(0), time);
+            taskRemain.remove(taskDoable.get(0));
+            taskDoable.remove(0);
+//            }
+        }
+        _bestProcess =  procs;
+        _bestTime = getBestTime(procs);
+    }
 
-//                    System.out.println("Compare"+compare);
-                    if (compare <= time || time == 0) {
-                        earliestP = p;
-                        time = compare;
+    private int getBestTime(List<Processor> pr){
+        int curTime = 0;
+        for (Processor check : pr) {
+            if (check.getTime() > curTime) {
+                curTime = check.getTime();
+            }
+        }
+        return curTime;
+    }
+
+    private void recursiveAlg(List<Processor> pr, List<Node> task) {
+        if (task.isEmpty()) {
+            counter++;
+            System.out.println(counter);
+            //check time
+            int time = 0;
+            for (Processor check : pr) {
+                if (check.getTime() > time) {
+                    time = check.getTime();
+                }
+            }
+            if (time < _bestTime || _bestTime == -1) {
+                _bestTime = time;
+                List<Processor> sadness = new ArrayList<Processor>();
+                for (Processor gah : pr) {
+                    try {
+                        sadness.add(gah.clone());
+                    } catch (CloneNotSupportedException e) {
+                        e.printStackTrace();
                     }
                 }
-                //add node into processor
-                (earliestP).scheduleTask(n,time);
-            }
-        }
-        return procs;
-    }
-
-    private void recursiveAlg(List<Processor> currentBest, List<Processor> current) {
-        //check the base case (if there are no more tasks to schedule). check the schedule against current best
-        if (false) {
-            return;
-        }
-        //check the partial schedule against the current best
-        if (false) {
-            return;
-        }
-
-        //get list of available tasks
-        _available = checkAvailability(_tasks);
-
-        //sort available tasks into order of highest bottom level, can use Node.getBottomLevel()
-
-        //the code below assumes that sorting the available tasks returns a list
-        //loop through available tasks
-        for (Node task : _available) {
-            //loop through processors and schedule
-            for (Processor p : _processors) {
-                //check if there are multiple empty processors and continue if required
-                //schedule the task onto the processor
-                //recursive call
-                //remove the task from the processor, add back to _task, make a methods that does both
+//                _allProcessCombinations.add(sadness);
+                _bestProcess = sadness;
             }
 
-        }
+        } else if(getBestTime(pr)>_bestTime &&  _bestTime != -1) {
+            return;
+        }else {
+            List<Node> doable = checkAvailability(task);
 
-    }
+            //get availablee
+            for (Node n : doable) {
+                for (Processor p : pr) {
+//                    for (Processor pTime : pr) {
+                    int time = startTime(p, n, pr);
+//                    }
+                    p.scheduleTask(n, time);
+                    List<Node> newList = task.subList(0, task.size());
+                    newList.remove(n);
+                    recursiveAlg(pr, newList);
+                    p.removeTask(n);
+                    newList.add(n);
 
-    /**
-     * write the current state of the processors to the string list and store the weight of the schedule.
-     */
-    private void updateBest() {
 
-        _bestSchedule.clear();
-        _bestSchedule.add("digraph \"outputGraph\" {");
-        for (Processor proc : _processors) {
-            for (Node task : proc.getTasks()) {
-                _bestSchedule.add("\n\t\t" + task.toString());
-                for (String dependent : task.dependenciesToString()) {
-                    _bestSchedule.add("\n\t\t" + dependent);
                 }
             }
         }
-        _bestSchedule.add("\n}");
 
-        //loop through processors and store the latest end time as the weight
-        for (Processor proc : _processors) {
-            if (proc.getTime() > _bestTime) {
-                _bestTime = proc.getTime();
-            }
-        }
-
-        //System.out.println(_bestWeight);
-        //System.out.println(_currentBestSchedule);
     }
+
 
     /**
      * Method checks if the node's dependencies have been added to a processor.
@@ -174,7 +206,7 @@ public class FinalAlgorithm implements algorithm {
             List<Node> dependentNodes = node.getDependencies();
             boolean dependenciesComplete = true;
             for (Node dependentNode : dependentNodes) {
-                if (_tasks.contains(dependentNode)) {
+                if (tasksList.contains(dependentNode)) {
                     dependenciesComplete = false;
                 }
             }

@@ -22,11 +22,11 @@ public class Processor implements Cloneable {
         _tasks = new ArrayList<Node>();
     }
 
-//[Weight = 2, Start= 0, Processor=1];
-    public String writeString(Node task){
+    //[Weight = 2, Start= 0, Processor=1];
+    public String writeString(Node task) {
         int weight = task.get_weight();
-        return task.toString() + "\t[Weight=" + weight +", Start="
-                + (_endTime.get(task)-weight) +", Processor=" + _id + "]";
+        return task.toString() + "\t[Weight=" + weight + ", Start="
+                + (_endTime.get(task) - weight) + ", Processor=" + _id + "]";
     }
 
     public String toString() {
@@ -52,9 +52,22 @@ public class Processor implements Cloneable {
         _endTime.put(node, endTime);
     }
 
-    public int getEnd(Node n){
+    public void removeTask(Node node) {
+        _tasks.remove(node);
+//        _time -= node.get_weight();
+        //THIS IS REALLY FUKING DUMB
+        if (_tasks.size() == 0) {
+            _time = 0;
+        } else {
+            _time = _endTime.get(_tasks.get(_tasks.size() - 1));
+        }
+        _endTime.remove(node);
+    }
+
+
+    public int getEnd(Node n) {
         Integer sad = _endTime.get(n);
-        if(sad!=null){
+        if (sad != null) {
             return sad;
         }
         return -1;
@@ -91,7 +104,7 @@ public class Processor implements Cloneable {
 
         //generate a list of the currently scheduled nodes
         List<Node> cloneTasks = new ArrayList<Node>();
-        for (Node n : _tasks){
+        for (Node n : _tasks) {
             cloneTasks.add(n);
         }
 
