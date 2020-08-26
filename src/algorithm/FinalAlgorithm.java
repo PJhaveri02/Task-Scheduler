@@ -17,27 +17,24 @@ public class FinalAlgorithm implements algorithm {
      */
     public List<Processor> createProcessors() {
         List<Processor> processorList = new ArrayList<>();
-//            for (int i = 1; i <= _processorsNum; i++){
-//                processorList.add(new Processor(i));
-//            }
+            for (int i = 1; i <= _processorsNum; i++){
+                processorList.add(new Processor(i));
+            }
 //        addProcessors(processorList);
-//        addProcessors(processorList);
-//        addProcessors(processorList);
-        addProcessors(processorList);
         return processorList;
     }
 
-    /**
-     * adds ONE more processor if allowed
-     * @param p
-     * @return
-     */
-    public  List<Processor> addProcessors(List<Processor> p) {
-        if (p.size()<_processorsNum){
-            p.add(new Processor(p.size()+1));
-        }
-        return p;
-    }
+//    /**
+//     * adds ONE more processor if allowed
+//     * @param p
+//     * @return
+//     */
+//    public  List<Processor> addProcessors(List<Processor> p) {
+//        if (p.size()<_processorsNum){
+//            p.add(new Processor(p.size()+1));
+//        }
+//        return p;
+//    }
 
     /**
      * Constructor to pass in the Processors made and tasks from the DOT file.
@@ -63,7 +60,7 @@ public class FinalAlgorithm implements algorithm {
 
     @Override
     public List<Processor> execute() {
-
+        long startTime = System.currentTimeMillis();
 
         //sort via bottom levels
         nodeBottomLevel();
@@ -82,13 +79,15 @@ public class FinalAlgorithm implements algorithm {
             taskCopy.removeAll(doable);
         }
 
-        addProcessors(processorCopy);
-        addProcessors(processorCopy);
-        addProcessors(processorCopy);
+//        addProcessors(processorCopy);
+//        addProcessors(processorCopy);
+//        addProcessors(processorCopy);
 
-        System.out.println(taskCopy.size());
-        System.out.println(_tasks.size());
         recursiveAlg(processorCopy, taskCopy);
+
+        long endTime = System.currentTimeMillis();
+
+        System.out.println("That took " + (endTime - startTime) + " milliseconds");
 
         return _bestProcess;
     }
@@ -120,9 +119,9 @@ public class FinalAlgorithm implements algorithm {
         List<Node> taskDoable = new ArrayList<Node>();
         List<Processor> procs = createProcessors();
         //since greedy is completed rather quickly,
-        addProcessors(procs);
-        addProcessors(procs);
-        addProcessors(procs);
+//        addProcessors(procs);
+//        addProcessors(procs);
+//        addProcessors(procs);
 
         //while tasks list is not empty
         while (taskDoable.size() > 0 || taskRemain.size() > 0) {
@@ -197,9 +196,16 @@ public class FinalAlgorithm implements algorithm {
         }else {
             List<Node> doable = checkAvailability(task);
 
+//            boolean added=false;
+//            if(pr.get(pr.size()-1).getTime()!=0){
+//                addProcessors(pr);
+////                added=true;
+//            }
+
             //get availablee
             for (Node n : doable) {
                 for (Processor p : pr) {
+
 //                    for (Processor pTime : pr) {
                     int time = startTime(p, n, pr);
 //                    }
@@ -210,9 +216,18 @@ public class FinalAlgorithm implements algorithm {
                     p.removeTask(n);
                     newList.add(n);
 
+                    //check if blank, stops wasted repeats
+                    if (p.getTime()==0){
+                        break;
+                    }
+
 
                 }
             }
+//            if (added){
+//                pr.remove(pr.size()-1);
+//            }
+
         }
 
     }
