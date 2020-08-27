@@ -25,6 +25,7 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
         super(numProcessors, tasks);
         MAX_CORES = maximumCores;
         _tasks = tasks;
+//        MAX_CORES = 30;
         _numProcessors = numProcessors;
     }
 

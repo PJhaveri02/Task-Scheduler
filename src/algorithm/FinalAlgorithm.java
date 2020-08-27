@@ -165,7 +165,8 @@ public class FinalAlgorithm implements algorithm {
         } else if (task.isEmpty()) {
 
             counter++;
-            System.out.println(counter);
+//            System.out.println(counter);
+            System.out.println(_bestTime);
             //check time
             int time = 0;
             for (Processor check : pr) {

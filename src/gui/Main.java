@@ -41,12 +41,13 @@ public class Main extends Application implements Initializable {
             model.addLevels();
 //            List<Processor> processorList = terminalReader.createProcessors();
             List<Node> nodesList = model.getNodes();
-            //launch(args);
+//            launch(args);
 //            algorithm algorithm = new BadAlgorithm(terminalReader.getProcNum(),nodesList);
-            algorithm algorithm = new FinalAlgorithm(terminalReader.getProcNum(),nodesList);
-//            ParallelFinalAlgorithm algorithm = new ParallelFinalAlgorithm(terminalReader.getProcNum(),nodesList, terminalReader.getNumberOfCores());
+//            algorithm algorithm = new FinalAlgorithm(terminalReader.getProcNum(),nodesList);
+            ParallelFinalAlgorithm algorithm = new ParallelFinalAlgorithm(terminalReader.getProcNum(),nodesList, terminalReader.getNumberOfCores());
             List<Processor> scheduledProcessors = algorithm.execute();
             terminalReader.writeOutput(scheduledProcessors);
+            System.exit(0);
 
         } catch (IncorrectInputException e) {
             System.out.println(e.getMessage());
@@ -54,7 +55,6 @@ public class Main extends Application implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        launch(args);
     }
 
     /**
