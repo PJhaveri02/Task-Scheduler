@@ -6,20 +6,21 @@ public class FinalAlgorithm implements algorithm {
 
     private int _processorsNum;
     private List<Node> _tasks;
-    private int _bestTime =-1;
+    private int _bestTime = -1;
     private List<Processor> _bestProcess;
     private List<List<Processor>> _allProcessCombinations = new ArrayList<List<Processor>>();
-    long counter=0;
+    long counter = 0;
 
     /**
      * returns a SINGLE processor
+     *
      * @return
      */
     public List<Processor> createProcessors() {
         List<Processor> processorList = new ArrayList<>();
-            for (int i = 1; i <= _processorsNum; i++){
-                processorList.add(new Processor(i));
-            }
+        for (int i = 1; i <= _processorsNum; i++) {
+            processorList.add(new Processor(i));
+        }
 //        addProcessors(processorList);
         return processorList;
     }
@@ -48,11 +49,12 @@ public class FinalAlgorithm implements algorithm {
 
     /**
      * create deep copy of the task
+     *
      * @return
      */
-    public List<Node> createTaskList(){
+    public List<Node> createTaskList() {
         List<Node> freshCopy = new ArrayList<Node>();
-        for (Node node :_tasks){
+        for (Node node : _tasks) {
             freshCopy.add(node);
         }
         return freshCopy;
@@ -74,14 +76,10 @@ public class FinalAlgorithm implements algorithm {
 
         //check if only 1 root
         List<Node> doable = checkAvailability(taskCopy);
-        if (doable.size()==1){
-            processorCopy.get(0).scheduleTask(doable.get(0),0);
+        if (doable.size() == 1) {
+            processorCopy.get(0).scheduleTask(doable.get(0), 0);
             taskCopy.removeAll(doable);
         }
-
-//        addProcessors(processorCopy);
-//        addProcessors(processorCopy);
-//        addProcessors(processorCopy);
 
         recursiveAlg(processorCopy, taskCopy);
 
@@ -118,10 +116,6 @@ public class FinalAlgorithm implements algorithm {
         List<Node> taskRemain = createTaskList();
         List<Node> taskDoable = new ArrayList<Node>();
         List<Processor> procs = createProcessors();
-        //since greedy is completed rather quickly,
-//        addProcessors(procs);
-//        addProcessors(procs);
-//        addProcessors(procs);
 
         //while tasks list is not empty
         while (taskDoable.size() > 0 || taskRemain.size() > 0) {
@@ -147,16 +141,17 @@ public class FinalAlgorithm implements algorithm {
             taskDoable.remove(0);
 //            }
         }
-        _bestProcess =  procs;
+        _bestProcess = procs;
         _bestTime = getBestTime(procs);
     }
 
     /**
      * returns the latest 'start time' of a list of processors
+     *
      * @param pr
      * @return
      */
-    private int getBestTime(List<Processor> pr){
+    private int getBestTime(List<Processor> pr) {
         int curTime = 0;
         for (Processor check : pr) {
             if (check.getTime() > curTime) {
@@ -191,45 +186,61 @@ public class FinalAlgorithm implements algorithm {
                 _bestProcess = sadness;
             }
 
-        } else if(getBestTime(pr)>_bestTime &&  _bestTime != -1) {
+        } else if (getBestTime(pr) >= _bestTime && _bestTime != -1) {
             return;
-        }else {
+        } else {
             List<Node> doable = checkAvailability(task);
 
-//            boolean added=false;
-//            if(pr.get(pr.size()-1).getTime()!=0){
-//                addProcessors(pr);
-////                added=true;
-//            }
+            //greed if only 1 valid
+//            if(doable.size()==1){
+//                int time = 0;
+//                Processor earliestP = pr.get(0);
+//                for (Processor p : pr) {
+//                    int compare = startTime(p, doable.get(0), pr);
+//
+//                    if (compare < time || time == 0) {
+//                        earliestP = p;
+//                        time = compare;
+//                    }
+//                }
+//                //add node into processor
+//                pr.get(pr.indexOf(earliestP)).scheduleTask(doable.get(0),time);
+////                pr.get(earliestP).scheduleTask(doable.get(0), time);
+//                List<Node> newList = task.subList(0, task.size());
+//                newList.remove(doable);
+//                recursiveAlg(pr, newList);
+//                earliestP.removeTask(doable.get(0));
+//                newList.add(doable.get(0));
+//
+//            } else {
 
-            //get availablee
-            for (Node n : doable) {
-                for (Processor p : pr) {
+                //get available
+                for (Node n : doable) {
+                    for (Processor p : pr) {
 
 //                    for (Processor pTime : pr) {
-                    int time = startTime(p, n, pr);
+                        int time = startTime(p, n, pr);
 //                    }
-                    p.scheduleTask(n, time);
-                    List<Node> newList = task.subList(0, task.size());
-                    newList.remove(n);
-                    recursiveAlg(pr, newList);
-                    p.removeTask(n);
-                    newList.add(n);
+                        p.scheduleTask(n, time);
+                        List<Node> newList = task.subList(0, task.size());
+                        newList.remove(n);
+                        recursiveAlg(pr, newList);
+                        p.removeTask(n);
+                        newList.add(n);
 
-                    //check if blank, stops wasted repeats
-                    if (p.getTime()==0){
-                        break;
+                        //check if blank, stops wasted repeats
+                        if (p.getTime() == 0) {
+                            break;
+                        }
+
+
                     }
-
-
-                }
+//                }
             }
 //            if (added){
 //                pr.remove(pr.size()-1);
 //            }
-
         }
-
     }
 
 
