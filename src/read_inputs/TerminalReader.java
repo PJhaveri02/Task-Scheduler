@@ -102,13 +102,13 @@ public class TerminalReader {
     }
 
     //creates a list of processors according to the number of the number of processors specified by the user
-//    public List<Processor> createProcessors() {
-//        List<Processor> processorList = new ArrayList<>();
-//            for (int i = 1; i <= numberOfProcessors; i++){
-//                processorList.add(new Processor(i));
-//            }
-//        return processorList;
-//    }
+    public List<Processor> createProcessors() {
+        List<Processor> processorList = new ArrayList<>();
+            for (int i = 1; i <= numberOfProcessors; i++){
+                processorList.add(new Processor(i));
+            }
+        return processorList;
+    }
 
     public int getProcNum(){
         return numberOfProcessors;
@@ -181,9 +181,7 @@ public class TerminalReader {
 
     }
 
-    public String getOutputDotFile() {
-        return outputDotFile;
-    }
+    public String getOutputDotFile() { return outputDotFile; }
 
     public int getNumberOfProcessors() {
         return numberOfProcessors;
