@@ -1,0 +1,44 @@
+digraph "outputGraph" {
+		22	[Weight=90, Start=107, Processor=1]
+		20 -> 22   [Weight = 7];
+		26	[Weight=100, Start=197, Processor=1]
+		21 -> 26   [Weight = 5];
+		28	[Weight=50, Start=297, Processor=1]
+		22 -> 28   [Weight = 3];
+		10	[Weight=20, Start=347, Processor=1]
+		3 -> 10   [Weight = 4];
+		2	[Weight=90, Start=57, Processor=2]
+		0 -> 2   [Weight = 7];
+		23	[Weight=100, Start=147, Processor=2]
+		20 -> 23   [Weight = 4];
+		27	[Weight=80, Start=247, Processor=2]
+		22 -> 27   [Weight = 5];
+		5	[Weight=20, Start=327, Processor=2]
+		1 -> 5   [Weight = 7];
+		9	[Weight=20, Start=347, Processor=2]
+		2 -> 9   [Weight = 10];
+		30	[Weight=20, Start=367, Processor=2]
+		23 -> 30   [Weight = 4];
+		1	[Weight=70, Start=59, Processor=3]
+		0 -> 1   [Weight = 9];
+		3	[Weight=100, Start=129, Processor=3]
+		0 -> 3   [Weight = 4];
+		7	[Weight=80, Start=229, Processor=3]
+		2 -> 7   [Weight = 5];
+		4	[Weight=40, Start=309, Processor=3]
+		1 -> 4   [Weight = 10];
+		25	[Weight=20, Start=349, Processor=3]
+		21 -> 25   [Weight = 7];
+		0	[Weight=50, Start=0, Processor=4]
+		20	[Weight=50, Start=50, Processor=4]
+		21	[Weight=70, Start=100, Processor=4]
+		20 -> 21   [Weight = 9];
+		6	[Weight=100, Start=170, Processor=4]
+		1 -> 6   [Weight = 5];
+		8	[Weight=50, Start=270, Processor=4]
+		2 -> 8   [Weight = 3];
+		24	[Weight=40, Start=320, Processor=4]
+		21 -> 24   [Weight = 10];
+		29	[Weight=20, Start=360, Processor=4]
+		22 -> 29   [Weight = 10];
+}
