@@ -43,7 +43,7 @@ digraph "Random_Nodes_10_Density_1.90_CCR_10.00_WeightType_Random" {
 		"Total sequential time"=63
 	];
 	10	 [Weight=6];
-	15 -> 20	 [Weight=34];
+	5 -> 10	 [Weight=34];
 	13	 [Weight=10];
 	10 -> 13	 [Weight=34];
 	14	 [Weight=3];
