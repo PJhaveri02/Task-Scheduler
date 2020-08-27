@@ -89,7 +89,7 @@ public class FinalAlgorithm implements algorithm {
     /**
      * find the earliest start time on a given processor for a specific node
      */
-    private int startTime(Processor p, Node node, List<Processor> processors) {
+    protected int startTime(Processor p, Node node, List<Processor> processors) {
         int current = p.getTime();
         for (Node n : node.getDependencies()) {
             if (!p.getTasks().contains(n)) {
@@ -147,7 +147,7 @@ public class FinalAlgorithm implements algorithm {
      * @param pr
      * @return
      */
-    private int getBestTime(List<Processor> pr) {
+    protected int getBestTime(List<Processor> pr) {
         int curTime = 0;
         for (Processor check : pr) {
             if (check.getTime() > curTime) {
@@ -202,17 +202,8 @@ public class FinalAlgorithm implements algorithm {
 //                    List<Node> newList = task.subList(0, task.size());
                     List<Node> newList = createDeepCopy(task);
                     newList.remove(n);
-//                    List<Node> newDoable = checkAvailability(newList);
 
-                    if (doable.size()==1){
-                        List<Node> nextDoable = checkAvailability(newList);
-                        if (nextDoable.size()==1){
-
-                        }
-                    }
-
-
-                        recursiveAlg(pr, newList);
+                    recursiveAlg(pr, newList);
                         p.removeTask(n);
                         newList.add(n);
 
@@ -234,7 +225,7 @@ public class FinalAlgorithm implements algorithm {
      * @param tasksList a list of nodes that has not been assigned to a processor yet.
      * @return A list of nodes that can be assigned (all dependencies executed).
      */
-    private List<Node> checkAvailability(List<Node> tasksList) {
+    protected List<Node> checkAvailability(List<Node> tasksList) {
         List<Node> availableTasks = new ArrayList<Node>();
         for (Node node : tasksList) {
             // Get a list of the node dependencies

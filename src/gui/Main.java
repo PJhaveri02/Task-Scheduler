@@ -4,6 +4,7 @@ import algorithm.Model;
 import algorithm.algorithm;
 import algorithm.BadAlgorithm;
 import algorithm.FinalAlgorithm;
+import algorithm.ParallelFinalAlgorithm;
 import algorithm.Processor;
 import algorithm.Node;
 import javafx.application.Application;
@@ -43,6 +44,7 @@ public class Main extends Application implements Initializable {
             //launch(args);
 //            algorithm algorithm = new BadAlgorithm(terminalReader.getProcNum(),nodesList);
             algorithm algorithm = new FinalAlgorithm(terminalReader.getProcNum(),nodesList);
+//            ParallelFinalAlgorithm algorithm = new ParallelFinalAlgorithm(terminalReader.getProcNum(),nodesList, terminalReader.getNumberOfCores());
             List<Processor> scheduledProcessors = algorithm.execute();
             terminalReader.writeOutput(scheduledProcessors);
 
