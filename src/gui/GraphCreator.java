@@ -17,7 +17,7 @@ import javafx.stage.StageStyle;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class GraphCreator extends Application implements Initializable {
+public class GraphCreator implements Runnable {
 
     private Model _schedule;
     //pass in model
@@ -31,7 +31,7 @@ public class GraphCreator extends Application implements Initializable {
     }
 
     @Override
-    public void start(Stage random) throws Exception {
+    public void run(){
         Digraph<String, String> g = new DigraphEdgeList<>();
 
             for (Node n :_schedule.getNodes()){
@@ -59,10 +59,6 @@ public class GraphCreator extends Application implements Initializable {
             graphView.init();
 //            graphView.setAutomaticLayout(true);
 
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
 }

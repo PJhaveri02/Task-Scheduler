@@ -1,5 +1,7 @@
 package algorithm;
 
+import gui.ProcGraphController;
+
 import java.util.List;
 
 public interface algorithm {

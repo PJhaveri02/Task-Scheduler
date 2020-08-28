@@ -8,6 +8,7 @@ import algorithm.ParallelFinalAlgorithm;
 import algorithm.Processor;
 import algorithm.Node;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,15 +25,20 @@ import java.util.*;
 public class Main extends Application implements Initializable {
 
     private static Model model;
+    private static algorithm alg;
+
+    public static algorithm getAlgorithm() {
+        return alg;
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        GraphCreator graph = new GraphCreator(model);
-        graph.start(primaryStage);
+
     }
 
     public static void main(String[] args) {
+        Platform.runLater(new ProcGraphController());
         System.out.println("gui main");
         TerminalReader terminalReader = new TerminalReader(args);
         try {
@@ -41,13 +47,14 @@ public class Main extends Application implements Initializable {
             model.addLevels();
 //            List<Processor> processorList = terminalReader.createProcessors();
             List<Node> nodesList = model.getNodes();
+            GraphCreator graph = new GraphCreator(model);
+            Platform.runLater(graph);
 //            launch(args);
-//            algorithm algorithm = new BadAlgorithm(terminalReader.getProcNum(),nodesList);
-//            algorithm algorithm = new FinalAlgorithm(terminalReader.getProcNum(),nodesList);
-            ParallelFinalAlgorithm algorithm = new ParallelFinalAlgorithm(terminalReader.getProcNum(),nodesList, terminalReader.getNumberOfCores());
-            List<Processor> scheduledProcessors = algorithm.execute();
+//            algorithm alg = new BadAlgorithm(terminalReader.getProcNum(),nodesList);
+//            algorithm alg = new FinalAlgorithm(terminalReader.getProcNum(),nodesList);
+            ParallelFinalAlgorithm alg = new ParallelFinalAlgorithm(terminalReader.getProcNum(),nodesList, terminalReader.getNumberOfCores());
+            List<Processor> scheduledProcessors = alg.execute();
             terminalReader.writeOutput(scheduledProcessors);
-            System.exit(0);
 
         } catch (IncorrectInputException e) {
             System.out.println(e.getMessage());
