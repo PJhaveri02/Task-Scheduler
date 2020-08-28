@@ -2,8 +2,6 @@ package gui;
 
 import algorithm.Model;
 import algorithm.algorithm;
-import algorithm.BadAlgorithm;
-import algorithm.FinalAlgorithm;
 import algorithm.ParallelFinalAlgorithm;
 import algorithm.Processor;
 import algorithm.Node;
@@ -12,18 +10,22 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import read_inputs.IncorrectInputException;
 import read_inputs.TerminalReader;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class Main extends Application implements Initializable {
-
+public class Main {
+    private ProcGraphController _visController;
     private static Model model;
     private static algorithm alg;
 
@@ -31,14 +33,9 @@ public class Main extends Application implements Initializable {
         return alg;
     }
 
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-
-
-    }
 
     public static void main(String[] args) {
-        Platform.runLater(new ProcGraphController());
+        Platform.runLater(new ProcGraphCreator());
         System.out.println("gui main");
         TerminalReader terminalReader = new TerminalReader(args);
         try {
@@ -64,15 +61,34 @@ public class Main extends Application implements Initializable {
         }
     }
 
-    /**
-     * Initial setup of application after FXML objects have been injected
-     * @param url
-     * @param resourceBundle
-     */
-    @FXML
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    private void doVis() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                // Create the FXMLLoader
+                FXMLLoader loader = new FXMLLoader();
+                // Path to the FXML File
+                String fxmlDocPath = "src/gui/ProcGraph.fxml";
+                FileInputStream fxmlStream = null;
+                try {
+                    fxmlStream = new FileInputStream(fxmlDocPath);
+                    // Create the Pane and all Details
+                    AnchorPane root = null;
+                    root = (AnchorPane) loader.load(fxmlStream);
+                    _visController = loader.getController();
+                    Scene scene = new Scene(root);
+                    Stage stage = new Stage(StageStyle.DECORATED);
+                    stage.setTitle("fuk noes");
+                    stage.setScene(scene);
+                    stage.show();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
 
     }
-
 }

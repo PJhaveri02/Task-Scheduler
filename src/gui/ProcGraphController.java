@@ -1,28 +1,42 @@
 package gui;
 
 import algorithm.Processor;
-import algorithm.algorithm;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import javafx.application.Platform;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 
 import java.util.List;
 
-public class ProcGraphController implements Runnable{
+public class ProcGraphController{
 
-    private List<Processor> bestSchedule;
-    private int totalPerms;
-    private int killedPerms;
-    private algorithm executingAlg;
+    private List<Processor> _bestSchedule;
+    private int _totalPerms;
+    private int _killedPerms;
+    private HBox _processorContainer;
 
-    @Override
-    public void run() {
-        Group root = new Group();
-        Scene scene = new Scene(root,600, 300);
-        Stage stage = new Stage(StageStyle.DECORATED);
-        stage.setTitle("fuk noes");
-        stage.setScene(scene);
-        stage.show();
+
+    public ProcGraphController(){
+        _totalPerms = 0;
+        _killedPerms = 0;
+        _bestSchedule = null;
+        _processorContainer.getChildren().add(new Label("nothing to see here"));
+    }
+
+    public void update (List<Processor> newBest){
+        if(newBest!=_bestSchedule){
+            _bestSchedule = newBest;
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    updateDisplay(_bestSchedule);
+                }
+            });
+
+        }
+
+    }
+
+    public void updateDisplay(List<Processor> bestSchedule) {
+        _processorContainer.getChildren().add(new Label("nothing to see here"));
     }
 }

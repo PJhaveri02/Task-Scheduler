@@ -2,11 +2,11 @@ digraph "outputGraph" {
 		15	[Weight=7, Start=48, Processor=1]
 		11 -> 15   [Weight = 19];
 		13	[Weight=10, Start=71, Processor=2]
-		12 -> 13   [Weight = 10];
 		10 -> 13   [Weight = 34];
+		12 -> 13   [Weight = 10];
 		3	[Weight=10, Start=66, Processor=3]
-		0 -> 3   [Weight = 34];
 		2 -> 3   [Weight = 10];
+		0 -> 3   [Weight = 34];
 		1	[Weight=5, Start=0, Processor=4]
 		5	[Weight=7, Start=5, Processor=4]
 		1 -> 5   [Weight = 19];
@@ -29,33 +29,33 @@ digraph "outputGraph" {
 		12	[Weight=5, Start=56, Processor=4]
 		11 -> 12   [Weight = 48];
 		7	[Weight=3, Start=61, Processor=4]
+		4 -> 7   [Weight = 48];
 		2 -> 7   [Weight = 48];
 		6 -> 7   [Weight = 15];
-		4 -> 7   [Weight = 48];
 		17	[Weight=3, Start=64, Processor=4]
 		12 -> 17   [Weight = 48];
-		16 -> 17   [Weight = 15];
 		14 -> 17   [Weight = 48];
+		16 -> 17   [Weight = 15];
 		8	[Weight=8, Start=67, Processor=4]
-		7 -> 8   [Weight = 15];
+		4 -> 8   [Weight = 48];
 		2 -> 8   [Weight = 48];
 		6 -> 8   [Weight = 39];
-		4 -> 8   [Weight = 48];
+		7 -> 8   [Weight = 15];
 		18	[Weight=8, Start=75, Processor=4]
 		12 -> 18   [Weight = 48];
-		16 -> 18   [Weight = 39];
-		17 -> 18   [Weight = 15];
 		14 -> 18   [Weight = 48];
+		17 -> 18   [Weight = 15];
+		16 -> 18   [Weight = 39];
 		9	[Weight=8, Start=83, Processor=4]
-		0 -> 9   [Weight = 44];
-		7 -> 9   [Weight = 34];
-		6 -> 9   [Weight = 29];
 		8 -> 9   [Weight = 39];
 		4 -> 9   [Weight = 39];
+		6 -> 9   [Weight = 29];
+		0 -> 9   [Weight = 44];
+		7 -> 9   [Weight = 34];
 		19	[Weight=8, Start=91, Processor=4]
 		10 -> 19   [Weight = 44];
-		16 -> 19   [Weight = 29];
-		18 -> 19   [Weight = 39];
-		17 -> 19   [Weight = 34];
 		14 -> 19   [Weight = 39];
+		17 -> 19   [Weight = 34];
+		18 -> 19   [Weight = 39];
+		16 -> 19   [Weight = 29];
 }
