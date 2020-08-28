@@ -24,18 +24,18 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class Main {
-    private ProcGraphController _visController;
+public class Main extends Application{
+    private static ProcGraphController _visController;
     private static Model model;
     private static algorithm alg;
 
-    public static algorithm getAlgorithm() {
+    public static algorithm getAlgorithm(){
         return alg;
     }
 
 
     public static void main(String[] args) {
-        Platform.runLater(new ProcGraphCreator());
+
         System.out.println("gui main");
         TerminalReader terminalReader = new TerminalReader(args);
         try {
@@ -45,13 +45,15 @@ public class Main {
 //            List<Processor> processorList = terminalReader.createProcessors();
             List<Node> nodesList = model.getNodes();
             GraphCreator graph = new GraphCreator(model);
-            Platform.runLater(graph);
+            doVis();
+           // Platform.runLater(graph);
 //            launch(args);
 //            algorithm alg = new BadAlgorithm(terminalReader.getProcNum(),nodesList);
 //            algorithm alg = new FinalAlgorithm(terminalReader.getProcNum(),nodesList);
             ParallelFinalAlgorithm alg = new ParallelFinalAlgorithm(terminalReader.getProcNum(),nodesList, terminalReader.getNumberOfCores());
             List<Processor> scheduledProcessors = alg.execute();
             terminalReader.writeOutput(scheduledProcessors);
+            _visController.update(null);
 
         } catch (IncorrectInputException e) {
             System.out.println(e.getMessage());
@@ -61,7 +63,7 @@ public class Main {
         }
     }
 
-    private void doVis() {
+    private static void doVis() {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -75,20 +77,27 @@ public class Main {
                     // Create the Pane and all Details
                     AnchorPane root = null;
                     root = (AnchorPane) loader.load(fxmlStream);
-                    _visController = loader.getController();
                     Scene scene = new Scene(root);
                     Stage stage = new Stage(StageStyle.DECORATED);
                     stage.setTitle("fuk noes");
                     stage.setScene(scene);
                     stage.show();
+                    System.out.println("start");
+                    System.out.println("finish");
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
+
             }
         });
+
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
 
     }
 }
