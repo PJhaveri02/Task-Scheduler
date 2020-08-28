@@ -23,6 +23,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import algorithm.FinalAlgorithm;
 
 public class Main {
     private ProcGraphController _visController;
@@ -35,7 +36,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        Platform.runLater(new ProcGraphCreator());
+       // Platform.runLater(new ProcGraphCreator());
         System.out.println("gui main");
         TerminalReader terminalReader = new TerminalReader(args);
         try {
@@ -45,10 +46,10 @@ public class Main {
 //            List<Processor> processorList = terminalReader.createProcessors();
             List<Node> nodesList = model.getNodes();
             GraphCreator graph = new GraphCreator(model);
-            Platform.runLater(graph);
+           // Platform.runLater(graph);
 //            launch(args);
 //            algorithm alg = new BadAlgorithm(terminalReader.getProcNum(),nodesList);
-//            algorithm alg = new FinalAlgorithm(terminalReader.getProcNum(),nodesList);
+           // algorithm alg = new FinalAlgorithm(terminalReader.getProcNum(),nodesList);
             ParallelFinalAlgorithm alg = new ParallelFinalAlgorithm(terminalReader.getProcNum(),nodesList, terminalReader.getNumberOfCores());
             List<Processor> scheduledProcessors = alg.execute();
             terminalReader.writeOutput(scheduledProcessors);

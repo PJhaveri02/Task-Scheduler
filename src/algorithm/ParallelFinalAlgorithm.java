@@ -13,6 +13,7 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
     private final int MAX_CORES;
     private int _numProcessors;
     private List<Node> _tasks;
+    private static int tasksCreated = 1;
 
     // These variables need to be atomic as they will be accessed by multiple threads
     private AtomicInteger _bestTime = new AtomicInteger(-1);
@@ -25,13 +26,11 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
         super(numProcessors, tasks);
         MAX_CORES = maximumCores;
         _tasks = tasks;
-//        MAX_CORES = 30;
         _numProcessors = numProcessors;
     }
 
-
     private class RecursiveFork extends RecursiveAction {
-        private static final int THRESHOLD = 8;
+       // private static final int THRESHOLD = 8;
 
         private List<Processor> _processors;
         private List<Node> _tasks1;
@@ -82,18 +81,12 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
                             List<Node> newList = _tasks1.subList(0, _tasks1.size());
                             newList.remove(n);
 
-//                            if (doable.size()==1){
-//                                List<Node> nextDoable = checkAvailability(newList);
-//                                if (nextDoable.size()==1){
-//
-//                                }
-//                            }
-
-
                             RecursiveFork forkJob = new RecursiveFork(_processors, newList);
-                            if (newList.size() > THRESHOLD) {
+                          if (tasksCreated < MAX_CORES) {
                                 //invoke recursions
-                                invoke();
+                              tasksCreated++;
+                              System.out.println("Tasks created: " + tasksCreated);
+                              pool.invoke(forkJob);
                             } else {
                                 forkJob.compute();
                             }
@@ -138,7 +131,7 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
 
         long endTime = System.currentTimeMillis();
         System.out.println("That took " + (endTime - startTime) + " milliseconds");
-
+        System.out.println("Best time: " + _bestTime);
         return _bestProcess.get();
     }
 
