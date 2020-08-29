@@ -182,12 +182,12 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
             //may not need
             Collections.sort(taskDoable);
 
-            int time = 0;
+            int time = -1;
             Processor earliestP = null;
             for (Processor p : procs) {
                 int compare = startTime(p, taskDoable.get(0), procs);
 
-                if (compare <= time || time == 0) {
+                if (compare < time || time == -1) {
                     earliestP = p;
                     time = compare;
                 }
