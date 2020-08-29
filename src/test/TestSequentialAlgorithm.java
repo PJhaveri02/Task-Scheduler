@@ -42,6 +42,7 @@ public class TestSequentialAlgorithm {
     /**
      * Test whether the FinalAlgorithm works for the basic graph given at the beginning of the assignment
      * The algorithm should provide the optimal solution
+     * Test passes if the expected is 8
      */
     @Test
     public void testBasicDotGraph() {
@@ -59,6 +60,7 @@ public class TestSequentialAlgorithm {
 
     /**
      * Test whether the FinalAlogrithm provides the correct schedule if one processor is provided by the user
+     * Test passes if the expected is 9
      */
     @Test
     public void testBasicDotGraphOneProcessor() {
@@ -77,6 +79,7 @@ public class TestSequentialAlgorithm {
     /**
      * Test whether the sequential algorithm provides the optimal schedule for Nodes_11_OutTree.dot when given
      * 4 processors as the input
+     * Test passes if the expected is 227
      */
     @Test
     public void testNodes11FourProcessors() {
@@ -95,6 +98,7 @@ public class TestSequentialAlgorithm {
     /**
      * Test whether the sequential algorithm provides the optimal schedule for Nodes_11_OutTree.dot when given
      * 2 processors as the input
+     * Test passes if the expected is 350
      */
     @Test
     public void testNodes11TwoProcessors() {
@@ -114,6 +118,7 @@ public class TestSequentialAlgorithm {
     /**
      * Test whether the sequential algorithm provides the optimal schedule for Nodes_9_SeriesParallel.dot when given
      * 5 processors as the input
+     * Test passes if the expected is 55
      */
     @Test
     public void testNodes9FiveProcessors() {
@@ -133,6 +138,7 @@ public class TestSequentialAlgorithm {
     /**
      * Test whether the sequential algorithm provides the optimal schedule for Nodes_7_OutTree.dot when given
      * 2 processors as the input
+     * Test passes if the expected is 28
      */
     @Test
     public void testNodes7TwoProcessors() {
@@ -151,6 +157,7 @@ public class TestSequentialAlgorithm {
     /**
      * Test whether the sequential algorithm provides the optimal schedule for Nodes_8_SeriesParallel.dot when given
      * 3 processors as the input
+     * Test passes if the expected is 581
      */
     @Test
     public void testNodes8ThreeProcessors() {
@@ -169,6 +176,7 @@ public class TestSequentialAlgorithm {
     /**
      * Test whether the sequential algorithm provides the optimal schedule for Nodes_10_Random.dot when given
      * 6 processors as the input
+     * Test passes if the expected is 50
      */
     @Test
     public void testNodes10SixProcessors() {
