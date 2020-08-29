@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class ParallelFinalAlgorithm extends FinalAlgorithm {
 
-    private final int MAX_CORES;
+    private int MAX_CORES;
     private int _numProcessors;
     private List<Node> _tasks;
     private static int tasksCreated = 1;
@@ -30,7 +30,7 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
     }
 
     private class RecursiveFork extends RecursiveAction {
-       // private static final int THRESHOLD = 8;
+        // private static final int THRESHOLD = 8;
 
         private List<Processor> _processors;
         private List<Node> _tasks1;
@@ -42,6 +42,11 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
 
         @Override
         protected void compute() {
+            compute1();
+        }
+
+
+        private void compute1() {
 
             if (_tasks1.isEmpty()) {
                 //check time
@@ -66,42 +71,43 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
             } else if (getBestTime(_processors) > _bestTime.get() && _bestTime.get() != -1) { // bound based on greedy
                 return;
             } else {
-                    List<Node> doable = checkAvailability(_tasks1);
+                List<Node> doable = checkAvailability(_tasks1);
 
-                    for (Node n : doable) {
-                        for (Processor p : _processors) {
+                for (Node n : doable) {
+                    for (Processor p : _processors) {
 
-                            // need to change time
-                            int time1 = startTime(p, n, _processors);
+                        // need to change time
+                        int time1 = startTime(p, n, _processors);
 
-                            p.scheduleTask(n, time1);
-//                            List<Node> newList = _tasks1.subList(0, _tasks1.size());
-//                            newList.remove(n);
+                        p.scheduleTask(n, time1);
 
-                            List<Node> newList = _tasks1.subList(0, _tasks1.size());
-                            newList.remove(n);
+                        List<Node> newList = _tasks1.subList(0, _tasks1.size());
+                        newList.remove(n);
 
-                            RecursiveFork forkJob = new RecursiveFork(_processors, newList);
-                          if (tasksCreated < MAX_CORES) {
-                                //invoke recursions
-                              tasksCreated++;
-                              System.out.println("Tasks created: " + tasksCreated);
-                              pool.invoke(forkJob);
-                            } else {
-                                forkJob.compute();
-                            }
-                            p.removeTask(n);
-                            newList.add(n);
+                        RecursiveFork forkJob = new RecursiveFork(_processors, newList);
+                        int num_threads_running =  pool.getActiveThreadCount();
+                       // System.out.println(num_threads_running);
+                        //System.out.println("Global Tasks: " + _tasks.size() + " New List Size: " + newList.size());
+                        if ( num_threads_running < MAX_CORES && newList.size() > (_tasks.size() * 0.8)) {
+                          //  System.out.println("Task sent to pool");
+                           // tasksCreated++;
+                            pool.invoke(forkJob);
+                        } else {
+                            forkJob.compute1();
+                        }
 
-                            //check if blank, stops wasted repeats
-                            if (p.getTime() == 0) {
-                                break;
-                            }
+                        p.removeTask(n);
+                        newList.add(n);
+
+                        //check if blank, stops wasted repeats
+                        if (p.getTime() == 0) {
+                            break;
                         }
                     }
                 }
             }
         }
+    }
 
 
     @Override
@@ -119,12 +125,18 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
 
         //check if only 1 root
         List<Node> doable = checkAvailability(taskCopy);
-        if (doable.size()==1){
-            processorCopy.get(0).scheduleTask(doable.get(0),0);
+        if (doable.size() == 1) {
+            processorCopy.get(0).scheduleTask(doable.get(0), 0);
             taskCopy.removeAll(doable);
         }
 
+        System.out.println("Greedy output: " + _bestTime);
         // invoke recursive call
+
+        int no_cores = Runtime.getRuntime().availableProcessors();
+        if (MAX_CORES > no_cores) {
+            MAX_CORES = no_cores;
+        }
         pool = new ForkJoinPool(MAX_CORES);
         RecursiveFork forkJob = new RecursiveFork(processorCopy, taskCopy);
         pool.invoke(forkJob);

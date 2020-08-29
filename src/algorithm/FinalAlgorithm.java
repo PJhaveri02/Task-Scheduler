@@ -158,7 +158,7 @@ public class FinalAlgorithm implements algorithm {
         return curTime;
     }
 
-    private void recursiveAlg(List<Processor> pr, List<Node> task) {
+    protected void recursiveAlg(List<Processor> pr, List<Node> task) {
         _numSteps ++;
         if (getBestTime(pr) >= _bestTime && _bestTime != -1) {
             //System.out.println(_killedcounter++);
@@ -167,7 +167,7 @@ public class FinalAlgorithm implements algorithm {
 
             counter++;
 //            System.out.println(counter);
-            System.out.println(_bestTime);
+            //System.out.println(_bestTime);
             //check time
             int time = 0;
             for (Processor check : pr) {
