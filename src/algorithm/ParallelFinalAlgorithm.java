@@ -7,6 +7,7 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import java.lang.Thread;
 
 public class ParallelFinalAlgorithm extends FinalAlgorithm {
 
@@ -29,6 +30,11 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
         _numProcessors = numProcessors;
     }
 
+    /**
+     * A class that can be executed on a ForkJoinPool object. This class determines the optimal schedule for a
+     * given input graph.
+     * Extends RecursiveAction
+     */
     private class RecursiveFork extends RecursiveAction {
         // private static final int THRESHOLD = 8;
 
@@ -48,26 +54,31 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
 
         private void compute1() {
 
-            // If tasks is empty
+            // Statement only executes when recursion is at it's end. I.e. No more tasks to check.
             if (_tasks1.isEmpty()) {
                 //check time
                 int time = 0;
+
+                // Gets the final time a task will end for a particular schedule
                 for (Processor check : _processors) {
                     if (check.getTime() > time) {
                         time = check.getTime();
                     }
                 }
+
+                // If the current schedule is more efficient than the current be schedule, then the current
+                // schedule is now the best schedule (If there is no current best schedule, this schedule become the best schedule).
                 if (time < _bestTime.get() || _bestTime.get() == -1) {
                     _bestTime.set(time);
-                    List<Processor> sadness = new ArrayList<Processor>();
-                    for (Processor gah : _processors) {
+                    List<Processor> cloneProcessors = new ArrayList<Processor>();
+                    for (Processor processor : _processors) {
                         try {
-                            sadness.add(gah.clone());
+                            cloneProcessors.add(processor.clone());
                         } catch (CloneNotSupportedException e) {
                             e.printStackTrace();
                         }
                     }
-                    _bestProcess.set(sadness);
+                    _bestProcess.set(cloneProcessors);
                 }
             } else if (getBestTime(_processors) > _bestTime.get() && _bestTime.get() != -1) { // bound based on greedy
                 return;
@@ -86,12 +97,20 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
                         newList.remove(n);
 
                         RecursiveFork forkJob = new RecursiveFork(_processors, newList);
-                        int num_threads_running = pool.getActiveThreadCount();
+                        int num_threads_running =  pool.getActiveThreadCount();
+
+                        // Assigns and executes the task in the pool if the number of threads running is less
+                        // than the number of cores. Also, create a task if the new list size is above some elements (for efficiency)
                         if (num_threads_running < MAX_CORES && newList.size() > (_tasks.size() * 0.8)) {
+
+                            // Add task to thread pool for execution
                             pool.invoke(forkJob);
+                            invoke();
+
                         } else {
                             forkJob.compute1();
                         }
+
                         p.removeTask(n);
                         newList.add(n);
 
@@ -127,12 +146,15 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
         }
 
         System.out.println("Greedy output: " + _bestTime);
-        // invoke recursive call
 
+        // If the user provides a core number which is greater than the number of cores in their machine,
+        // then MAX_CORES is set to the total number of cores on their machine.
         int no_cores = Runtime.getRuntime().availableProcessors();
         if (MAX_CORES > no_cores) {
             MAX_CORES = no_cores;
         }
+
+        // create Fork Join pool and invoke the recursive function/method
         pool = new ForkJoinPool(MAX_CORES);
         RecursiveFork forkJob = new RecursiveFork(processorCopy, taskCopy);
         pool.invoke(forkJob);

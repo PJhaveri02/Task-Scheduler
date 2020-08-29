@@ -84,7 +84,7 @@ public class FinalAlgorithm implements algorithm {
 
         System.out.println("That took " + (endTime - startTime) + " milliseconds");
         System.out.println("Recursive was called " + _numSteps + " times");
-        System.out.println("Best time: " + _bestTime);
+        System.out.println("Recursive Schedule Time: " + _bestTime);
         return _bestProcess;
     }
 
