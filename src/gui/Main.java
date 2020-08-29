@@ -49,7 +49,7 @@ public class Main {
            // Platform.runLater(graph);
 //            launch(args);
 //            algorithm alg = new BadAlgorithm(terminalReader.getProcNum(),nodesList);
-           // algorithm alg = new FinalAlgorithm(terminalReader.getProcNum(),nodesList);
+           //algorithm alg = new FinalAlgorithm(terminalReader.getProcNum(),nodesList);
             ParallelFinalAlgorithm alg = new ParallelFinalAlgorithm(terminalReader.getProcNum(),nodesList, terminalReader.getNumberOfCores());
             List<Processor> scheduledProcessors = alg.execute();
             terminalReader.writeOutput(scheduledProcessors);

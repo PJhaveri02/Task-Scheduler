@@ -38,6 +38,7 @@ public class FinalAlgorithm implements algorithm {
 
     /**
      * create deep copy of all of the task
+     *
      * @return
      */
     public List<Node> createTaskList() {
@@ -159,22 +160,30 @@ public class FinalAlgorithm implements algorithm {
     }
 
     protected void recursiveAlg(List<Processor> pr, List<Node> task) {
-        _numSteps ++;
+        _numSteps++;
         if (getBestTime(pr) >= _bestTime && _bestTime != -1) {
             //System.out.println(_killedcounter++);
             return;
+
+            // Conditional branch reached when ALL tasks have been assigned to the processor list
         } else if (task.isEmpty()) {
 
             counter++;
 //            System.out.println(counter);
             //System.out.println(_bestTime);
             //check time
+
+            // Gets the latest start time of all processes.
+            // This is the optimal length for the current schedule
             int time = 0;
             for (Processor check : pr) {
                 if (check.getTime() > time) {
                     time = check.getTime();
                 }
             }
+
+            // If the optimal length of the running schedule is less than of the current best schedule
+            // or has not been assigned, set the best process and best time field
             if (time < _bestTime || _bestTime == -1) {
                 _bestTime = time;
                 List<Processor> sadness = new ArrayList<Processor>();
@@ -189,6 +198,7 @@ public class FinalAlgorithm implements algorithm {
                 _bestProcess = sadness;
             }
 
+            // If not, perform recursion with greediness
         } else {
             List<Node> doable = checkAvailability(task);
 
@@ -205,14 +215,15 @@ public class FinalAlgorithm implements algorithm {
                     List<Node> newList = createDeepCopy(task);
                     newList.remove(n);
 
+                    // Calls recursion on the list
                     recursiveAlg(pr, newList);
-                        p.removeTask(n);
-                        newList.add(n);
+                    p.removeTask(n);
+                    newList.add(n);
 
-                        //check if blank, stops wasted repeats
-                        if (p.getTime() == 0) {
-                            break;
-                        }
+                    //check if blank, stops wasted repeats
+                    if (p.getTime() == 0) {
+                        break;
+                    }
 
                 }
             }

@@ -48,6 +48,7 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
 
         private void compute1() {
 
+            // If tasks is empty
             if (_tasks1.isEmpty()) {
                 //check time
                 int time = 0;
@@ -85,17 +86,12 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
                         newList.remove(n);
 
                         RecursiveFork forkJob = new RecursiveFork(_processors, newList);
-                        int num_threads_running =  pool.getActiveThreadCount();
-                       // System.out.println(num_threads_running);
-                        //System.out.println("Global Tasks: " + _tasks.size() + " New List Size: " + newList.size());
-                        if ( num_threads_running < MAX_CORES && newList.size() > (_tasks.size() * 0.8)) {
-                          //  System.out.println("Task sent to pool");
-                           // tasksCreated++;
+                        int num_threads_running = pool.getActiveThreadCount();
+                        if (num_threads_running < MAX_CORES && newList.size() > (_tasks.size() * 0.8)) {
                             pool.invoke(forkJob);
                         } else {
                             forkJob.compute1();
                         }
-
                         p.removeTask(n);
                         newList.add(n);
 
