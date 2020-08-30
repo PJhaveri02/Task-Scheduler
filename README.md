@@ -9,10 +9,11 @@ in a reasonable amount of time. As a result, parallel processing is used to incr
 problem. 
 
 ## Prerequisites
-When running on the command line, you need a working JDK and JavaFX library. The project was run and tested with JDK 8 and Java 11. Please use the tested libraries while running the program.
+When running on the command line, you need a working JDK and JavaFX library. The project was run and tested with JDK 8 and Java 11. Please use the tested libraries while running the program. In order to use the visualization feature, JavaFX 11 must be downloaded, can be found here: https://openjfx.io/.
 
 ## Running on Command Line
 In order for the command line arguments to work properly, please ensure the prerequisites above are met.
+<b>Note:</b> "--module-path C:\Path\To\javafx\javafx-sdk-11.0.2\lib --add-modules javafx.base,javafx.controls,javafx.media,javafx.graphics, javafx.fxml" is required (with no quotes) after the java command in order to run. Please also place the javaFX SDK into the folder with the corresponding scheduler.jar and .dot format. 
 Download the schedule.jar file and place the file in a folder. Place the graph dot file (.dot format) in the same folder as the schedule.jar.
 The following is the structure of the command line, with optional arguments.
 ```
