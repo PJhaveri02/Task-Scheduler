@@ -27,13 +27,19 @@ Optional:
 
 ```
 ### Example on using command Line
-With the scheduler.jar and graph.dot file in the same folder, the following runs the graph.dot file with 2 Processors:
+With the scheduler.jar and graph.dot file in the same folder, the following runs the graph.dot file with 2 processors:
 ```
 
 java -jar scheduler.jar graph.dot 2
 
 ```
-The following windows are produced with the -v optional argument:
+The same call as above, but with the -v optional argument:
+```
+
+java -jar scheduler.jar graph.dot 2 -v
+
+```
+The following windows are produced to visualise during the execution of the program:
 ![Schedule List](GUI_2.PNG)
 Shows the schedule with the task under each processor.
 
