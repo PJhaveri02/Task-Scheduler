@@ -4,7 +4,7 @@ project-1-4-the-oopsies created by GitHub Classroom
 Welcome to The Oopsies team github page.
 Project by Leader Daniel Yeom, Lynette Nguyen, Josh Burton, Kenny Tang, Pranay Jkaveri, Wong Chong
 
-<h3> Prerequisites </h3>
+## Prerequisites
 When running on an IDE, you need a working JDK and JavaFX library. The project was ran and tested with JDK 8 and Java 11. Please use the tested.
 
 ## Running on Command Line
