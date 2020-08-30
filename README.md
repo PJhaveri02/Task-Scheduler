@@ -35,4 +35,5 @@ java -jar scheduler.jar graph.dot 2
 ```
 The following is with the -v optional argument:
 
+![Schedule List] (GUI_1.PNG)
 
