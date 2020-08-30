@@ -33,7 +33,10 @@ With the scheduler.jar and graph.dot file in the same folder, the following runs
 java -jar scheduler.jar graph.dot 2
 
 ```
-The following is with the -v optional argument:
+The following windows are produced with the -v optional argument:
 ![Schedule List](GUI_2.PNG)
+Shows the schedule with the task under each processor.
+
 ![Graph_Input_Visualisation](GUI_1.PNG)
+Shows a visualisation of the graph, with nodes as circles and edges as lines.
 
