@@ -13,7 +13,7 @@ When running on the command line, you need a working JDK and JavaFX library. The
 
 ## Running on Command Line
 In order for the command line arguments to work properly, please ensure the prerequisites above are met.
-Download the schedule.jar file and place the file in a folder. Place the graph dot file (.dot) in the same folder as the schedule.jar.
+Download the schedule.jar file and place the file in a folder. Place the graph dot file (.dot format) in the same folder as the schedule.jar.
 The following is the structure of the command line, with optional arguments.
 ```
 
@@ -33,5 +33,7 @@ With the scheduler.jar and graph.dot file in the same folder, the following runs
 java -jar scheduler.jar graph.dot 2
 
 ```
-
+The following is with the -v optional argument:
+![Schedule List](GUI_2.PNG)
+![Graph_Input_Visualisation](GUI_1.PNG)
 
