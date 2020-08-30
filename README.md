@@ -40,9 +40,9 @@ java -jar scheduler.jar graph.dot 2 -v
 
 ```
 The following windows are produced to visualise during the execution of the program:
-![Schedule List](GUI_2.PNG | width=500}
+![Schedule List](GUI_2.PNG)
 Shows the schedule with the task under each processor.
 
-<img src="GUI_1.PNG>
+![Visualise_Input_Graph](GUI_1.PNG)
 Shows a visualisation of the graph, with nodes as circles and edges as lines.
 
