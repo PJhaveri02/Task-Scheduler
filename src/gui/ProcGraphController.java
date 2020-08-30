@@ -5,8 +5,10 @@ import algorithm.Processor;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -14,29 +16,36 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProcGraphController{
+    private List<HBox> _prior;
 
     private List<Processor> _bestSchedule;
     private int _totalPerms;
     private int _killedPerms;
 
     @FXML
-    private Label _numUpdates;
-    @FXML
-    private HBox _processorContainer;
+    private Label _updateCounter;
+    private int _numUpdates;
 
     @FXML
     private VBox _container;
+    private HBox _schedule;
 
+    @FXML
+    private ComboBox _switcher;
+
+    private int _max;
+
+    private final int SIZE =900;
 
     public ProcGraphController(){
         _totalPerms = 0;
         _killedPerms = 0;
         _bestSchedule = null;
+        _prior = new ArrayList<HBox>();
     }
 
     public void update (List<Processor> newBest){
@@ -50,6 +59,12 @@ public class ProcGraphController{
 
 
     }
+
+    public void setMax(int max) {
+        _max = max;
+    }
+
+
     private class mistake{
         String NAME;
         int ENDTIME;
@@ -57,24 +72,47 @@ public class ProcGraphController{
         public int start(){
             return ENDTIME-WEIGHT;
         }
+
     }
 
-    private void incriment(){
-        _numUpdates.
+    private void increment() {
+        _numUpdates++;
+        _updateCounter.setText("Total updates: " + _numUpdates );
     }
+
     @FXML
-    private void updateDisplay(List<Processor> bestSchedule) {
-        incriment();
-        //_processorContainer.pro;
+    private void mySanityIsFading(){
 
-        int size =1;
-        for(Processor schedule : bestSchedule){
-            if(schedule.getTime()>size){
-                size =schedule.getTime();
-            }
+    }
+
+    private void updateDisplay(List<Processor> bestSchedule) {
+        if(_schedule != null){
+            _container.getChildren().clear();
+            _prior.add(_schedule);
+            _switcher.getItems().add(Integer.toString(_prior.size()));
+        }else{
+            _switcher.getSelectionModel().selectedItemProperty().addListener( (options, oldValue, newValue) -> {
+                if(!_prior.contains(_schedule)){
+                    System.out.println("why lord");
+                    _prior.add(_schedule);
+                    _switcher.getItems().add("final schedule");
+                }
+                if(((String)newValue).length()>2){
+                    _schedule=_prior.get(_prior.size()-1);
+                }else{
+                    _schedule = _prior.get(Integer.parseInt((String) newValue)-1);
+                }
+                _container.getChildren().clear();
+                _container.getChildren().add(_schedule);
+            });
         }
-        int scale = 700/size;
-        initScale(size,scale);
+
+        _schedule = new HBox();
+
+        _container.getChildren().add(_schedule);
+        increment();
+        int scale = SIZE/_max;
+        initScale2();
         int q =0;
         for(int i=0; i<bestSchedule.size(); i++){
             List<mistake> jesus = new ArrayList<mistake>();
@@ -89,23 +127,36 @@ public class ProcGraphController{
                 q++;
             }
             int a=0;
-            addProcToDisplay(i+1,scale,size,jesus);
+            addProcToDisplay(i+1,scale,jesus);
             System.out.println("----------");
         }
     }
 
-
-    private void addScale(int max){
-
-        //_processorContainer.getChildren().add(0,scale);
+    private void initScale2(){
+        VBox container = new VBox();
+        Label title = new Label("oh no");
+        Canvas biggerMistake = new Canvas(50,SIZE);
+        GraphicsContext gc = biggerMistake.getGraphicsContext2D();
+        gc.setLineWidth(2);
+        int scale = SIZE/_max;
+        for(int i = 0 ; i<_max;i++){
+            int y=i*scale;
+            if(i%5==0){
+                gc.strokeLine(30,y,50,y);
+            }else{
+                gc.strokeLine(40,y,50,y);
+            }
+        }
+        container.getChildren().addAll(title,biggerMistake);
+        _schedule.getChildren().add(container);
     }
 
-    private void initScale(int max, int scale){
+    private void initScale(int scale){
         VBox container = new VBox();
         GridPane inner = new GridPane();
-        javafx.scene.Node[] nodes = new javafx.scene.Node[max];
+        javafx.scene.Node[] nodes = new javafx.scene.Node[_max];
         container.getChildren().addAll(new Label ("Time"), inner);
-        for(int i =0; i<max; i++){
+        for(int i =0; i<_max; i++){
             //Rectangle r = new Rectangle(50,scale);
             Label r = new Label(Integer.toString(i));
             r.setMinWidth(40);
@@ -126,10 +177,10 @@ public class ProcGraphController{
             nodes[i] = r;
         }
         inner.addColumn(0,nodes);
-        _processorContainer.getChildren().add(container);
+        _schedule.getChildren().add(container);
     }
 
-    private void addProcToDisplay(int id, int scale, int max, List<mistake> questionablecodingpractice){
+    private void addProcToDisplay(int id, int scale, List<mistake> questionablecodingpractice){
         VBox proc = new VBox();
         GridPane proc2 = new GridPane();
 
@@ -138,14 +189,14 @@ public class ProcGraphController{
 
         proc.setAlignment(Pos.TOP_CENTER);
 
-        _processorContainer.getChildren().add(proc);
+        _schedule.getChildren().add(proc);
         int l = questionablecodingpractice.size();
-        javafx.scene.Node[] nodes = new javafx.scene.Node[max];
+        javafx.scene.Node[] nodes = new javafx.scene.Node[_max];
 
         int j=0;
         //creates a grid square for each point of weight and colours it accordingly
         Color c = Color.color (Math.random(), Math.random(), Math.random());
-        for(int i =0; i<max; i++){
+        for(int i =0; i<_max; i++){
             Color blank = Color.TRANSPARENT;
             Rectangle r = new Rectangle(50,scale);
             nodes[i] = r;

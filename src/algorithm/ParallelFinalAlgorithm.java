@@ -32,7 +32,7 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
         _numProcessors = numProcessors;
     }
 
-    public void addListener(ProcGraphController oddlySpecificScuffedListener){
+    public void addListener(ProcGraphController oddlySpecificScuffedListener) {
         _visuals = oddlySpecificScuffedListener;
     }
 
@@ -69,24 +69,25 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
                         }
                     }
                     _bestProcess.set(sadness);
+                    postVisual();
                 }
             } else if (getBestTime(_processors) > _bestTime.get() && _bestTime.get() != -1) { // bound based on greedy
                 return;
             } else {
-                    List<Node> doable = checkAvailability(_tasks1);
+                List<Node> doable = checkAvailability(_tasks1);
 
-                    for (Node n : doable) {
-                        for (Processor p : _processors) {
+                for (Node n : doable) {
+                    for (Processor p : _processors) {
 
-                            // need to change time
-                            int time1 = startTime(p, n, _processors);
+                        // need to change time
+                        int time1 = startTime(p, n, _processors);
 
-                            p.scheduleTask(n, time1);
+                        p.scheduleTask(n, time1);
 //                            List<Node> newList = _tasks1.subList(0, _tasks1.size());
 //                            newList.remove(n);
 
-                            List<Node> newList = _tasks1.subList(0, _tasks1.size());
-                            newList.remove(n);
+                        List<Node> newList = _tasks1.subList(0, _tasks1.size());
+                        newList.remove(n);
 
 //                            if (doable.size()==1){
 //                                List<Node> nextDoable = checkAvailability(newList);
@@ -96,25 +97,25 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
 //                            }
 
 
-                            RecursiveFork forkJob = new RecursiveFork(_processors, newList);
-                            if (newList.size() > THRESHOLD) {
-                                //invoke recursions
-                                invoke();
-                            } else {
-                                forkJob.compute();
-                            }
-                            p.removeTask(n);
-                            newList.add(n);
+                        RecursiveFork forkJob = new RecursiveFork(_processors, newList);
+                        if (newList.size() > THRESHOLD) {
+                            //invoke recursions
+                            invoke();
+                        } else {
+                            forkJob.compute();
+                        }
+                        p.removeTask(n);
+                        newList.add(n);
 
-                            //check if blank, stops wasted repeats
-                            if (p.getTime() == 0) {
-                                break;
-                            }
+                        //check if blank, stops wasted repeats
+                        if (p.getTime() == 0) {
+                            break;
                         }
                     }
                 }
             }
         }
+    }
 
 
     @Override
@@ -132,8 +133,8 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
 
         //check if only 1 root
         List<Node> doable = checkAvailability(taskCopy);
-        if (doable.size()==1){
-            processorCopy.get(0).scheduleTask(doable.get(0),0);
+        if (doable.size() == 1) {
+            processorCopy.get(0).scheduleTask(doable.get(0), 0);
             taskCopy.removeAll(doable);
         }
 
@@ -141,15 +142,13 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
         pool = new ForkJoinPool(MAX_CORES);
         RecursiveFork forkJob = new RecursiveFork(processorCopy, taskCopy);
         pool.invoke(forkJob);
-
         long endTime = System.currentTimeMillis();
         System.out.println("That took " + (endTime - startTime) + " milliseconds");
-        postVisual();
         return _bestProcess.get();
     }
 
-    private void postVisual(){
-        if(_visuals!=null) {
+    private void postVisual() {
+        if (_visuals != null) {
             _visuals.update(_bestProcess.get());
         }
     }
@@ -190,5 +189,23 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
 
         _bestProcess = new AtomicReference<List<Processor>>(procs);
         _bestTime.set(getBestTime(procs));
+        postVisual();
+        initMax();
+
+    }
+
+
+    //initialises the size of the time scale for the visualisation
+    private void initMax() {
+        if (_visuals != null) {
+            int max = 0;
+            for (Processor proc : _bestProcess.get()) {
+                int howManyTimesHaveIWrittenThisExactCodeFragmentThisIsWhyWeShouldHavePutThisInModel = proc.getTime();
+                if (howManyTimesHaveIWrittenThisExactCodeFragmentThisIsWhyWeShouldHavePutThisInModel > max) {
+                    max = howManyTimesHaveIWrittenThisExactCodeFragmentThisIsWhyWeShouldHavePutThisInModel;
+                }
+            }
+            _visuals.setMax(max);
+        }
     }
 }
