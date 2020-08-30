@@ -23,37 +23,37 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
 
 public class Main extends Application{
     private static ProcGraphController _visController;
     private static Model model;
-    private static algorithm alg;
-
-    public static algorithm getAlgorithm(){
-        return alg;
-    }
-
 
     public static void main(String[] args) {
-
         System.out.println("gui main");
         TerminalReader terminalReader = new TerminalReader(args);
         try {
             terminalReader.validateInputs();
             model = terminalReader.readInput();
             model.addLevels();
-//            List<Processor> processorList = terminalReader.createProcessors();
             List<Node> nodesList = model.getNodes();
             GraphCreator graph = new GraphCreator(model);
-            doVis();
+            System.out.println("???");
+            final CountDownLatch latch = new CountDownLatch(1);
+            System.out.println("start");
+            doVis(latch);
+            System.out.println("waiting");
+            latch.await();
+            System.out.println("unwaiting");
            // Platform.runLater(graph);
-//            launch(args);
 //            algorithm alg = new BadAlgorithm(terminalReader.getProcNum(),nodesList);
 //            algorithm alg = new FinalAlgorithm(terminalReader.getProcNum(),nodesList);
             ParallelFinalAlgorithm alg = new ParallelFinalAlgorithm(terminalReader.getProcNum(),nodesList, terminalReader.getNumberOfCores());
+            alg.addListener(_visController);
             List<Processor> scheduledProcessors = alg.execute();
             terminalReader.writeOutput(scheduledProcessors);
-            _visController.update(null);
+            //VisTester tester = new VisTester(_visController);
+            //tester.passEmpty();
 
         } catch (IncorrectInputException e) {
             System.out.println(e.getMessage());
@@ -63,7 +63,7 @@ public class Main extends Application{
         }
     }
 
-    private static void doVis() {
+    private static void doVis(CountDownLatch latch) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -77,13 +77,15 @@ public class Main extends Application{
                     // Create the Pane and all Details
                     AnchorPane root = null;
                     root = (AnchorPane) loader.load(fxmlStream);
+                    _visController = loader.getController();
+                    System.out.println("finished");
+                    latch.countDown();
+                    System.out.println("unlocked");
                     Scene scene = new Scene(root);
                     Stage stage = new Stage(StageStyle.DECORATED);
                     stage.setTitle("fuk noes");
                     stage.setScene(scene);
                     stage.show();
-                    System.out.println("start");
-                    System.out.println("finish");
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {

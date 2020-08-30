@@ -34,7 +34,7 @@ public class ProcGraphCreator implements Runnable{
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    controller.updateDisplay(_bestSchedule);
+                    controller.update(_bestSchedule);
                 }
             });
 

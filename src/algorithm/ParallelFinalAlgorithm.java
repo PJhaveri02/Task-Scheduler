@@ -1,5 +1,7 @@
 package algorithm;
 
+import gui.ProcGraphController;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,6 +15,7 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
     private final int MAX_CORES;
     private int _numProcessors;
     private List<Node> _tasks;
+    private ProcGraphController _visuals;
 
     // These variables need to be atomic as they will be accessed by multiple threads
     private AtomicInteger _bestTime = new AtomicInteger(-1);
@@ -29,6 +32,9 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
         _numProcessors = numProcessors;
     }
 
+    public void addListener(ProcGraphController oddlySpecificScuffedListener){
+        _visuals = oddlySpecificScuffedListener;
+    }
 
     private class RecursiveFork extends RecursiveAction {
         private static final int THRESHOLD = 8;
@@ -138,8 +144,14 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
 
         long endTime = System.currentTimeMillis();
         System.out.println("That took " + (endTime - startTime) + " milliseconds");
-
+        postVisual();
         return _bestProcess.get();
+    }
+
+    private void postVisual(){
+        if(_visuals!=null) {
+            _visuals.update(_bestProcess.get());
+        }
     }
 
 
