@@ -16,7 +16,6 @@ In order for the command line arguments to work properly, please ensure the prer
 Download the schedule.jar file and place the file in a folder. Place the graph dot file (.dot format) in the same folder as the schedule.jar.
 The following is the structure of the command line, with optional arguments.
 ```
-
 java -jar scheduler.jar INPUT.dot P [OPTION]
 INPUT.dot a task graph with integer weights in dot format
 P         number of processors to schedule the INPUT graph on
@@ -29,7 +28,7 @@ Optional:
 ### Example on using command Line
 With the scheduler.jar and graph.dot file in the same folder, the following runs the graph.dot file with 2 processors:
 ```
-
+java --module-path C:\Path\To\javafx\javafx-sdk-11.0.2\lib --add-modules javafx.base,javafx.controls,javafx.media,javafx.graphics, javafx.fxml -jar scheduler.jar Nodes_8_Random.dot 3 -p 4 -v
 java -jar scheduler.jar graph.dot 2
 
 ```
