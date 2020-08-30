@@ -16,7 +16,7 @@ public class TerminalReader {
     private String outputDotFile;
     private int numberOfProcessors = 1;
     private boolean visualiseSearch = false;
-    private int numberOfCores = 1;
+    private int numberOfCores = 0;
     private File input;
 
     public TerminalReader(String[] args) {
@@ -106,13 +106,15 @@ public class TerminalReader {
     }
 
 
-
-    //creates a list of processors according to the number of the number of processors specified by the user
+    /**
+     * creates a list of processors according to the number of the number of processors specified by the user
+     * @return
+     */
     public List<Processor> createProcessors() {
         List<Processor> processorList = new ArrayList<>();
-            for (int i = 1; i <= numberOfProcessors; i++){
-                processorList.add(new Processor(i));
-            }
+        for (int i = 1; i <= numberOfProcessors; i++){
+            processorList.add(new Processor(i));
+        }
         return processorList;
     }
 
@@ -120,10 +122,12 @@ public class TerminalReader {
         return numberOfProcessors;
     }
 
-    //read the .dot file and print it
-    //TODO need weight criteria
-    public Model readInput() throws IncorrectInputException {
-        validateInputs();
+    /**
+     * read the input .dot file and print it
+     * @return
+     * @throws IncorrectInputException
+     */
+    public Model readInput() {
         try {
             BufferedReader in = new BufferedReader(new FileReader(input));
             String st = in.readLine();
@@ -140,7 +144,6 @@ public class TerminalReader {
                     }
                 }
             }
-//            model.print();
             return model;
         } catch (IOException e) {
             e.printStackTrace();
@@ -149,8 +152,10 @@ public class TerminalReader {
         return null;
     }
 
-    //writes an output file
-    //for now, just writes a dot file with a single node
+    /**
+     * writes to the output file
+     * @param sortedProcessors
+     */
     public void writeOutput(List<Processor> sortedProcessors) {
         File output = new File(outputDotFile);
         try {
@@ -170,20 +175,15 @@ public class TerminalReader {
 
                         bw.write("\n\t\t"+dependent);
                     }
-//                    bw.write("\n\t\t"+tasks.)
                 }
-
             }
 
-//            bw.write("\n\ta\t[weight = 4]");
             bw.write("\n}");
             bw.close();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
 
     }
 

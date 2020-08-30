@@ -12,17 +12,10 @@ public class Node implements Comparable<Node>{
     private int _weight;
     private final int _id;
     private String _name;
-
     private int _bottomWeight;
-//    private int _start;
     private int _level;
-    private Processor _processor;
     private Map<Node,Integer> _dependentsAndWeight;
-
-    // children of the current node
-    private Map<Node, Integer> _childrenNodes;
-
-    //private Map<Node,Integer> _incompleteDependents;
+    private Map<Node, Integer> _childNodes;
 
     /**
      * Constructor of the Task. Map is used to connect the cost of jumping to another processor
@@ -34,9 +27,8 @@ public class Node implements Comparable<Node>{
         _weight = weight;
         _id = id;
         _name = name;
-        //using hashmap for now, if we need insertion order iteration, linkedHashMap is the better choice
         _dependentsAndWeight = new HashMap<Node, Integer>();
-        _childrenNodes = new HashMap<Node, Integer>();
+        _childNodes = new HashMap<Node, Integer>();
     }
 
     @Override
@@ -52,32 +44,10 @@ public class Node implements Comparable<Node>{
         return _id;
     }
 
-    //start field appears to be removed
-//    public int getStart() {
-//        return _start;
-//    }
-//    public void setStart(int time) { _start = time; }
-
-    //changed from return type processor to string
-//    public String get_processor() {
-//        return _processor.toString();
-//    }
-
-//    public void setProcessor(Processor processor) {
-//        this._processor = processor;
-//    }
-
-    //TODO
-    public ArrayList<Boolean>CheckDependencies() {
-        //incomplete
-        return null;
-    }
-
-//    public Processor getProcessor() {
-//        return _processor;
-//    }
-
-    //maybe redundant
+    /**
+     * checks if the task has any dependencies
+     * @return
+     */
     public boolean hasDependency(){
         if(_dependentsAndWeight.isEmpty()){
             return false;
@@ -89,25 +59,15 @@ public class Node implements Comparable<Node>{
         _dependentsAndWeight.put(requiredNode, weight);
     }
 
-    public void addChildNodes(Node requiredNode, int weight) { _childrenNodes.put(requiredNode, weight); }
+    public void addChildNodes(Node requiredNode, int weight) { _childNodes.put(requiredNode, weight); }
 
     public Map<Node, Integer> getDependentsAndWeight() {
         return _dependentsAndWeight;
     }
 
-    //returns number of dependencies
-    //feels kind of bad compared to hasDependency
-    public int numDependecies() {
+    public int numDependencies() {
         return _dependentsAndWeight.size();
     }
-
-    //returns node description in .dot format
-
-    // needs to return start and processor number
-//    public String toDescription(){
-////        return _name + "   [Weight = " + _weight + ", Start= " + _start +", Processor="+ this.get_processor()+"];";
-//        return _name + "   [Weight = " + _weight + ", Start= " + _start +", Processor="+_processor.toString()+"];";
-//    }
 
     /**
      *
@@ -131,7 +91,7 @@ public class Node implements Comparable<Node>{
      * Obtain arraylist of all the children nodes of the current node.
      * @return an arraylist of nodes
      */
-    public ArrayList<Node> getChildren() {return new ArrayList<Node>(_childrenNodes.keySet());}
+    public ArrayList<Node> getChildren() {return new ArrayList<Node>(_childNodes.keySet());}
 
     /**
      * Set the bottom weight of this particular node
@@ -173,11 +133,4 @@ public class Node implements Comparable<Node>{
         return false;
     }
 
-    public int getLevel(){
-        return _level;
-    }
-
-    public void setLevel(int level){
-        _level = level;
-    }
 }

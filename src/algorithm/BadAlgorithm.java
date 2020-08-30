@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class BadAlgorithm implements algorithm {
+public class BadAlgorithm {
 
     private List<Processor> _processors= new ArrayList<Processor>();
     private List<Node> _tasks;
@@ -29,7 +29,6 @@ public class BadAlgorithm implements algorithm {
     public void nodeBottomLevel() {
         for (Node task : _tasks) {
             // calculating the bottom level of this task
-
             if (task.getChildren().size() > 0) {
                 int bottomLevel = calculateBottomLevel(task);
             } else {
@@ -78,20 +77,12 @@ public class BadAlgorithm implements algorithm {
      *
      * @return ArrayList<Processor>
      */
-    @Override
     public List<Processor> execute() {
 
         this.nodeBottomLevel();
         Collections.sort(_tasks);
-        //printing bottom level : success
-//        for (Node task : _tasks) {
-//            System.out.println(task.toString() + ": " + task.getBottomLevel());
-//        }
 
         Processor processor = _processors.get(0);
-//        Node rootNode = findRootNode(_tasks);
-//        processor.scheduleTask(rootNode, rootNode.getStart());
-//        _tasks.remove(rootNode);
 
         // check if tasks is not empty
         while (!_tasks.isEmpty() || !_available.isEmpty()) {
@@ -100,12 +91,6 @@ public class BadAlgorithm implements algorithm {
                 for (Node node : _available) {
                     // add on processor
                     addTask(processor, node);
-                    // add finishing time on processor map
-                    //update processor 'start time'
-
-
-//                    node.setStart(processor.getTime());
-//                    processor.scheduleTask(node, node.getStart());
                 }
                 _available.clear();
             } else {

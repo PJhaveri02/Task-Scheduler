@@ -28,7 +28,7 @@ public class TestSequentialAlgorithm {
         try {
             terminalReader.validateInputs();
             model = terminalReader.readInput();
-            model.addLevels();
+            //model.addLevels();
             List<Node> nodesList = model.getNodes();
             GraphCreator graph = new GraphCreator(model);
             _alg = new FinalAlgorithm(terminalReader.getProcNum(), nodesList);

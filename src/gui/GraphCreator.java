@@ -6,16 +6,10 @@ import com.brunomnsilva.smartgraph.graph.Digraph;
 import com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
 import com.brunomnsilva.smartgraph.graphview.SmartPlacementStrategy;
-import com.brunomnsilva.smartgraph.graphview.SmartRandomPlacementStrategy;
 import com.brunomnsilva.smartgraph.graphview.SmartCircularSortedPlacementStrategy;
-import javafx.application.Application;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class GraphCreator implements Runnable {
 
@@ -23,11 +17,6 @@ public class GraphCreator implements Runnable {
     //pass in model
     public GraphCreator(Model graph) {
         _schedule = graph;
-    }
-
-    public void addEdge(){
-        //add edge to graph
-//        updateGraph
     }
 
     @Override

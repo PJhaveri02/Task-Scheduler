@@ -1,17 +1,20 @@
 package algorithm;
 
+import gui.ProcGraphController;
+
 import java.util.*;
 
 public class FinalAlgorithm implements algorithm {
 
     private int _processorsNum;
     private long _numSteps = 0;
-    private int _killedcounter = 0;
     private List<Node> _tasks;
     private int _bestTime = -1;
     private List<Processor> _bestProcess;
     private List<List<Processor>> _allProcessCombinations = new ArrayList<List<Processor>>();
     long counter = 0;
+
+    private ProcGraphController _visuals;
 
     /**
      * returns a SINGLE processor
@@ -88,6 +91,10 @@ public class FinalAlgorithm implements algorithm {
         return _bestProcess;
     }
 
+    public void addListener(ProcGraphController listener) {
+        _visuals = listener;
+    }
+
     /**
      * find the earliest start time on a given processor for a specific node
      */
@@ -141,6 +148,13 @@ public class FinalAlgorithm implements algorithm {
         }
         _bestProcess = procs;
         _bestTime = getBestTime(procs);
+        postVisual();
+    }
+
+    private void postVisual() {
+        if (_visuals != null) {
+            _visuals.update(_bestProcess);
+        }
     }
 
     /**

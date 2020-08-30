@@ -1,6 +1,5 @@
 package algorithm;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,28 +11,31 @@ import java.util.Map;
  */
 public class Model {
     private int _nodeCount;
-    private Exception _broken;
     private List<Node> _nodes;
     private Map<String, Node> _names;
     private String _name;
     private List<List<Node>> _levels = new ArrayList<List<Node>>();
 
-
-
+    /**
+     * constructor for the class
+     * @param name
+     */
     public Model(String name){
         _name = name;
         _nodes = new ArrayList<Node>();
         _names = new HashMap<String, Node>();
     }
 
-
     public List<List<Node>> getLevels(){
         return _levels;
     }
 
-    //adds a node to the model
-    public void addNode(String des) {
-        String[] parts = des.split("\t");
+    /**
+     * Adds a node to the model
+     * @param line
+     */
+    public void addNode(String line) {
+        String[] parts = line.split("\t");
         String name = parts[1];
         int weight = Integer.parseInt(parts[2].replaceAll("\\D+",""));
         Node node = new Node(weight, _nodeCount , name);
@@ -42,10 +44,13 @@ public class Model {
         _nodeCount++;
     }
 
-    //adds a dependency to a model
-    public void addDependency(String des){
+    /**
+     * Add a dependency to the model
+     * @param edge
+     */
+    public void addDependency(String edge){
         //separates weight from nodes
-        String[] parts = des.split("\t");
+        String[] parts = edge.split("\t");
         //separates node names
         String[] nodes = parts[1].replaceAll(" ","").split("->");
         String dependentNode = nodes[1];
@@ -55,6 +60,10 @@ public class Model {
         _names.get(dependentNode).addDependency(_names.get(requiredNode),weight);
     }
 
+    /**
+     * Add a child node to a node
+     * @param child
+     */
     public void addChildNode(String child) {
         //separates weight from nodes
         String[] parts = child.split("\t");
@@ -68,14 +77,16 @@ public class Model {
 
     }
 
-    //returns a list of strings containing a description of the model in .dot format
+    /**
+     * returns a list of strings containing a description of the model in .dot format
+     * @return
+     */
     public List<String> asText(){
-        //SOMEONE AGREE OR DISAGREE THAT TABS SHOULD BE ADDED HERE AND DISCUSS
         List<String> text = new ArrayList<String>();
         text.add("digraph \"" + _name + "\" {");
         for(Node node: _nodes){
             text.add("\t" + node.toString());
-            int x = node.numDependecies();
+            int x = node.numDependencies();
             if(node.hasDependency()){
                 for(String string : node.dependenciesToString()){
                     text.add("\t" + string);
@@ -84,18 +95,6 @@ public class Model {
         }
         text.add("}");
         return text;
-    }
-
-    //prints description in .dot format to console
-    public void print(){
-        List<String> lines = asText();
-        for(String line: lines){
-            System.out.println(line);
-        }
-    }
-
-    public void setErr(IOException e) {
-        _broken = e;
     }
 
     /**
@@ -119,11 +118,7 @@ public class Model {
             }
         }
 
-        int level = 0;
         while(!_avaliable.isEmpty() || !_unavaliable.isEmpty() ){
-//            for (Node n : _avaliable){
-//                n.setLevel(level);
-//            }
             List<Node> newLevel = new ArrayList<Node>();
             for (Node n : _avaliable){
                 newLevel.add(n);
@@ -133,7 +128,6 @@ public class Model {
             List<Node> availableNodes = checkAvailability(_unavaliable);
             _avaliable.addAll(availableNodes);
             _unavaliable.removeAll(availableNodes);
-            level++;
             _levels.add(newLevel);
         }
 //        System.out.println("check");

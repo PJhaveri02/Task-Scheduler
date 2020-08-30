@@ -80,10 +80,10 @@ public class ProcGraphController{
         _updateCounter.setText("Total updates: " + _numUpdates );
     }
 
-    @FXML
-    private void mySanityIsFading(){
-
-    }
+//    @FXML
+//    private void mySanityIsFading(){
+//
+//    }
 
     private void updateDisplay(List<Processor> bestSchedule) {
         if(_schedule != null){

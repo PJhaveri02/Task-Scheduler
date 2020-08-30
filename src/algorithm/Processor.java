@@ -7,13 +7,9 @@ import java.util.Map;
 
 public class Processor implements Cloneable {
 
-    //processor 'core' numbers
     private int _id;
-    // internal timer of ending time of the 'latest' task
     private int _time;
     private Map<Node, Integer> _endTime = new HashMap<Node, Integer>();
-
-    //list of tasks which will be executed
     private List<Node> _tasks;
 
     public Processor(int coreNumber) {
@@ -22,7 +18,11 @@ public class Processor implements Cloneable {
         _tasks = new ArrayList<Node>();
     }
 
-    //[Weight = 2, Start= 0, Processor=1];
+    /**
+     * format the string for writing to the output file
+     * @param task
+     * @return
+     */
     public String writeString(Node task) {
         int weight = task.get_weight();
         return task.toString() + "\t[Weight=" + weight + ", Start="
@@ -47,15 +47,16 @@ public class Processor implements Cloneable {
     public void scheduleTask(Node node, int startTime) {
         _tasks.add(node);
         int endTime = startTime + node.get_weight();
-//        System.out.println(endTime);
         _time = endTime;
         _endTime.put(node, endTime);
     }
 
+    /**
+     * removes a task from the processor
+     * @param node
+     */
     public void removeTask(Node node) {
         _tasks.remove(node);
-//        _time -= node.get_weight();
-        //THIS IS REALLY FUKING DUMB
         if (_tasks.size() == 0) {
             _time = 0;
         } else {
@@ -64,11 +65,15 @@ public class Processor implements Cloneable {
         _endTime.remove(node);
     }
 
-
+    /**
+     * returns the earliest time the processor becomes available
+     * @param n
+     * @return
+     */
     public int getEnd(Node n) {
-        Integer sad = _endTime.get(n);
-        if (sad != null) {
-            return sad;
+        Integer time = _endTime.get(n);
+        if (time != null) {
+            return time;
         }
         return -1;
     }
@@ -86,11 +91,6 @@ public class Processor implements Cloneable {
     public int getTime() {
         return _time;
     }
-
-    public void addTask(Node n) {
-        _tasks.add(n);
-    }
-
 
     /**
      * makes a deep copy of a Processor object
