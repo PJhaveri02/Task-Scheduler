@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ProcGraphCreator">
+<AnchorPane prefHeight="800.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ProcGraphController">
    <children>
-      <ScrollPane layoutX="93.0" layoutY="81.0" prefHeight="261.0" prefWidth="442.0">
-         <content>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <HBox fx:id="_processorContainer" prefHeight="100.0" prefWidth="200.0" />
-               </children>
-            </VBox>
-         </content>
-      </ScrollPane>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="230.0" layoutY="27.0" text="Processors">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="230.0" layoutY="14.0" text="Processors">
          <font>
             <Font size="30.0" />
          </font>
       </Label>
+      <HBox alignment="CENTER" layoutX="37.0" layoutY="71.0" prefHeight="252.0" prefWidth="517.0">
+         <children>
+            <VBox fx:id="_container" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" />
+         </children>
+      </HBox>
+      <Label fx:id="_updateCounter" layoutX="37.0" layoutY="27.0" text="Number of Updates: 0">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="_switcher" layoutX="413.0" layoutY="24.0" prefWidth="150.0" promptText="Latest" />
    </children>
 </AnchorPane>

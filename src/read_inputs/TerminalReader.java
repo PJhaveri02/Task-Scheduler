@@ -23,6 +23,10 @@ public class TerminalReader {
         this.args = args;
     }
 
+    public boolean getVisualizationResult(){
+        return visualiseSearch;
+    }
+
     /**
      * This function validates that the parameters provided by the user in terminal are valid.
      * If not, an IncorrectInputException is thrown
@@ -100,6 +104,8 @@ public class TerminalReader {
             }
         }
     }
+
+
 
     //creates a list of processors according to the number of the number of processors specified by the user
     public List<Processor> createProcessors() {

@@ -23,36 +23,44 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-import algorithm.FinalAlgorithm;
 
-public class Main {
-    private ProcGraphController _visController;
+import java.util.concurrent.CountDownLatch;
+
+
+public class Main extends Application{
+    private static ProcGraphController _visController;
     private static Model model;
-    private static algorithm alg;
-
-    public static algorithm getAlgorithm() {
-        return alg;
-    }
-
 
     public static void main(String[] args) {
-       // Platform.runLater(new ProcGraphCreator());
+
         System.out.println("gui main");
         TerminalReader terminalReader = new TerminalReader(args);
         try {
             terminalReader.validateInputs();
             model = terminalReader.readInput();
             model.addLevels();
-//            List<Processor> processorList = terminalReader.createProcessors();
             List<Node> nodesList = model.getNodes();
-            GraphCreator graph = new GraphCreator(model);
-           // Platform.runLater(graph);
-//            launch(args);
-//            algorithm alg = new BadAlgorithm(terminalReader.getProcNum(),nodesList);
-//            algorithm alg = new FinalAlgorithm(terminalReader.getProcNum(),nodesList);
-            ParallelFinalAlgorithm alg = new ParallelFinalAlgorithm(terminalReader.getProcNum(),nodesList, terminalReader.getNumberOfCores());
+
+            //            algorithm alg = new BadAlgorithm(terminalReader.getProcNum(),nodesList);
+            //            algorithm alg = new FinalAlgorithm(terminalReader.getProcNum(),nodesList);
+            ParallelFinalAlgorithm alg = new ParallelFinalAlgorithm(terminalReader.getProcNum(), nodesList, terminalReader.getNumberOfCores());
+            if (terminalReader.getVisualizationResult()) {
+                GraphCreator graph = new GraphCreator(model);
+                System.out.println("???");
+                final CountDownLatch latch = new CountDownLatch(1);
+                System.out.println("start");
+                doVis(latch);
+                System.out.println("waiting");
+                latch.await();
+                System.out.println("unwaiting");
+                Platform.runLater(graph);
+                alg.addListener(_visController);
+            }
+
             List<Processor> scheduledProcessors = alg.execute();
             terminalReader.writeOutput(scheduledProcessors);
+            //VisTester tester = new VisTester(_visController);
+            //tester.passEmpty();
 
         } catch (IncorrectInputException e) {
             System.out.println(e.getMessage());
@@ -62,7 +70,7 @@ public class Main {
         }
     }
 
-    private void doVis() {
+    private static void doVis(CountDownLatch latch) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -77,6 +85,9 @@ public class Main {
                     AnchorPane root = null;
                     root = (AnchorPane) loader.load(fxmlStream);
                     _visController = loader.getController();
+                    System.out.println("finished");
+                    latch.countDown();
+                    System.out.println("unlocked");
                     Scene scene = new Scene(root);
                     Stage stage = new Stage(StageStyle.DECORATED);
                     stage.setTitle("fuk noes");
@@ -88,8 +99,14 @@ public class Main {
                     e.printStackTrace();
                 }
 
+
             }
         });
+
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
 
     }
 }

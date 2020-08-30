@@ -1,5 +1,7 @@
 package algorithm;
 
+import gui.ProcGraphController;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,7 +16,10 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
     private int MAX_CORES;
     private int _numProcessors;
     private List<Node> _tasks;
-    private static int tasksCreated = 1;
+    //private static int tasksCreated = 1;
+
+    private ProcGraphController _visuals;
+
 
     // These variables need to be atomic as they will be accessed by multiple threads
     private AtomicInteger _bestTime = new AtomicInteger(-1);
@@ -35,6 +40,12 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
      * given input graph.
      * Extends RecursiveAction
      */
+
+    public void addListener(ProcGraphController oddlySpecificScuffedListener) {
+        _visuals = oddlySpecificScuffedListener;
+    }
+
+
     private class RecursiveFork extends RecursiveAction {
         // private static final int THRESHOLD = 8;
 
@@ -78,7 +89,11 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
                             e.printStackTrace();
                         }
                     }
+
                     _bestProcess.set(cloneProcessors);
+
+//                    _bestProcess.set(sadness);
+                    postVisual();
                 }
             } else if (getBestTime(_processors) > _bestTime.get() && _bestTime.get() != -1) { // bound based on greedy
                 return;
@@ -96,6 +111,7 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
                         List<Node> newList = _tasks1.subList(0, _tasks1.size());
                         newList.remove(n);
 
+//<<<<<<< HEAD
                         RecursiveFork forkJob = new RecursiveFork(_processors, newList);
                         int num_threads_running =  pool.getActiveThreadCount();
 
@@ -111,6 +127,16 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
                             forkJob.compute1();
                         }
 
+//=======
+//
+//                        RecursiveFork forkJob = new RecursiveFork(_processors, newList);
+//                        if (newList.size() > THRESHOLD) {
+//                            //invoke recursions
+//                            invoke();
+//                        } else {
+//                            forkJob.compute();
+//                        }
+//>>>>>>> vis2
                         p.removeTask(n);
                         newList.add(n);
 
@@ -158,11 +184,17 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
         pool = new ForkJoinPool(MAX_CORES);
         RecursiveFork forkJob = new RecursiveFork(processorCopy, taskCopy);
         pool.invoke(forkJob);
-
         long endTime = System.currentTimeMillis();
         System.out.println("That took " + (endTime - startTime) + " milliseconds");
         System.out.println("Best time: " + _bestTime);
+
         return _bestProcess.get();
+    }
+
+    private void postVisual() {
+        if (_visuals != null) {
+            _visuals.update(_bestProcess.get());
+        }
     }
 
 
@@ -201,5 +233,23 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
 
         _bestProcess = new AtomicReference<List<Processor>>(procs);
         _bestTime.set(getBestTime(procs));
+        postVisual();
+        initMax();
+
+    }
+
+
+    //initialises the size of the time scale for the visualisation
+    private void initMax() {
+        if (_visuals != null) {
+            int max = 0;
+            for (Processor proc : _bestProcess.get()) {
+                int howManyTimesHaveIWrittenThisExactCodeFragmentThisIsWhyWeShouldHavePutThisInModel = proc.getTime();
+                if (howManyTimesHaveIWrittenThisExactCodeFragmentThisIsWhyWeShouldHavePutThisInModel > max) {
+                    max = howManyTimesHaveIWrittenThisExactCodeFragmentThisIsWhyWeShouldHavePutThisInModel;
+                }
+            }
+            _visuals.setMax(max);
+        }
     }
 }

@@ -27,7 +27,7 @@ STYLESHEET FOR JAVAFXGRAPH VISUALIZATION
 }
 
 .edge-label {
-    -fx-font: normal 25pt "sans-serif";
+    -fx-font: normal 10pt "sans-serif";
 }
 
 .arrow {
