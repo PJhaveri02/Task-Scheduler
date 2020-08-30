@@ -70,7 +70,6 @@ public class FinalAlgorithm implements algorithm {
 
         greedyAlg();
 
-        //MY MEME VERSION KEKW
         List<Processor> processorCopy = createProcessors();
         List<Node> taskCopy = createTaskList();
 
@@ -144,11 +143,11 @@ public class FinalAlgorithm implements algorithm {
             (earliestP).scheduleTask(taskDoable.get(0), time);
             taskRemain.remove(taskDoable.get(0));
             taskDoable.remove(0);
-//            }
         }
         _bestProcess = procs;
         _bestTime = getBestTime(procs);
         postVisual();
+        initMax();
     }
 
     private void postVisual() {
@@ -176,16 +175,12 @@ public class FinalAlgorithm implements algorithm {
     protected void recursiveAlg(List<Processor> pr, List<Node> task) {
         _numSteps++;
         if (getBestTime(pr) >= _bestTime && _bestTime != -1) {
-            //System.out.println(_killedcounter++);
             return;
 
             // Conditional branch reached when ALL tasks have been assigned to the processor list
         } else if (task.isEmpty()) {
 
             counter++;
-//            System.out.println(counter);
-            //System.out.println(_bestTime);
-            //check time
 
             // Gets the latest start time of all processes.
             // This is the optimal length for the current schedule
@@ -200,16 +195,16 @@ public class FinalAlgorithm implements algorithm {
             // or has not been assigned, set the best process and best time field
             if (time < _bestTime || _bestTime == -1) {
                 _bestTime = time;
-                List<Processor> sadness = new ArrayList<Processor>();
-                for (Processor gah : pr) {
+                List<Processor> procCopy = new ArrayList<Processor>();
+                for (Processor proc : pr) {
                     try {
-                        sadness.add(gah.clone());
+                        procCopy.add(proc.clone());
                     } catch (CloneNotSupportedException e) {
                         e.printStackTrace();
                     }
                 }
-//                _allProcessCombinations.add(sadness);
-                _bestProcess = sadness;
+                _bestProcess = procCopy;
+                postVisual();
             }
 
             // If not, perform recursion with greediness
@@ -218,24 +213,20 @@ public class FinalAlgorithm implements algorithm {
 
             //get available
             for (Node n : doable) {
-                for (Processor p : pr) {
+                for (Processor proc : pr) {
 
-//                    for (Processor pTime : pr) {
-                    int time = startTime(p, n, pr);
-//                    }
-                    p.scheduleTask(n, time);
-                    //can probably be removed
-//                    List<Node> newList = task.subList(0, task.size());
+                    int time = startTime(proc, n, pr);
+                    proc.scheduleTask(n, time);
                     List<Node> newList = createDeepCopy(task);
                     newList.remove(n);
 
                     // Calls recursion on the list
                     recursiveAlg(pr, newList);
-                    p.removeTask(n);
+                    proc.removeTask(n);
                     newList.add(n);
 
                     //check if blank, stops wasted repeats
-                    if (p.getTime() == 0) {
+                    if (proc.getTime() == 0) {
                         break;
                     }
 
@@ -305,4 +296,19 @@ public class FinalAlgorithm implements algorithm {
         return task.getBottomLevel();
     }
 
+    /**
+     * initialises the size of the time scale for the visualisation
+     */
+    private void initMax() {
+        if (_visuals != null) {
+            int max = 0;
+            for (Processor proc : _bestProcess) {
+                int time = proc.getTime();
+                if (time > max) {
+                    max = time;
+                }
+            }
+            _visuals.setMax(max);
+        }
+    }
 }

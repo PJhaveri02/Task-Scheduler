@@ -155,8 +155,6 @@ public class ParallelFinalAlgorithm extends FinalAlgorithm {
             taskCopy.removeAll(doable);
         }
 
-        System.out.println("Greedy output: " + _bestTime);
-
         // If the user provides a core number which is greater than the number of cores in their machine,
         // then MAX_CORES is set to the total number of cores on their machine.
         int no_cores = Runtime.getRuntime().availableProcessors();
