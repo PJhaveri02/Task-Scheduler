@@ -20,5 +20,11 @@ Optional:
 -v        visualise the search
 -o OUTPUT output file is named OUTPUT (default is INPUT-output.dot)  
 ```
+### Example on using command Line
+With the scheduler.jar and graph.dot file in the same folder, the following runs the graph.dot file with 2 Processors:
+```
+java -jar scheduler.jar graph.dot 2
+
+```
 
 
