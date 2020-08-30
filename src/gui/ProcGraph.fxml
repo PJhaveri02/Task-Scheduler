@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ProcGraphController">
+<AnchorPane prefHeight="800.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ProcGraphController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="230.0" layoutY="14.0" text="Processors">
          <font>
