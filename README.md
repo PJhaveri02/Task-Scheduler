@@ -1,7 +1,7 @@
 # Project-1-4-the-oopsies
 
 Welcome to The Oopsies team GitHub page.
-Project Members: Daniel Yeom (Leader), Lynette Nguyen, Josh Burton, Kenny Tang, Pranay Jkaveri, and Wong Chong
+Project Members: Daniel Yeom (Leader), Lynette Nguyen, Josh Burton, Kenny Tang, Pranay Jhaveri, and Wong Chong
 
 ## Project Description
 The aim of this project was to create a program that determines an optimal schedule based on an input .dot file. The program needs to create an optimal schedule
