@@ -37,19 +37,21 @@ public class Main extends Application{
             model = terminalReader.readInput();
             model.addLevels();
             List<Node> nodesList = model.getNodes();
-            GraphCreator graph = new GraphCreator(model);
-            System.out.println("???");
-            final CountDownLatch latch = new CountDownLatch(1);
-            System.out.println("start");
-            doVis(latch);
-            System.out.println("waiting");
-            latch.await();
-            System.out.println("unwaiting");
-           // Platform.runLater(graph);
-//            algorithm alg = new BadAlgorithm(terminalReader.getProcNum(),nodesList);
-//            algorithm alg = new FinalAlgorithm(terminalReader.getProcNum(),nodesList);
-            ParallelFinalAlgorithm alg = new ParallelFinalAlgorithm(terminalReader.getProcNum(),nodesList, terminalReader.getNumberOfCores());
-            alg.addListener(_visController);
+            //            algorithm alg = new BadAlgorithm(terminalReader.getProcNum(),nodesList);
+            //            algorithm alg = new FinalAlgorithm(terminalReader.getProcNum(),nodesList);
+            ParallelFinalAlgorithm alg = new ParallelFinalAlgorithm(terminalReader.getProcNum(), nodesList, terminalReader.getNumberOfCores());
+            if (terminalReader.getVisualizationResult()) {
+                GraphCreator graph = new GraphCreator(model);
+                System.out.println("???");
+                final CountDownLatch latch = new CountDownLatch(1);
+                System.out.println("start");
+                doVis(latch);
+                System.out.println("waiting");
+                latch.await();
+                System.out.println("unwaiting");
+                Platform.runLater(graph);
+                alg.addListener(_visController);
+            }
             List<Processor> scheduledProcessors = alg.execute();
             terminalReader.writeOutput(scheduledProcessors);
             //VisTester tester = new VisTester(_visController);
