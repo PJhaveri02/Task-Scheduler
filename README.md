@@ -33,5 +33,6 @@ With the scheduler.jar and graph.dot file in the same folder, the following runs
 java -jar scheduler.jar graph.dot 2
 
 ```
+The following is with the -v optional argument:
 
 
