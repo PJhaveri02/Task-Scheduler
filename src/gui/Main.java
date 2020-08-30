@@ -4,6 +4,7 @@ import algorithm.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -25,7 +26,6 @@ public class Main extends Application{
 
     public static void main(String[] args) {
 
-        System.out.println("gui main");
         TerminalReader terminalReader = new TerminalReader(args);
         try {
             terminalReader.validateInputs();
@@ -62,19 +62,17 @@ public class Main extends Application{
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                FXMLLoader loader = new FXMLLoader();
-                // Path to the FXML File
-                String fxmlDocPath = "src/gui/ProcGraph.fxml";
-                FileInputStream fxmlStream = null;
+
                 try {
-                    fxmlStream = new FileInputStream(fxmlDocPath);
-                    // Create the Pane and all Details
-                    AnchorPane root = null;
-                    root = (AnchorPane) loader.load(fxmlStream);
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(this.getClass().getResource("/gui/ProcGraph.fxml"));
+                    AnchorPane root = loader.load();
+
                     _visController = loader.getController();
                     latch.countDown();
                     Scene scene = new Scene(root);
                     Stage stage = new Stage(StageStyle.DECORATED);
+
                     stage.setScene(scene);
                     stage.show();
                 } catch (FileNotFoundException e) {
