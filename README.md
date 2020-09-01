@@ -18,8 +18,9 @@ When running on the command line, you need a working JDK and JavaFX library. The
 ## Running on Command Line
 In order for the command line arguments to work properly, please ensure the prerequisites above are met.<br>
 
+Download the schedule.jar, JavaFXSmartGraph-0.9.2.jar, smartgraph.css, and smartgraph.properties files and place the files in a folder. Place the graph dot file (.dot format) in the same folder as the schedule.jar, JavaFXSmartGraph-0.9.2.jar, smartgraph.css, and smartgraph.properties files.<br>
+
 <b>If you are running the program with Java 11 then:</b> "--module-path C:\Path\To\javafx\javafx-sdk-11.0.2\lib --add-modules javafx.base,javafx.controls,javafx.media,javafx.graphics, javafx.fxml" is required (with no quotes) after the java command in order to run. Please also place the javaFX SDK into the folder with the corresponding scheduler.jar and .dot format.<br><br>
-Download the schedule.jar, JavaFXSmartGraph-0.9.2.jar, smartgraph.css, and smartgraph.properties files and place the files in a folder. Place the graph dot file (.dot format) in the same folder as the schedule.jar, JavaFXSmartGraph-0.9.2.jar, smartgraph.css, and smartgraph.properties files.
 The following is the structure of the command line, with optional arguments.
 ```
 java -jar scheduler.jar INPUT.dot P [OPTION]
